@@ -1,0 +1,30 @@
+<deploy>
+    <configuration>
+        <path>~/AccountConfiguration/*</path>
+    </configuration>
+    <files>
+        <path>~/FileCabinet/SuiteScripts/HC_generateCSV_FulfilledTransferOrders.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_generateCSV_InventoryItems.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_generateCSV_OpenPurchaseOrders.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_importInventoryAdjustment.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_FulfilledTransferOrders.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_InventoryItems.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_OpenPurchaseOrders.js</path>
+    </files>
+    <objects>
+        <path>~/Objects/custimport_inventoryadjustment.xml</path>
+        <path>~/Objects/customscript_exp_transferorder.xml</path>
+        <path>~/Objects/customscript_exp_purchaseorder.xml</path>
+        <path>~/Objects/customscript_exp_inventoryitem.xml</path>
+        <path>~/Objects/customscript_imp_inventoryadjustment.xml</path>
+        <path>~/Objects/customscript_imp_inventoryitem.xml</path>
+        <path>~/Objects/customscript_imp_purchaseorder.xml</path> 
+        <path>~/Objects/customscript_imp_transferorder.xml</path>
+        <path>~/Objects/customsearch_export_inventory_item.xml</path>
+        <path>~/Objects/customsearch_fulfilled_transferorder.xml</path>
+        <path>~/Objects/customsearch_open_purchaserorder.xml</path> 
+    </objects>
+    <translationimports>
+        <path>~/Translations/*</path>
+    </translationimports>
+</deploy>
