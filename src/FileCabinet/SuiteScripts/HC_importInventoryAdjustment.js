@@ -11,12 +11,12 @@ define(['N/sftp', 'N/task'], function (sftp, task) {
           Example: ssh-keyscan -t ECDSA -p 235 hc-uat.hotwax.io 
       */
       
-      var hostKey = 'AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKNOKFqtVrDd8YvJ8c82fBL4/KK9R69iYJAckMMKrLggmmnzQWGc5h8CVx3vsIHEw3WoDe10eWUQtRRhv+gE2CQ=';
+      var hostKey = '';
 
       var connection = sftp.createConnection({
-        username: 'hc-uat-sftp',
-        keyId: 'custkey777',
-        url: 'hc-uat.hotwax.io',
+        username: '',
+        keyId: '',
+        url: '',
         port: 235,
         directory: '/home/hc-uat-sftp/netsuite/inventoryadjustment',
         hostKey: hostKey
