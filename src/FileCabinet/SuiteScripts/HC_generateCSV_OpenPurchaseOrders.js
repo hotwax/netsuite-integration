@@ -2,7 +2,7 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/task', 'N/search', 'N/record'], function (task, search, record) {
+define(['N/task', 'N/search', 'N/record', 'N/error'], function (task, search, record, error) {
     function execute(context) {
       try {
         var date = new Date();
