@@ -2,11 +2,23 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/task', 'N/search', 'N/record'], function (task, search, record) {
+define(['N/task', 'N/search', 'N/record', 'N/error'], function (task, search, record, error) {
     function execute(context) {
+      try {
       var date = new Date();
       var searchId = 'customsearch_fulfilled_transferorder'; // Saved Search Id which will export fulfilled transfer order
-  
+      
+      var savedSearch = search.load({ id: searchId });
+    
+      // Run the search
+      var searchResult = savedSearch.run().getRange({ start: 0, end: 1 });
+      
+      // If the search returned no results, do not create the CSV file
+      if (searchResult.length === 0) {
+        log.debug('No results found. Skipping CSV file creation.');
+        return;
+      }
+
       var searchTask = task.create({
         taskType: task.TaskType.SEARCH
       });
@@ -44,6 +56,16 @@ define(['N/task', 'N/search', 'N/record'], function (task, search, record) {
 
       log.debug("Search task is submitted ! " + taskStatus.status);
       log.debug("Transfer Order Fulfillment CSV file Successfully Uploaded in NetSuite with file name ! " + fileName);
+    } catch (e) {
+      log.error({
+        title: 'Error in generating fulfilled transfer order csv files',
+        details: e,
+      });
+      throw error.create({
+        name:"Error in generating fulfilled transfer order csv files",
+        message: e
+      });
+    }
     }
     return {
       execute: execute
