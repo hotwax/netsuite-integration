@@ -75,7 +75,7 @@ define(['N/file', 'N/sftp', 'N/search', 'N/error', 'N/record'], function(file, s
                 keyId: '',
                 url: '',
                 port: 235,
-                directory: '/home/hc-uat-sftp/netsuite/transferorder',
+                directory: '/home/{SFTP-USER}/{FOLDER}',
                 hostKey: hostKey
             });
             log.debug("Connection established successfully with SFTP server!");
@@ -108,6 +108,10 @@ define(['N/file', 'N/sftp', 'N/search', 'N/error', 'N/record'], function(file, s
         log.error({
           title: 'Error processing in fulfilled transfer order csv files',
           details: e,
+        });
+        throw error.create({
+          name:"Error processing in fulfilled transfer order csv files",
+          message: e
         });
       }
     }
