@@ -10,6 +10,7 @@
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_FulfilledTransferOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_OpenPurchaseOrders.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_importPurchaseOrderReceipts.js</path>
     </files>
     <objects>
         <path>~/Objects/custimport_inventoryadjustment.xml</path>
