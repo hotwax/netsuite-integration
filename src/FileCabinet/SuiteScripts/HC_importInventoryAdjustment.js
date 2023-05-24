@@ -30,6 +30,7 @@ define(['N/sftp', 'N/task', 'N/error'], function (sftp, task, error) {
 
         for (var i=0; i<list.length; i++) {
           if (!list[i].directory) {
+          try {
             var fileName = list[i].name;
 
             // Download the file from the remote server
@@ -55,6 +56,12 @@ define(['N/sftp', 'N/task', 'N/error'], function (sftp, task, error) {
               })
               log.debug('File moved!');
             }
+          } catch (e) {
+              log.error({
+                title: 'Error in processing inventory cycle count csv files',
+                details: e,
+              });
+          }
           }
         }
       } catch (e) {
