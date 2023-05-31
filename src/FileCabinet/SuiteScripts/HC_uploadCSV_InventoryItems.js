@@ -82,6 +82,7 @@ define(['N/file', 'N/sftp', 'N/search', 'N/error', 'N/record'], function(file, s
   
             // Loop through the files and process them
             for (var i = 0; i < searchResult.length; i++) {
+              try {
                 var fileObj = file.load({
                     id: searchResult[i].id,
                 });
@@ -102,15 +103,21 @@ define(['N/file', 'N/sftp', 'N/search', 'N/error', 'N/record'], function(file, s
                 // Move the file to an archive folder
                 fileObj.folder = archiveFolderId;
                 fileObj.save();
+              } catch (e) {
+                log.error({
+                  title: 'Error in uploading inventory item csv files',
+                  details: e,
+                });
+              }
             }
         }
       } catch (e) {
         log.error({
-          title: 'Error processing in inventory item csv files',
+          title: 'Error in processing inventory item csv files',
           details: e,
         });
         throw error.create({
-          name:"Error processing in inventory item csv files",
+          name:"Error in processing inventory item csv files",
           message: e
         });
       }
