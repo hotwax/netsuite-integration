@@ -11,13 +11,16 @@
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_OpenPurchaseOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importPurchaseOrderReceipts.js</path>
-        <path>~/FileCabinet/SuiteScripts/HC_importTransferOrderReceipts.js</path> 
+        <path>~/FileCabinet/SuiteScripts/HC_importTransferOrderReceipts.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_importCustomer.js</path> 
     </files>
     <objects>
+        <path>~/Objects/custimport_customer_hc.xml</path>
         <path>~/Objects/custimport_inventoryadjustment.xml</path>
         <path>~/Objects/customscript_exp_transferorder.xml</path>
         <path>~/Objects/customscript_exp_purchaseorder.xml</path>
         <path>~/Objects/customscript_exp_inventoryitem.xml</path>
+        <path>~/Objects/customscript_imp_customer.xml</path> 
         <path>~/Objects/customscript_imp_inventoryadjustment.xml</path>
         <path>~/Objects/customscript_imp_inventoryitem.xml</path>
         <path>~/Objects/customscript_imp_purchaseorder.xml</path> 
