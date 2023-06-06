@@ -25,7 +25,7 @@ define(['N/sftp', 'N/task', 'N/error'], function (sftp, task, error) {
         log.debug("Connection established successfully with SFTP server!");
 
         var list = connection.list({
-          path: '/csv/'
+          path: '/export/'
         });
 
         for (var i=0; i<list.length; i++) {
@@ -35,7 +35,7 @@ define(['N/sftp', 'N/task', 'N/error'], function (sftp, task, error) {
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
-              directory: '/csv',
+              directory: '/export',
               filename: fileName
             });
             log.debug("File downloaded successfully !"+fileName);
@@ -51,8 +51,8 @@ define(['N/sftp', 'N/task', 'N/error'], function (sftp, task, error) {
               log.debug("Import Customer CSV task has been failed");
             } else {
               connection.move({
-                from: '/csv/'+fileName,
-                to: '/archive/'+fileName
+                from: '/export/'+fileName,
+                to: '/export/archive/'+fileName
               })
               log.debug('File moved!');
             }
