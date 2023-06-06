@@ -12,7 +12,9 @@
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_OpenPurchaseOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importPurchaseOrderReceipts.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importTransferOrderReceipts.js</path>
-        <path>~/FileCabinet/SuiteScripts/HC_importCustomer.js</path> 
+        <path>~/FileCabinet/SuiteScripts/HC_importCustomer.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_generateCSV_Customer.js</path>
+        <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_Customer.js</path> 
     </files>
     <objects>
         <path>~/Objects/custimport_customer_hc.xml</path>
@@ -20,15 +22,18 @@
         <path>~/Objects/customscript_exp_transferorder.xml</path>
         <path>~/Objects/customscript_exp_purchaseorder.xml</path>
         <path>~/Objects/customscript_exp_inventoryitem.xml</path>
+        <path>~/Objects/customscript_generate_customer.xml</path>
         <path>~/Objects/customscript_imp_customer.xml</path> 
         <path>~/Objects/customscript_imp_inventoryadjustment.xml</path>
         <path>~/Objects/customscript_imp_inventoryitem.xml</path>
         <path>~/Objects/customscript_imp_purchaseorder.xml</path> 
         <path>~/Objects/customscript_imp_transferorder.xml</path>
         <path>~/Objects/customscript_imp_purchaseorder_receipt.xml</path>
-        <path>~/Objects/customscript_imp_transferorder_receipt.xml</path>  
+        <path>~/Objects/customscript_imp_transferorder_receipt.xml</path>
+        <path>~/Objects/customscript_upload_customer.xml</path>  
         <path>~/Objects/customsearch_export_inventory_item.xml</path>
         <path>~/Objects/customsearch_fulfilled_transferorder.xml</path>
+        <path>~/Objects/customsearch_hc_export_customer.xml</path>
         <path>~/Objects/customsearch_open_purchaserorder.xml</path> 
     </objects>
     <translationimports>
