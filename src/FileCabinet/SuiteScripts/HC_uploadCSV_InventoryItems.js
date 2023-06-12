@@ -34,7 +34,7 @@ define(['N/file', 'N/sftp', 'N/search', 'N/error', 'N/record'], function(file, s
         });
         var searchResult = fileSearch.run().getRange({
           start: 0,
-          end: 1000, // Limit the number of files to retrieve at once
+          end: 20, // Limit the number of files to retrieve at once
         });
   
         log.debug("===process number of CSV files==="+searchResult.length);
