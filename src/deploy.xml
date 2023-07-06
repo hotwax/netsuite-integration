@@ -15,6 +15,7 @@
         <path>~/FileCabinet/SuiteScripts/HC_importCustomer.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_generateCSV_Customer.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_Customer.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_importSalesOrders.js</path> 
     </files>
     <objects>
@@ -41,7 +42,9 @@
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
         <path>~/Objects/SalesOrder/custimport_add_update_salesorders.xml</path>
+        <path>~/Objects/SalesOrder/customscript_create_customerdeposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_export_salesorder_for_cd.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
