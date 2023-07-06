@@ -37,13 +37,13 @@ define(['N/search', 'N/record', 'N/error'], function (search, record, error) {
             log.debug("Made Shopify Payment Method ! " + shopifyPaymentMethodId);
         } 
 
-        for (var i = 0; i < searchResult.length; i++) {
+        for (var index = 0; index < searchResult.length; index++) {
             var totalAmount = 0;
-            var orderId = searchResult[i].getValue({
+            var orderId = searchResult[index].getValue({
                 name: 'internalId'
             });
             
-            var date = searchResult[i].getValue({
+            var date = searchResult[index].getValue({
                 name: 'lastmodifieddate'
             });
             
@@ -58,23 +58,23 @@ define(['N/search', 'N/record', 'N/error'], function (search, record, error) {
               var itemLineCnt = orderRecord.getLineCount({sublistId: 'item'});
               var cancelledAmount = 0;
               
-              for (var i=0; i < itemLineCnt; i++) {
+              for (var lineId = 0; lineId < itemLineCnt; lineId++) {
                   var isClosed = orderRecord.getSublistValue({
                       sublistId: 'item',
                       fieldId: 'isclosed',
-                      line: i
+                      line: lineId
                   });
 
                   if (isClosed) {
                       var amount = orderRecord.getSublistValue({
                           sublistId: 'item',
                           fieldId: 'amount',
-                          line: i
+                          line: lineId
                       });
                       var taxRate = orderRecord.getSublistValue({
                           sublistId: 'item',
                           fieldId: 'taxrate1',
-                          line: i
+                          line: lineId
                       });
 
                       var taxAmount = amount * (taxRate/100); 
