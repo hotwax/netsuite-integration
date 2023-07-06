@@ -38,15 +38,52 @@ define(['N/search', 'N/record', 'N/error'], function (search, record, error) {
         } 
 
         for (var i = 0; i < searchResult.length; i++) {
+            var totalAmount = 0;
             var orderId = searchResult[i].getValue({
                 name: 'internalId'
             });
-            var totalAmount = searchResult[i].getValue({
-                name: 'amount'
-            });
+            
             var date = searchResult[i].getValue({
-                name: 'dateCreated'
-            }); 
+                name: 'lastmodifieddate'
+            });
+            
+            if (orderId) {
+              var orderRecord = record.load({
+                type: record.Type.SALES_ORDER, 
+                id: orderId,
+                isDynamic: false,
+              });
+              var total = orderRecord.getValue({fieldId: 'total'});
+              
+              var itemLineCnt = orderRecord.getLineCount({sublistId: 'item'});
+              var cancelledAmount = 0;
+              
+              for (var i=0; i < itemLineCnt; i++) {
+                  var isClosed = orderRecord.getSublistValue({
+                      sublistId: 'item',
+                      fieldId: 'isclosed',
+                      line: i
+                  });
+
+                  if (isClosed) {
+                      var amount = orderRecord.getSublistValue({
+                          sublistId: 'item',
+                          fieldId: 'amount',
+                          line: i
+                      });
+                      var taxRate = orderRecord.getSublistValue({
+                          sublistId: 'item',
+                          fieldId: 'taxrate1',
+                          line: i
+                      });
+
+                      var taxAmount = amount * (taxRate/100); 
+                      cancelledAmount = cancelledAmount + amount + taxAmount;
+                  }       
+              }
+              
+              totalAmount = total - cancelledAmount; 
+            } 
             try {
                 if (totalAmount > 0) {
                     var customerDeposit = record.create({
@@ -62,7 +99,7 @@ define(['N/search', 'N/record', 'N/error'], function (search, record, error) {
                     customerDeposit.setValue({fieldId: 'paymentmethod', value: shopifyPaymentMethodId});
 
                     var customerDepositId = customerDeposit.save();
-                    log.debug("customer deposit is created with id for sales order " + customerDepositId);
+                    log.debug("customer deposit is created with id " + customerDepositId);
                 }
 
             } catch (e) {
