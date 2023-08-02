@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_generate_salesorder">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_generateCSV_SalesOrder</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_generateCSV_SalesOrder.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_generate_salesorder">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>SCHEDULED</status>
+      <title>HC_generateCSV_SalesOrder</title>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT2H</repeat>
+          <startdate>2022-05-25</startdate>
+          <starttime>23:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>

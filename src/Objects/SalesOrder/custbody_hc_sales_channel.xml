@@ -1,0 +1,14 @@
+<transactionbodycustomfield scriptid="custbody_hc_sales_channel">
+  <accesslevel>2</accesslevel>
+  <bodyitemfulfillment>T</bodyitemfulfillment>
+  <bodysale>T</bodysale>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>TEXT</fieldtype>
+  <ismandatory>F</ismandatory>
+  <isparent>F</isparent>
+  <label>HC Sales Channel</label>
+  <linktext></linktext>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+  <subtab>TRANSACTIONMAIN</subtab>
+</transactionbodycustomfield>

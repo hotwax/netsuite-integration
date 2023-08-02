@@ -1,0 +1,15 @@
+<transactioncolumncustomfield scriptid="custcol_hc_item_tag">
+  <accesslevel>2</accesslevel>
+  <colitemfulfillment>T</colitemfulfillment>
+  <colopportunity>T</colopportunity>
+  <colpurchase>T</colpurchase>
+  <colsale>T</colsale>
+  <colstore>T</colstore>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>TEXT</fieldtype>
+  <isformula>F</isformula>
+  <ismandatory>F</ismandatory>
+  <label>HC Item Tag</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactioncolumncustomfield>
