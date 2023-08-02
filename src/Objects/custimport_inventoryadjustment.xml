@@ -59,7 +59,7 @@
         <fieldmapping>
           <field>TRANID</field>
           <columnreference>
-            <column>Ref. No.</column>
+            <column>Reference No</column>
             <file>INVENTORYADJUSTMENT</file>
             <type>NAME</type>
           </columnreference>
