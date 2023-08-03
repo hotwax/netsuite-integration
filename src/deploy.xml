@@ -18,10 +18,6 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_importSalesOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createSalesOrderInvoice.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_generateCSV_SalesOrder.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_uploadCSV_SalesOrder.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_generateCSV_SalesOrderItem.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_uploadCSV_SalesOrderItem.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path> 
     </files>
@@ -47,10 +43,6 @@
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_order_attr_name.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_order_iden_type_id.xml</path>
-        <path>~/Objects/SalesOrder/customscript_generate_salesorder.xml</path>
-        <path>~/Objects/SalesOrder/customscript_upload_salesorder.xml</path>
-        <path>~/Objects/SalesOrder/customscript_generate_salesorderitem.xml</path>
-        <path>~/Objects/SalesOrder/customscript_upload_salesorderitem.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
