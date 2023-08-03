@@ -22,6 +22,7 @@
       <feature required="false">ACCOUNTING</feature>
       <feature required="true">SALESORDERS</feature>
       <feature required="true">ADVANCEDJOBS</feature>
+      <feature required="true">CUSTOMRECORDS</feature>
     </features>
   </dependencies>
 </manifest>

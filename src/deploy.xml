@@ -21,7 +21,9 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_generateCSV_SalesOrder.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_uploadCSV_SalesOrder.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_generateCSV_SalesOrderItem.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_uploadCSV_SalesOrderItem.js</path> 
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_uploadCSV_SalesOrderItem.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path> 
     </files>
     <objects>
         <path>~/Objects/custimport_customer_hc.xml</path>
@@ -42,6 +44,7 @@
         <path>~/Objects/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/customsearch_hc_export_customer.xml</path>
         <path>~/Objects/customsearch_open_purchaserorder.xml</path>
+        <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_order_attr_name.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_order_iden_type_id.xml</path>
         <path>~/Objects/SalesOrder/customscript_generate_salesorder.xml</path>
@@ -55,6 +58,8 @@
         <path>~/Objects/SalesOrder/custimport_add_update_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_customerdeposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
+        <path>~/Objects/SalesOrder/customscript_export_salesorders.xml</path>
+        <path>~/Objects/SalesOrder/customscript_export_salesorderitems.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_salesorder_for_cd.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_invoice.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_so_for_invoice.xml</path>

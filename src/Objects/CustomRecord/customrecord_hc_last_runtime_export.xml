@@ -1,0 +1,81 @@
+<customrecordtype scriptid="customrecord_hc_last_runtime_export">
+  <accesstype>NONENEEDED</accesstype>
+  <allowattachments>T</allowattachments>
+  <allowquickadd>T</allowquickadd>
+  <allowquicksearch>T</allowquicksearch>
+  <allowuiaccess>T</allowuiaccess>
+  <enabledle>T</enabledle>
+  <enablekeywords>T</enablekeywords>
+  <enablemailmerge>F</enablemailmerge>
+  <enablenametranslation>F</enablenametranslation>
+  <enablenumbering>F</enablenumbering>
+  <enableoptimisticlocking>T</enableoptimisticlocking>
+  <enablesystemnotes>T</enablesystemnotes>
+  <includeinsearchmenu>T</includeinsearchmenu>
+  <includename>T</includename>
+  <isinactive>F</isinactive>
+  <recordname>HC Last Runtime Export</recordname>
+  <showcreationdate>T</showcreationdate>
+  <showcreationdateonlist>T</showcreationdateonlist>
+  <showid>T</showid>
+  <showlastmodified>T</showlastmodified>
+  <showlastmodifiedonlist>T</showlastmodifiedonlist>
+  <shownotes>T</shownotes>
+  <showowner>T</showowner>
+  <customrecordcustomfields>
+    <customrecordcustomfield scriptid="custrecord_so_item_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Sales Order Item Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_customer_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Customer Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_salesorder_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Sales Order Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_so_fulfillment_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Sales Order Fulfillment Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_transferorder_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Transfer Order Export Data</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_purchaseorder_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Purchase Order Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+  </customrecordcustomfields>
+  <instances>
+    <instance scriptid="val_84043_t1321281_710">
+      <custrecord_customer_ex_date>2023-07-26T10:52:00Z</custrecord_customer_ex_date>
+      <custrecord_purchaseorder_ex_date>2023-07-26T10:52:00Z</custrecord_purchaseorder_ex_date>
+      <custrecord_salesorder_ex_date>2023-07-26T10:52:00Z</custrecord_salesorder_ex_date>
+      <custrecord_so_fulfillment_ex_data>2023-07-26T10:52:00Z</custrecord_so_fulfillment_ex_data>
+      <custrecord_so_item_ex_date>2023-07-26T10:52:00Z</custrecord_so_item_ex_date>
+      <custrecord_transferorder_ex_date>2023-07-26T10:52:00Z</custrecord_transferorder_ex_date>
+      <isinactive>F</isinactive>
+      <name>HC Last Runtime Export Values</name>
+    </instance>
+  </instances>
+</customrecordtype>

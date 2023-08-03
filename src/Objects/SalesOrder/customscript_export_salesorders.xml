@@ -1,0 +1,30 @@
+<mapreducescript scriptid="customscript_export_salesorders">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_ExportedSalesOrderCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_export_salesorders">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>SCHEDULED</status>
+      <title>HC_MR_ExportedSalesOrderCSV</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT15M</repeat>
+          <startdate>2023-08-03</startdate>
+          <starttime>01:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
