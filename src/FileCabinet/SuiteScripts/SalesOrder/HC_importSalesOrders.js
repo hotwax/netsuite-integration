@@ -42,7 +42,7 @@ define(['N/sftp', 'N/task', 'N/error'], function (sftp, task, error) {
 
             // Create CSV import task
             var scriptTask = task.create({taskType: task.TaskType.CSV_IMPORT});
-            scriptTask.mappingId = 'custimport_add_update_salesorders';
+            scriptTask.mappingId = 'custimport_add_update_salesorders_hc';
             scriptTask.importFile = downloadedFile;
             var csvImportTaskId = scriptTask.submit();
             
