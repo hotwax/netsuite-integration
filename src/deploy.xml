@@ -15,6 +15,7 @@
 
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/PurchaseOrder/HC_MR_ExportedPurchaseOrderCSV.js</path>
         
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_importSalesOrders.js</path>
@@ -35,7 +36,6 @@
         <path>~/Objects/customscript_imp_transferorder_receipt.xml</path>
         <path>~/Objects/customsearch_export_inventory_item.xml</path>
         <path>~/Objects/customsearch_fulfilled_transferorder.xml</path>
-        <path>~/Objects/customsearch_open_purchaserorder.xml</path>
 
         <path>~/Objects/Customer/custimport_customer_hc.xml</path>
         <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
@@ -43,6 +43,9 @@
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
 
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
+
+        <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
+        <path>~/Objects/PurchaseOrder/customsearch_open_purchaserorder.xml</path>
         
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
