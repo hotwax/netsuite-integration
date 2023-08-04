@@ -1,20 +1,20 @@
-<mapreducescript scriptid="customscript_export_salesorders">
+<mapreducescript scriptid="customscript_export_customer">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_MR_ExportedSalesOrderCSV</name>
+  <name>HC_MR_ExportedCustomerCSV</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_export_salesorders">
+    <scriptdeployment scriptid="customdeploy_export_customer">
       <buffersize>1</buffersize>
       <concurrencylimit>1</concurrencylimit>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <status>SCHEDULED</status>
-      <title>HC_MR_ExportedSalesOrderCSV</title>
+      <title>HC_MR_ExportedCustomerCSV</title>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>
         <daily>

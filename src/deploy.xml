@@ -15,6 +15,9 @@
         <path>~/FileCabinet/SuiteScripts/HC_importCustomer.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_generateCSV_Customer.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_Customer.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js</path>
+        
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_importSalesOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createSalesOrderInvoice.js</path>
@@ -23,7 +26,7 @@
     </files>
     <objects>
         <path>~/Objects/custimport_customer_hc.xml</path>
-        <path>~/Objects/custimport_inventoryadjustment.xml</path>
+        <path>~/Objects/custimport_inventoryadjustment_hc.xml</path>
         <path>~/Objects/customscript_exp_transferorder.xml</path>
         <path>~/Objects/customscript_exp_purchaseorder.xml</path>
         <path>~/Objects/customscript_exp_inventoryitem.xml</path>
@@ -38,14 +41,18 @@
         <path>~/Objects/customscript_upload_customer.xml</path>  
         <path>~/Objects/customsearch_export_inventory_item.xml</path>
         <path>~/Objects/customsearch_fulfilled_transferorder.xml</path>
-        <path>~/Objects/customsearch_hc_export_customer.xml</path>
         <path>~/Objects/customsearch_open_purchaserorder.xml</path>
+
+        <path>~/Objects/Customer/customscript_export_customer.xml</path>
+        <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
+
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
+        
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
-        <path>~/Objects/SalesOrder/custimport_add_update_salesorders.xml</path>
+        <path>~/Objects/SalesOrder/custimport_add_update_salesorders_hc.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_customerdeposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_salesorders.xml</path>
