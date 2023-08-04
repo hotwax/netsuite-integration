@@ -12,8 +12,8 @@
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_OpenPurchaseOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importPurchaseOrderReceipts.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importTransferOrderReceipts.js</path>
-        <path>~/FileCabinet/SuiteScripts/HC_importCustomer.js</path>
 
+        <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js</path>
         
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createCustomerDeposit.js</path>
@@ -23,12 +23,10 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path> 
     </files>
     <objects>
-        <path>~/Objects/custimport_customer_hc.xml</path>
         <path>~/Objects/custimport_inventoryadjustment_hc.xml</path>
         <path>~/Objects/customscript_exp_transferorder.xml</path>
         <path>~/Objects/customscript_exp_purchaseorder.xml</path>
         <path>~/Objects/customscript_exp_inventoryitem.xml</path>
-        <path>~/Objects/customscript_imp_customer.xml</path> 
         <path>~/Objects/customscript_imp_inventoryadjustment.xml</path>
         <path>~/Objects/customscript_imp_inventoryitem.xml</path>
         <path>~/Objects/customscript_imp_purchaseorder.xml</path> 
@@ -39,6 +37,8 @@
         <path>~/Objects/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/customsearch_open_purchaserorder.xml</path>
 
+        <path>~/Objects/Customer/custimport_customer_hc.xml</path>
+        <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
         <path>~/Objects/Customer/customscript_export_customer.xml</path>
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
 
