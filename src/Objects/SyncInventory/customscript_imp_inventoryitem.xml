@@ -1,21 +1,21 @@
-<scheduledscript scriptid="customscript_exp_inventoryitem">
+<scheduledscript scriptid="customscript_imp_inventoryitem">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_generateCSV_InventoryItems</name>
+  <name>HC_uploadCSV_InventoryItems</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/HC_generateCSV_InventoryItems.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/SyncInventory/HC_uploadCSV_InventoryItems.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy1">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>SCHEDULED</status>
-      <title>HC_generateCSV_InventoryItems</title>
+      <title>HC_uploadCSV_InventoryItems</title>
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
-          <repeat>PT2H</repeat>
+          <repeat>PT1H</repeat>
           <startdate>2022-05-25</startdate>
           <starttime>23:00:00Z</starttime>
         </daily>
