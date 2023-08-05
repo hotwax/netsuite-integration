@@ -3,10 +3,8 @@
         <path>~/AccountConfiguration/*</path>
     </configuration>
     <files>
-        <path>~/FileCabinet/SuiteScripts/HC_generateCSV_FulfilledTransferOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_generateCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importInventoryAdjustment.js</path>
-        <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_FulfilledTransferOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_uploadCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/HC_importTransferOrderReceipts.js</path>
 
@@ -26,11 +24,9 @@
     </files>
     <objects>
         <path>~/Objects/custimport_inventoryadjustment_hc.xml</path>
-        <path>~/Objects/customscript_exp_transferorder.xml</path>
         <path>~/Objects/customscript_exp_inventoryitem.xml</path>
         <path>~/Objects/customscript_imp_inventoryadjustment.xml</path>
         <path>~/Objects/customscript_imp_inventoryitem.xml</path>
-        <path>~/Objects/customscript_imp_transferorder.xml</path>
         <path>~/Objects/customscript_imp_transferorder_receipt.xml</path>
         <path>~/Objects/customsearch_export_inventory_item.xml</path>
 
