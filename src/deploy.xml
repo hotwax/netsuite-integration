@@ -16,6 +16,7 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_createSalesOrderInvoice.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderFulfillmentCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_generateCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_uploadCSV_InventoryItems.js</path>
@@ -48,10 +49,12 @@
         <path>~/Objects/SalesOrder/customscript_export_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_salesorderitems.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_salesorder_for_cd.xml</path>
+        <path>~/Objects/SalesOrder/customscript_export_so_fulfillment.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_invoice.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_so_for_invoice.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorder_item.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_hc_export_so_fulfillment.xml</path>
 
         <path>~/Objects/SyncInventory/customscript_exp_inventoryitem.xml</path>
         <path>~/Objects/SyncInventory/customscript_imp_inventoryitem.xml</path>

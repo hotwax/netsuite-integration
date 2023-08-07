@@ -55,7 +55,7 @@
       <accesslevel>2</accesslevel>
       <displaytype>NORMAL</displaytype>
       <fieldtype>DATETIMETZ</fieldtype>
-      <label>Transfer Order Export Data</label>
+      <label>Transfer Order Export Date</label>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
     <customrecordcustomfield scriptid="custrecord_purchaseorder_ex_date">
