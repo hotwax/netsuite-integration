@@ -71,7 +71,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
 
             var salesdata = {
                 'orderId': externalId,
-                'orderorderIdentificationTypeId': "NETSUITE_ORDER_ID",
+                'orderIdentificationTypeId': "NETSUITE_ORDER_ID",
                 'idValue': internalId
             };
             mapContext.write({
@@ -84,13 +84,13 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var contextValues = JSON.parse(reduceContext.values);
             var soId = reduceContext.key; 
 
-            var content = contextValues.orderId + ',' + contextValues.orderorderIdentificationTypeId + ',' + contextValues.idValue + '\n';
+            var content = contextValues.orderId + ',' + contextValues.orderIdentificationTypeId + ',' + contextValues.idValue + '\n';
             reduceContext.write(soId, content);
         }
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'orderId,orderorderIdentificationTypeId,idValue\n';
+                var fileLines = 'orderId,orderIdentificationTypeId,idValue\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
