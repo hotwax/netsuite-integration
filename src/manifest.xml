@@ -3,26 +3,19 @@
   <frameworkversion>1.0</frameworkversion>
   <dependencies>
     <features>
-      <feature required="true">SERVERSIDESCRIPTING</feature>
-      <feature required="true">INVENTORY</feature>
-      <feature required="true">CLASSES</feature>
+      <feature required="false">MULTILANGUAGE</feature>
       <feature required="true">LOCATIONS</feature>
-      <feature required="true">MULTISHIPTO</feature>
-      <feature required="true">DEPARTMENTS</feature>
-      <feature required="true">ITEMOPTIONS</feature>
-      <feature required="true">PROMOCODES</feature>
+      <feature required="false">EXTREMELIST</feature>
+      <feature required="true">INVENTORY</feature>
       <feature required="true">MULTPRICE</feature>
-      <feature required="true">OPPORTUNITIES</feature>
-      <feature required="true">SUBSIDIARIES</feature>
+      <feature required="false">MAILMERGE</feature>
+      <feature required="true">CUSTOMRECORDS</feature>
       <feature required="true">UNITSOFMEASURE</feature>
-      <feature required="true">STOREPICKUP</feature>
       <feature required="false">WEBSITE</feature>
-      <feature required="true">PARTNEREMPLOYEECOMMISSN</feature>
-      <feature required="true">BUSINESS</feature>
+      <feature required="true">SERVERSIDESCRIPTING</feature>
+      <feature required="false">OPPORTUNITIES</feature>
       <feature required="false">ACCOUNTING</feature>
       <feature required="true">SALESORDERS</feature>
-      <feature required="true">ADVANCEDJOBS</feature>
-      <feature required="true">CUSTOMRECORDS</feature>
     </features>
   </dependencies>
 </manifest>
