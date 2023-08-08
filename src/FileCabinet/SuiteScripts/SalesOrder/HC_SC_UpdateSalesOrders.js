@@ -79,14 +79,14 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
-              directory: '/export',
+              directory: '/update',
               filename: fileName
             });
             log.debug("File downloaded successfully !"+fileName);
 
             // Create CSV import task
             var scriptTask = task.create({taskType: task.TaskType.CSV_IMPORT});
-            scriptTask.mappingId = 'custimport_add_salesorders_hc';
+            scriptTask.mappingId = 'custimport_update_salesorders_hc';
             scriptTask.importFile = downloadedFile;
             var csvImportTaskId = scriptTask.submit();
             
