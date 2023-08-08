@@ -741,15 +741,7 @@
   </linkedForms>
   <roles>
     <role>
-      <id>ADMINISTRATOR</id>
-      <preferred>F</preferred>
-    </role>
-    <role>
       <id>FULL_ACCESS</id>
-      <preferred>F</preferred>
-    </role>
-    <role>
-      <id>WAREHOUSE_MANAGER</id>
       <preferred>F</preferred>
     </role>
   </roles>
