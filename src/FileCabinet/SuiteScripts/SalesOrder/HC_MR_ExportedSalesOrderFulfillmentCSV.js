@@ -21,7 +21,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             // get last sales order fulfillment export runtime
             var customRecordSearch = search.create({
                 type: 'customrecord_hc_last_runtime_export',
-                columns: ['custrecord_so_fulfillment_ex_data']
+                columns: ['custrecord_so_fulfillment_ex_date']
             });
       
             var searchResults = customRecordSearch.run().getRange({
@@ -31,7 +31,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
               
             var searchResult = searchResults[0];
             var lastExportDate = searchResult.getValue({
-                name: 'custrecord_so_fulfillment_ex_data'
+                name: 'custrecord_so_fulfillment_ex_date'
             });
 
             var lastExportDateParts = lastExportDate.split(' ');
@@ -71,7 +71,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var shippedDate = contextValues.values.trandate;
             var quantity = contextValues.values.quantity;
             var trackingNumber = contextValues.values.trackingnumbers;
-            var shippingCarrier = contextValues.values.shipcarrier;
+            var shippingCarrier = contextValues.values.shipcarrier.text;
 
             var shipmentData = {
                 'orderId': orderId,
@@ -216,7 +216,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         type: 'customrecord_hc_last_runtime_export',
                         id: lastRuntimeExportInternalId,
                         values: {
-                            custrecord_so_fulfillment_ex_data : currentDate
+                            custrecord_so_fulfillment_ex_date : currentDate
                         }
                     });
                 }

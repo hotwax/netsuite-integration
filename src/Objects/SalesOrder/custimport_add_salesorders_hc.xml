@@ -203,6 +203,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>ADDRESSEE</field>
+          <columnreference>
+            <column>Addressee</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>ADDRPHONE</field>
           <columnreference>
             <column>Phone</column>
