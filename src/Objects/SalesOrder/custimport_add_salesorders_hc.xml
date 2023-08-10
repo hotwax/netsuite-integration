@@ -7,7 +7,7 @@
   <ignorereadonly>T</ignorereadonly>
   <importname>HC Sales Order add import</importname>
   <logsystemnotescustfields>F</logsystemnotescustfields>
-  <multiselectdelimiter>|</multiselectdelimiter>
+  <multiselectdelimiter>:</multiselectdelimiter>
   <overwritemissingfields>F</overwritemissingfields>
   <overwritesublists>F</overwritesublists>
   <recordtype>SALESORDER</recordtype>
@@ -77,6 +77,10 @@
           <value>B</value>
         </fieldmapping>
         <fieldmapping>
+          <field>SHIPADDRESSLIST</field>
+          <value>-2</value>
+        </fieldmapping>
+        <fieldmapping>
           <field>SHIPMETHOD</field>
           <columnreference>
             <column>Shipping Method</column>
@@ -93,6 +97,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>SHIPPINGTAXCODE</field>
+          <columnreference>
+            <column>Shipping Tax Code</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>TRANDATE</field>
           <columnreference>
             <column>Date</column>
@@ -104,67 +116,6 @@
           <field>TRANID</field>
           <columnreference>
             <column>Order Id</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-      </fieldmappings>
-    </recordmapping>
-    <recordmapping>
-      <record>SALESORDER:ITEM:SHIPPINGADDRESS</record>
-      <fieldmappings>
-        <fieldmapping>
-          <field>ADDR1</field>
-          <columnreference>
-            <column>Address 2</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
-          <field>ADDRPHONE</field>
-          <columnreference>
-            <column>Phone</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
-          <field>ADDRTEXT</field>
-          <columnreference>
-            <column>Address 1</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
-          <field>CITY</field>
-          <columnreference>
-            <column>City</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
-          <field>COUNTRY</field>
-          <columnreference>
-            <column>Country</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
-          <field>STATE</field>
-          <columnreference>
-            <column>State</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
-          <field>ZIP</field>
-          <columnreference>
-            <column>Zip</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -226,6 +177,67 @@
           <field>TAXCODE</field>
           <columnreference>
             <column>Tax Code</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+      </fieldmappings>
+    </recordmapping>
+    <recordmapping>
+      <record>SALESORDER::SHIPPINGADDRESS</record>
+      <fieldmappings>
+        <fieldmapping>
+          <field>ADDR1</field>
+          <columnreference>
+            <column>Address 1</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ADDR2</field>
+          <columnreference>
+            <column>Address 2</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ADDRPHONE</field>
+          <columnreference>
+            <column>Phone</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>CITY</field>
+          <columnreference>
+            <column>City</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>COUNTRY</field>
+          <columnreference>
+            <column>Country</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>STATE</field>
+          <columnreference>
+            <column>State</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ZIP</field>
+          <columnreference>
+            <column>Zip</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>

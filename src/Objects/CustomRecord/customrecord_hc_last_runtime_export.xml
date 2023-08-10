@@ -71,7 +71,7 @@
       <custrecord_customer_ex_date>2023-07-26T10:52:00Z</custrecord_customer_ex_date>
       <custrecord_purchaseorder_ex_date>2023-07-26T10:52:00Z</custrecord_purchaseorder_ex_date>
       <custrecord_salesorder_ex_date>2023-07-26T10:52:00Z</custrecord_salesorder_ex_date>
-      <custrecord_so_fulfillment_ex_data>2023-07-26T10:52:00Z</custrecord_so_fulfillment_ex_data>
+      <custrecord_so_fulfillment_ex_date>2023-07-26T10:52:00Z</custrecord_so_fulfillment_ex_date>
       <custrecord_so_item_ex_date>2023-07-26T10:52:00Z</custrecord_so_item_ex_date>
       <custrecord_transferorder_ex_date>2023-07-26T10:52:00Z</custrecord_transferorder_ex_date>
       <isinactive>F</isinactive>

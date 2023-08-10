@@ -7,7 +7,7 @@
   <ignorereadonly>T</ignorereadonly>
   <importname>HC Sales Order Update Import</importname>
   <logsystemnotescustfields>F</logsystemnotescustfields>
-  <multiselectdelimiter>|</multiselectdelimiter>
+  <multiselectdelimiter>:</multiselectdelimiter>
   <overwritemissingfields>F</overwritemissingfields>
   <overwritesublists>F</overwritesublists>
   <recordtype>SALESORDER</recordtype>
