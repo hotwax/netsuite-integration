@@ -69,7 +69,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
         log.debug("Connection established successfully with SFTP server!");
       
         var list = connection.list({
-          path: '/export/'
+          path: '/update/'
         });
 
         for (var i=0; i<list.length; i++) {
@@ -79,14 +79,14 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
-              directory: '/export',
+              directory: '/update',
               filename: fileName
             });
             log.debug("File downloaded successfully !"+fileName);
 
             // Create CSV import task
             var scriptTask = task.create({taskType: task.TaskType.CSV_IMPORT});
-            scriptTask.mappingId = 'custimport_add_salesorders_hc';
+            scriptTask.mappingId = 'custimport_update_salesorders_hc';
             scriptTask.importFile = downloadedFile;
             var csvImportTaskId = scriptTask.submit();
             
@@ -95,8 +95,8 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
               log.debug("Import Sales Order CSV task has been failed");
             } else {
               connection.move({
-                from: '/export/'+fileName,
-                to: '/export/archive/'+fileName
+                from: '/update/'+fileName,
+                to: '/update/archive/'+fileName
               })
               log.debug('File moved!');
             }

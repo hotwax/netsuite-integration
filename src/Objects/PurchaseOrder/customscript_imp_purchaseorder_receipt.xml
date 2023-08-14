@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_imp_purchaseorder_receipt">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_ImportPurchaseOrderReceipts</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/PurchaseOrder/HC_SC_ImportPurchaseOrderReceipts.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy1">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>SCHEDULED</status>
+      <title>HC_SC_ImportPurchaseOrderReceipts</title>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT1H</repeat>
+          <startdate>2023-05-22</startdate>
+          <starttime>23:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>

@@ -10,7 +10,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
           ssh-keyscan -t <hostKeyType> -p <port> <hostDomain>
           Example: ssh-keyscan -t ECDSA -p 235 hc-uat.hotwax.io 
         */
-        
+      
         //Get Custom Record Type SFTP details
         var customRecordSFTPSearch = search.create({
           type: 'customrecord_ns_sftp_configuration',
@@ -28,9 +28,9 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             start: 0,
             end: 1
         });
- 
+  
         var sftpSearchResult = sftpSearchResults[0];
-      
+        
         var sftpUrl = sftpSearchResult.getValue({
             name: 'custrecord_ns_sftp_server'
         });
@@ -46,7 +46,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
         var hostKey = sftpSearchResult.getValue({
             name: 'custrecord_ns_sftp_host_key'
         });
-      
+        
         var sftpKeyId = sftpSearchResult.getValue({
             name: 'custrecord_ns_sftp_guid'
         });
@@ -55,7 +55,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             name: 'custrecord_ns_sftp_default_file_dir'
         });
 
-        sftpDirectory = sftpDirectory + 'salesorder';
+        sftpDirectory = sftpDirectory + 'customer';
         sftpPort = parseInt(sftpPort);
 
         var connection = sftp.createConnection({
@@ -67,7 +67,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             hostKey: hostKey
         });
         log.debug("Connection established successfully with SFTP server!");
-      
+
         var list = connection.list({
           path: '/export/'
         });
@@ -86,13 +86,13 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
             // Create CSV import task
             var scriptTask = task.create({taskType: task.TaskType.CSV_IMPORT});
-            scriptTask.mappingId = 'custimport_add_salesorders_hc';
+            scriptTask.mappingId = 'custimport_customer_hc';
             scriptTask.importFile = downloadedFile;
             var csvImportTaskId = scriptTask.submit();
             
             var taskStatus = task.checkStatus(csvImportTaskId);
             if (taskStatus.status === 'FAILED') {
-              log.debug("Import Sales Order CSV task has been failed");
+              log.debug("Import Customer CSV task has been failed");
             } else {
               connection.move({
                 from: '/export/'+fileName,
@@ -102,7 +102,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             }
           } catch (e) {
               log.error({
-                title: 'Error in processing sales order csv files',
+                title: 'Error in processing customer csv files',
                 details: e,
               });
           }
@@ -110,11 +110,11 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
         }
       } catch (e) {
         log.error({
-          title: 'Error in importing sales order csv files',
+          title: 'Error in importing customer csv files',
           details: e,
         });
         throw error.create({
-          name:"Error in importing sales order csv files",
+          name:"Error in importing customer csv files",
           message: e
         });
       }
