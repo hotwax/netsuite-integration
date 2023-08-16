@@ -1,17 +1,17 @@
 <scheduledscript scriptid="customscript_create_customerdeposit">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_createCustomerDeposit</name>
+  <name>HC_SC_CreateCustomerDeposit</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/SalesOrder/HC_createCustomerDeposit.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_SC_CreateCustomerDeposit.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_create_customerdeposit">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>SCHEDULED</status>
-      <title>HC_createCustomerDeposit</title>
+      <title>HC_SC_CreateCustomerDeposit</title>
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
