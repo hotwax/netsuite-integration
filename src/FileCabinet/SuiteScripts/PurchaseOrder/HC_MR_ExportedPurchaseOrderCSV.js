@@ -52,7 +52,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             // Push the customFilters into defaultFilters.
 
             defaultFilters.push(search.createFilter({
-                name: "datecreated",
+                name: "lastmodifieddate",
                 operator: search.Operator.WITHIN,
                 values: lastExportDateString, dateStringWithoutSeconds
             }));
