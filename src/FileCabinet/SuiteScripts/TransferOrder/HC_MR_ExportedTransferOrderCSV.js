@@ -52,7 +52,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             // Push the customFilters into defaultFilters.
 
             defaultFilters.push(search.createFilter({
-                name: "datecreated",
+                name: "lastmodifieddate",
                 operator: search.Operator.WITHIN,
                 values: lastExportDateString, dateStringWithoutSeconds
             }));
@@ -72,7 +72,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var locationInternalId = contextValues.values.location.value;
             var destinationLocationId = contextValues.values.transferlocation.value;
             var trackingNumber = contextValues.values.trackingnumbers;
-            var transferOrderNumber = contextValues.values.transactionnumber;
+            var transferOrderNumber = contextValues.values.formulatext;
+            var transferOrderNumberAttr = 'EXTERNAL_ORDER_ID:' + transferOrderNumber; 
 
             var transferorderdata = {
                 'externalId': internalid,
@@ -83,7 +84,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 'lineId': lineId,
                 'shipmentType': "IN_TRANSFER",
                 'trackingNumber': trackingNumber,
-                'transferOrderNumber': transferOrderNumber
+                'transferOrderNumber': transferOrderNumberAttr
             };
             
             mapContext.write({
@@ -102,7 +103,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'external-shipment-id,product-sku,quantity,origin-facility-id,destination-facility-id,item-external-id,tracking-number,order-id,shipment-type\n';
+                var fileLines = 'external-shipment-id,product-sku,quantity,origin-facility-id,destination-facility-id,item-external-id,tracking-number,shipment-attribute,shipment-type\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
