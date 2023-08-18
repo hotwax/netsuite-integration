@@ -52,7 +52,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             // Push the customFilters into defaultFilters.
 
             defaultFilters.push(search.createFilter({
-                name: "datecreated",
+                name: "lastmodifieddate",
                 operator: search.Operator.WITHIN,
                 values: lastExportDateString, dateStringWithoutSeconds
             }));
@@ -68,7 +68,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var orderId = contextValues.values.formulatext;
             var orderItemSeqId = contextValues.values.custcol_hc_order_line_id;
             var externalFacilityId = contextValues.values.location.value;
-            var shippedDate = contextValues.values.trandate;
+            var shippedDate = contextValues.values.lastmodifieddate;
             var quantity = contextValues.values.quantity;
             var trackingNumber = contextValues.values.trackingnumbers;
             var shippingCarrier = contextValues.values.shipcarrier.text;
