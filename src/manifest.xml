@@ -14,8 +14,8 @@
       <feature required="false">WEBSITE</feature>
       <feature required="true">SERVERSIDESCRIPTING</feature>
       <feature required="false">OPPORTUNITIES</feature>
-      <feature required="false">ACCOUNTING</feature>
       <feature required="true">SALESORDERS</feature>
+      <feature required="true">ACCOUNTING</feature>
     </features>
   </dependencies>
 </manifest>

@@ -3,6 +3,7 @@
         <path>~/AccountConfiguration/*</path>
     </configuration>
     <files>
+        <path>~/FileCabinet/SuiteScripts/CashSale/HC_SC_ImportCashSale.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js</path>
 
@@ -26,6 +27,9 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderReceipts.js</path> 
     </files>
     <objects>
+        <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
+        <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
+
         <path>~/Objects/Customer/custimport_customer_hc.xml</path>
         <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
         <path>~/Objects/Customer/customscript_export_customer.xml</path>
