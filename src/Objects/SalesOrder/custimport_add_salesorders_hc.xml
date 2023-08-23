@@ -49,6 +49,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>DISCOUNTRATE</field>
+          <columnreference>
+            <column>Rate</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>EMAIL</field>
           <columnreference>
             <column>Email</column>
@@ -113,7 +121,7 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
-          <field>TRANID</field>
+          <field>[scriptid=custbody_hc_shopify_so_number]</field>
           <columnreference>
             <column>Order Id</column>
             <file>SALESORDER</file>
