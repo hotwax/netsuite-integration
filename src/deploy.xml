@@ -27,6 +27,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderReceipts.js</path> 
     </files>
     <objects>
+        <path>~/Objects/CashSale/custbody_hc_shopify_pos_number.xml</path>
         <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
         <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
 
@@ -43,6 +44,7 @@
         <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
         <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
         
+        <path>~/Objects/SalesOrder/custbody_hc_shopify_so_number.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>

@@ -89,7 +89,7 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
-          <field>TRANID</field>
+          <field>[scriptid=custbody_hc_shopify_pos_number]</field>
           <columnreference>
             <column>Order Id</column>
             <file>CASHSALE</file>
