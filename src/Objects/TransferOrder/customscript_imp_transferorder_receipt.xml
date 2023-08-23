@@ -15,9 +15,9 @@
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
-          <repeat>PT1H</repeat>
-          <startdate>2022-05-25</startdate>
-          <starttime>23:00:00Z</starttime>
+          <repeat>PT15M</repeat>
+          <startdate>2023-08-22</startdate>
+          <starttime>05:00:00Z</starttime>
         </daily>
       </recurrence>
     </scriptdeployment>
