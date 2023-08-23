@@ -27,30 +27,37 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderReceipts.js</path> 
     </files>
     <objects>
-        <path>~/Objects/CashSale/custbody_hc_shopify_pos_number.xml</path>
-        <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
-        <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
-
-        <path>~/Objects/Customer/custimport_customer_hc.xml</path>
-        <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
-        <path>~/Objects/Customer/customscript_export_customer.xml</path>
-
+        <!--Custom Record-->
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
 
-        <path>~/Objects/InventoryAdjustment/custimport_inventoryadjustment_hc.xml</path>
-        <path>~/Objects/InventoryAdjustment/customscript_imp_inventoryadjustment.xml</path>
-
-
-        <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
-        <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
-        
+        <!-- Custom Fields-->
+        <path>~/Objects/CashSale/custbody_hc_shopify_pos_number.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_shopify_so_number.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
-        <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
+
+        <!--Custom Import-->
+        <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
+        <path>~/Objects/Customer/custimport_customer_hc.xml</path>
+        <path>~/Objects/InventoryAdjustment/custimport_inventoryadjustment_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_add_salesorders_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_update_salesorders_hc.xml</path>
+
+        <!--Custom Form-->
+        <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
+
+        <!--Custom Scripts-->
+        <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
+        
+        <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
+        <path>~/Objects/Customer/customscript_export_customer.xml</path>
+        
+        <path>~/Objects/InventoryAdjustment/customscript_imp_inventoryadjustment.xml</path>
+
+        <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
+        <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
+                
         <path>~/Objects/SalesOrder/customscript_create_customerdeposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
         <path>~/Objects/SalesOrder/customscript_update_salesorder.xml</path>
@@ -65,6 +72,7 @@
         <path>~/Objects/TransferOrder/customscript_export_transferorder.xml</path>
         <path>~/Objects/TransferOrder/customscript_imp_transferorder_receipt.xml</path>
 
+        <!--Saved Search-->
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
         <path>~/Objects/PurchaseOrder/customsearch_open_purchaserorder.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_salesorder_for_cd.xml</path>
