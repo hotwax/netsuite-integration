@@ -20,8 +20,8 @@
         <daily>
           <everyxdays>1</everyxdays>
           <repeat>PT15M</repeat>
-          <startdate>2023-08-03</startdate>
-          <starttime>01:00:00Z</starttime>
+          <startdate>2023-08-22</startdate>
+          <starttime>05:00:00Z</starttime>
         </daily>
       </recurrence>
     </scriptdeployment>
