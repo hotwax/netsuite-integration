@@ -19,6 +19,15 @@
           <columnBreak>F</columnBreak>
           <sameRowAsPrevious>F</sameRowAsPrevious>
         </field>
+        <field>
+          <id>[scriptid=custbody_hc_shopify_so_number]</id>
+          <label>HC Shopify Sales Order Number</label>
+          <visible>T</visible>
+          <mandatory>F</mandatory>
+          <displayType>NORMAL</displayType>
+          <columnBreak>F</columnBreak>
+          <sameRowAsPrevious>F</sameRowAsPrevious>
+        </field>
       </fields>
     </fieldGroup>
   </mainFields>
