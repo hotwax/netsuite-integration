@@ -13,7 +13,7 @@
   <overwritesublists>F</overwritesublists>
   <preventduplicates>F</preventduplicates>
   <recordtype>CUSTOMER</recordtype>
-  <runserversuitescript>F</runserversuitescript>
+  <runserversuitescript>T</runserversuitescript>
   <usemultithread>F</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
   <filemappings>

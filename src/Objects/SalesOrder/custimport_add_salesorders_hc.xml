@@ -11,7 +11,7 @@
   <overwritemissingfields>F</overwritemissingfields>
   <overwritesublists>F</overwritesublists>
   <recordtype>SALESORDER</recordtype>
-  <runserversuitescript>F</runserversuitescript>
+  <runserversuitescript>T</runserversuitescript>
   <transactionform>[scriptid=custform_hc_sales_order_form]</transactionform>
   <usemultithread>F</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>

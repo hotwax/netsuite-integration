@@ -11,7 +11,7 @@
   <overwritemissingfields>F</overwritemissingfields>
   <overwritesublists>F</overwritesublists>
   <recordtype>INVENTORYADJUSTMENT</recordtype>
-  <runserversuitescript>F</runserversuitescript>
+  <runserversuitescript>T</runserversuitescript>
   <transactionform>STANDARDINVENTORYADJUSTMENT</transactionform>
   <usemultithread>F</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
