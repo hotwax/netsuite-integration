@@ -64,6 +64,14 @@
             <type>NAME</type>
           </columnreference>
         </fieldmapping>
+        <fieldmapping>
+          <field>[scriptid=custbody_hc_inventory_adj_number]</field>
+          <columnreference>
+            <column>HC Inventory Adj Id</column>
+            <file>INVENTORYADJUSTMENT</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
       </fieldmappings>
     </recordmapping>
     <recordmapping>
