@@ -1,0 +1,11 @@
+<transactionbodycustomfield scriptid="custbody_hc_inventory_adj_number">
+  <accesslevel>2</accesslevel>
+  <bodyinventoryadjustment>T</bodyinventoryadjustment>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>TEXT</fieldtype>
+  <globalsearch>T</globalsearch>
+  <label>HC Inventory Adjustment Number</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+  <subtab>TRANSACTIONMAIN</subtab>
+</transactionbodycustomfield>
