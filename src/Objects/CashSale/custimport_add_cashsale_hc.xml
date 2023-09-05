@@ -102,6 +102,14 @@
       <record>CASHSALE:ITEM</record>
       <fieldmappings>
         <fieldmapping>
+          <field>AMOUNT</field>
+          <columnreference>
+            <column>Amount</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>[scriptid=custcol_hc_order_line_id]</field>
           <columnreference>
             <column>Order Line Id</column>
@@ -113,6 +121,14 @@
           <field>ITEM</field>
           <columnreference>
             <column>Item</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>PRICE</field>
+          <columnreference>
+            <column>Price Level</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>

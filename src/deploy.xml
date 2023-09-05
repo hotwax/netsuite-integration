@@ -4,8 +4,12 @@
     </configuration>
     <files>
         <path>~/FileCabinet/SuiteScripts/CashSale/HC_SC_ImportCashSale.js</path>
+        
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/DiscountItem/HC_MR_ExportedDiscountItemCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/DiscountItem/HC_MR_ExportedInActiveDiscountCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_SC_ImportInventoryAdjustment.js</path>
 
@@ -52,6 +56,9 @@
         
         <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
         <path>~/Objects/Customer/customscript_export_customer.xml</path>
+
+        <path>~/Objects/DiscountItem/customscript_export_discountitem.xml</path>
+        <path>~/Objects/DiscountItem/customscript_export_inactive_discount.xml</path>
         
         <path>~/Objects/InventoryAdjustment/customscript_imp_inventoryadjustment.xml</path>
 
@@ -74,6 +81,8 @@
 
         <!--Saved Search-->
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
+        <path>~/Objects/DiscountItem/customsearch_hc_export_discount_items.xml</path>
+        <path>~/Objects/DiscountItem/customsearch_hc_export_inactive_discount.xml</path>
         <path>~/Objects/PurchaseOrder/customsearch_open_purchaserorder.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_salesorder_for_cd.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_so_for_invoice.xml</path>

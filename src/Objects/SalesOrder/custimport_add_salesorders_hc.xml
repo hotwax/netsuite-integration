@@ -11,7 +11,7 @@
   <overwritemissingfields>F</overwritemissingfields>
   <overwritesublists>F</overwritesublists>
   <recordtype>SALESORDER</recordtype>
-  <runserversuitescript>F</runserversuitescript>
+  <runserversuitescript>T</runserversuitescript>
   <transactionform>[scriptid=custform_hc_sales_order_form]</transactionform>
   <usemultithread>F</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
@@ -134,6 +134,14 @@
       <record>SALESORDER:ITEM</record>
       <fieldmappings>
         <fieldmapping>
+          <field>AMOUNT</field>
+          <columnreference>
+            <column>Amount</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>[scriptid=custcol_hc_item_tag]</field>
           <columnreference>
             <column>Tag</column>
@@ -161,6 +169,14 @@
           <field>ITEM</field>
           <columnreference>
             <column>Item</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>PRICE</field>
+          <columnreference>
+            <column>Price Level</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>

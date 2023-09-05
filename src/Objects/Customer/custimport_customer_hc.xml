@@ -13,9 +13,17 @@
   <overwritesublists>F</overwritesublists>
   <preventduplicates>F</preventduplicates>
   <recordtype>CUSTOMER</recordtype>
-  <runserversuitescript>F</runserversuitescript>
+  <runserversuitescript>T</runserversuitescript>
   <usemultithread>F</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
+  <audience>
+    <allemployees>F</allemployees>
+    <allpartners>F</allpartners>
+    <allroles>F</allroles>
+    <globaledit>F</globaledit>
+    <ispublic>F</ispublic>
+    <roles></roles>
+  </audience>
   <filemappings>
     <filemapping>
       <file>CUSTOMER</file>
@@ -63,6 +71,14 @@
             <column>Last Name</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>LEADSOURCE</field>
+          <columnreference>
+            <column>Account Source</column>
+            <file>CUSTOMER</file>
+            <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
         <fieldmapping>
