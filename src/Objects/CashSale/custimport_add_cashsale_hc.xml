@@ -96,6 +96,14 @@
             <type>NAME</type>
           </columnreference>
         </fieldmapping>
+        <fieldmapping>
+          <field>SUBSIDIARY</field>
+          <columnreference>
+            <column>Subsidiary</column>
+            <file>CASHSALE</file>
+            <type>INTERNAL_ID</type>
+          </columnreference>
+        </fieldmapping>
       </fieldmappings>
     </recordmapping>
     <recordmapping>

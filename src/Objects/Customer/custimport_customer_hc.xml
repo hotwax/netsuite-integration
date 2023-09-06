@@ -89,6 +89,14 @@
             <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
+        <fieldmapping>
+          <field>TAXABLE</field>
+          <columnreference>
+            <column>Taxable</column>
+            <file>CUSTOMER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
       </fieldmappings>
     </recordmapping>
   </recordmappings>
