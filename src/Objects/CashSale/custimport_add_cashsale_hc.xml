@@ -41,6 +41,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>DEPARTMENT</field>
+          <columnreference>
+            <column>Department</column>
+            <file>CASHSALE</file>
+            <type>INTERNAL_ID</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>DISCOUNTITEM</field>
           <columnreference>
             <column>Discount Item</column>
