@@ -34,6 +34,14 @@
       <record>CUSTOMER</record>
       <fieldmappings>
         <fieldmapping>
+          <field>DEFAULTORDERPRIORITY</field>
+          <columnreference>
+            <column>Default Order Priority</column>
+            <file>CUSTOMER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>ENTITYSTATUS</field>
           <columnreference>
             <column>Status</column>
