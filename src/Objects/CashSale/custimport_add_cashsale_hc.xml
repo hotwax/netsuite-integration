@@ -112,6 +112,10 @@
             <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
+        <fieldmapping>
+          <field>SHIPADDRESSLIST</field>
+          <value>-2</value>
+        </fieldmapping>
       </fieldmappings>
     </recordmapping>
     <recordmapping>
@@ -169,6 +173,59 @@
           <field>TAXCODE</field>
           <columnreference>
             <column>Tax Code</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+      </fieldmappings>
+    </recordmapping>
+    <recordmapping>
+      <record>CASHSALE::SHIPPINGADDRESS</record>
+      <fieldmappings>
+        <fieldmapping>
+          <field>ADDR1</field>
+          <columnreference>
+            <column>Address 1</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ADDR2</field>
+          <columnreference>
+            <column>Address 2</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>CITY</field>
+          <columnreference>
+            <column>City</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>COUNTRY</field>
+          <columnreference>
+            <column>Country</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>STATE</field>
+          <columnreference>
+            <column>State</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ZIP</field>
+          <columnreference>
+            <column>Zip</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
