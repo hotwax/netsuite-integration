@@ -7,7 +7,7 @@
   <ignorereadonly>T</ignorereadonly>
   <importname>HC Inventory Adjustment Import</importname>
   <logsystemnotescustfields>F</logsystemnotescustfields>
-  <multiselectdelimiter>|</multiselectdelimiter>
+  <multiselectdelimiter>:</multiselectdelimiter>
   <overwritemissingfields>F</overwritemissingfields>
   <overwritesublists>F</overwritesublists>
   <recordtype>INVENTORYADJUSTMENT</recordtype>

@@ -65,9 +65,17 @@
       <label>Purchase Order Export Date</label>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_cashsale_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Cash Sale Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
   </customrecordcustomfields>
   <instances>
     <instance scriptid="val_84043_t1321281_710">
+      <custrecord_cashsale_ex_date>2023-07-26T10:52:00Z</custrecord_cashsale_ex_date>
       <custrecord_customer_ex_date>2023-07-26T10:52:00Z</custrecord_customer_ex_date>
       <custrecord_purchaseorder_ex_date>2023-07-26T10:52:00Z</custrecord_purchaseorder_ex_date>
       <custrecord_salesorder_ex_date>2023-07-26T10:52:00Z</custrecord_salesorder_ex_date>
