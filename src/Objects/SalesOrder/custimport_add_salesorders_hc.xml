@@ -129,7 +129,7 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
-          <field>[scriptid=custbody_hc_shopify_so_number]</field>
+          <field>OTHERREFNUM</field>
           <columnreference>
             <column>Order Id</column>
             <file>SALESORDER</file>

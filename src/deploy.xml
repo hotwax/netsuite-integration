@@ -3,6 +3,7 @@
         <path>~/AccountConfiguration/*</path>
     </configuration>
     <files>
+        <path>~/FileCabinet/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/CashSale/HC_SC_ImportCashSale.js</path>
         
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
@@ -35,9 +36,7 @@
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
 
         <!-- Custom Fields-->
-        <path>~/Objects/CashSale/custbody_hc_shopify_pos_number.xml</path>
         <path>~/Objects/InventoryAdjustment/custbody_hc_inventory_adj_number.xml</path>
-        <path>~/Objects/SalesOrder/custbody_hc_shopify_so_number.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
@@ -53,6 +52,7 @@
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
 
         <!--Custom Scripts-->
+        <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
         <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
         
         <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
@@ -81,6 +81,7 @@
         <path>~/Objects/TransferOrder/customscript_imp_transferorder_receipt.xml</path>
 
         <!--Saved Search-->
+        <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
         <path>~/Objects/DiscountItem/customsearch_hc_export_discount_items.xml</path>
         <path>~/Objects/DiscountItem/customsearch_hc_export_inactive_discount.xml</path>

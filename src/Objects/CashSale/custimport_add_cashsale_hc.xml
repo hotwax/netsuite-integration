@@ -97,7 +97,7 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
-          <field>[scriptid=custbody_hc_shopify_pos_number]</field>
+          <field>OTHERREFNUM</field>
           <columnreference>
             <column>Order Id</column>
             <file>CASHSALE</file>
