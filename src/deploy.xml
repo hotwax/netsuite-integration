@@ -41,15 +41,15 @@
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
 
+        <!--Custom Form-->
+        <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
+
         <!--Custom Import-->
         <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
         <path>~/Objects/Customer/custimport_customer_hc.xml</path>
         <path>~/Objects/InventoryAdjustment/custimport_inventoryadjustment_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_add_salesorders_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_update_salesorders_hc.xml</path>
-
-        <!--Custom Form-->
-        <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
 
         <!--Custom Scripts-->
         <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
