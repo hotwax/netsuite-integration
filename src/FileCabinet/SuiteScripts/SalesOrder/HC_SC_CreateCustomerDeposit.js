@@ -4,27 +4,7 @@
  */
 define(['N/search', 'N/record', 'N/error', 'N/sftp'], function (search, record, error, sftp) {
     function execute(context) {
-      try {
-        
-          // Check Shopify Payment Method is created or not 
-          var shopifyPaymentMethodId = search
-            .create({
-              type: search.Type.PAYMENT_METHOD,
-              filters: [['name', 'is', 'Shopify Payment']],
-              columns: ['internalid']
-            }).run().getRange({ start: 0, end: 1 }).map(function (result) {
-            return result.getValue('internalid');
-          })[0];
-
-          // Create Shopify Payment Method
-          if (shopifyPaymentMethodId == null) {
-              var shopifyPayment = record.create({ type: record.Type.PAYMENT_METHOD});
-              shopifyPayment.setValue({ fieldId: 'name', value: 'Shopify Payment' });
-              shopifyPayment.setValue({ fieldId: 'methodtype', value: 9 });
-              shopifyPaymentMethodId = shopifyPayment.save();
-              log.debug("Made Shopify Payment Method ! " + shopifyPaymentMethodId);
-          }
-          
+      try {  
           //Get Custom Record Type SFTP details
           var customRecordSFTPSearch = search.create({
             type: 'customrecord_ns_sftp_configuration',
@@ -107,6 +87,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp'], function (search, record, 
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
                               var totalAmount = orderDataList[dataIndex].total_amount;
+                              var shopifyPaymentMethodId = orderDataList[dataIndex].payment_method;
                               
                               try {
                                 if (totalAmount > 0 && orderId) {
