@@ -87,7 +87,6 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                           
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
-                              log.debug("====order id==="+orderId);
                               var itemList = orderDataList[dataIndex].items;
                               var orderAttributes = orderDataList[dataIndex].orderAttributes;
                               var isHeaderLevelLocation = false;
@@ -251,7 +250,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
 
                               }
                           }
-                          if (errorList) {
+                          if (errorList.length !== 0) {
                               var fileLines = 'orderId,errorMessage\n';
                               fileLines = fileLines + errorList;
                               
