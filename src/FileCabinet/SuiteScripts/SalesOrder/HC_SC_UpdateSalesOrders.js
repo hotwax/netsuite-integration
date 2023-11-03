@@ -88,6 +88,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             var scriptTask = task.create({taskType: task.TaskType.CSV_IMPORT});
             scriptTask.mappingId = 'custimport_update_salesorders_hc';
             scriptTask.importFile = downloadedFile;
+            scriptTask.name = 'Update Sales Order' + '-' + fileName;
             var csvImportTaskId = scriptTask.submit();
             
             var taskStatus = task.checkStatus(csvImportTaskId);
