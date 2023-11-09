@@ -88,8 +88,8 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
                               var itemList = orderDataList[dataIndex].items;
-                              var orderAttributes = orderDataList[dataIndex].orderAttributes;
-                              var isHeaderLevelLocation = false;
+                              var orderAttributes = orderDataList[dataIndex].order_attributes;
+                              var isAllowSplit = true;
                               
                               try {
                                 if (orderId) {
@@ -103,8 +103,8 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                     for (var attrIndex = 0; attrIndex < orderAttributes.length; attrIndex++) {
                                         var attrName = orderAttributes[attrIndex].attrName;
                                         var attrValue = orderAttributes[attrIndex].attrValue;
-                                        if (attrName && attrName === 'ORDER_LEVEL_FULFILLMENT') {
-                                            isHeaderLevelLocation = attrValue;  
+                                        if (attrName && attrName === 'ALLOW_SPLIT') {
+                                            isAllowSplit = attrValue;  
                                         }
                                     }
                 
@@ -112,7 +112,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                         var lineId = itemList[itemIndex].line_id;
                                         var locationId = itemList[itemIndex].location_id;
                                         var tags = itemList[itemIndex].tags; 
-                                        if (isHeaderLevelLocation && isHeaderLevelLocation === 'true') {
+                                        if (isAllowSplit && isAllowSplit === 'false') {
                                             //add order location
                                             salesOrderRecord.setValue ({
                                                 fieldId: 'location',
