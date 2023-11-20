@@ -82,6 +82,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search'], function (sftp, record, er
             
               //Parse the PurchaseOrder ItemReceipt JSON file
               var poDataList = JSON.parse(contents);
+              var errorList = [];
             
               for (var poDataIndex = 0; poDataIndex < poDataList.length; poDataIndex++) {
                 var orderId = poDataList[poDataIndex].order_id;
@@ -147,8 +148,28 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search'], function (sftp, record, er
                         title: 'Error in processing purchase order' + orderId,
                         details: e,
                     });
+                    var errorInfo = orderId + ',' + e.message + '\n';
+                    errorList.push(errorInfo);
                 }
               }
+              if (errorList.length !== 0) {
+                  var fileLines = 'orderId,errorMessage\n';
+                  fileLines = fileLines + errorList;
+                
+                  var date = new Date();
+                  var errorFileName = date + '-ErrorPurchaseOrderReceipts.csv';
+                  var fileObj = file.create({
+                    name: errorFileName,
+                    fileType: file.Type.CSV,
+                    contents: fileLines
+                  });
+
+                  connection.upload({
+                    directory: '/error/',
+                    file: fileObj
+                  });
+              }
+
               // Archive the file
               connection.move({
                 from: '/' + fileName,

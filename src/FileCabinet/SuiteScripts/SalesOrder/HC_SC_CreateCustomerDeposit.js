@@ -83,6 +83,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp'], function (search, record, 
           
                           //Parse the JSON file
                           var orderDataList = JSON.parse(contents);
+                          var errorList = [];
                           
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
@@ -119,7 +120,26 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp'], function (search, record, 
                                       title: 'Error in creating customer deposit records for sales order ' + orderId,
                                       details: e,
                                   });
+                                  var errorInfo = orderId + ',' + e.message + '\n';
+                                  errorList.push(errorInfo);
                               }
+                          }
+                          if (errorList.length !== 0) {
+                              var fileLines = 'orderId,errorMessage\n';
+                              fileLines = fileLines + errorList;
+                        
+                              var date = new Date();
+                              var errorFileName = date + '-ErrorCustomerDeposit.csv';
+                              var fileObj = file.create({
+                                name: errorFileName,
+                                fileType: file.Type.CSV,
+                                contents: fileLines
+                              });
+          
+                              connection.upload({
+                                directory: '/error/',
+                                file: fileObj
+                              });
                           }
                           // Archive the file
                           connection.move({
