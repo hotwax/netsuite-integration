@@ -14,6 +14,9 @@
 
         <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_SC_ImportInventoryAdjustment.js</path>
 
+        <path>~/FileCabinet/SuiteScripts/Product/HC_SC_GenerateProductCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Product/HC_SC_UploadProductCSV.js</path>
+
         <path>~/FileCabinet/SuiteScripts/PurchaseOrder/HC_MR_ExportedPurchaseOrderCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/PurchaseOrder/HC_SC_ImportPurchaseOrderReceipts.js</path>
 
@@ -64,6 +67,9 @@
         
         <path>~/Objects/InventoryAdjustment/customscript_imp_inventoryadjustment.xml</path>
 
+        <path>~/Objects/Product/customscript_generate_product.xml</path>
+        <path>~/Objects/Product/customscript_upload_product.xml</path>
+
         <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
         <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
                 
@@ -95,6 +101,7 @@
         <path>~/Objects/SalesOrder/customsearch_hc_export_so_fulfillment.xml</path>
         <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
         <path>~/Objects/TransferOrder/customsearch_fulfilled_transferorder.xml</path>
+        <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>

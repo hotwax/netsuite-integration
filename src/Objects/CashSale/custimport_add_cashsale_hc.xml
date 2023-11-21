@@ -142,7 +142,7 @@
           <columnreference>
             <column>Item</column>
             <file>CASHSALE</file>
-            <type>NAME</type>
+            <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
         <fieldmapping>
