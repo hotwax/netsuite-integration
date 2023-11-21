@@ -90,7 +90,7 @@
           <columnreference>
             <column>Item</column>
             <file>INVENTORYADJUSTMENT</file>
-            <type>NAME</type>
+            <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
         <fieldmapping>
