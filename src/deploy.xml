@@ -29,6 +29,8 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateSalesOrderInvoice.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_UpdateSalesOrders.js</path>
 
+        <path>~/FileCabinet/SuiteScripts/SFTP/HC_SC_CreateSFTPDirectory.js</path>
+
         <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_generateCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_uploadCSV_InventoryItems.js</path>
 
@@ -81,6 +83,8 @@
         <path>~/Objects/SalesOrder/customscript_export_so_fulfillment.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_invoice.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_itemfulfillment.xml</path>
+
+        <path>~/Objects/SFTP/customscript_create_sftpdirectory.xml</path>
 
         <path>~/Objects/SyncInventory/customscript_exp_inventoryitem.xml</path>
         <path>~/Objects/SyncInventory/customscript_imp_inventoryitem.xml</path>
