@@ -72,7 +72,7 @@
         <fieldmapping>
           <field>LOCATION</field>
           <columnreference>
-            <column>Item Location</column>
+            <column>Location</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>

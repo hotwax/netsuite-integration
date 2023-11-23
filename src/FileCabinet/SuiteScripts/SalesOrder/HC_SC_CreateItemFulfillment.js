@@ -88,8 +88,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
                               var itemList = orderDataList[dataIndex].items;
-                              var orderAttributes = orderDataList[dataIndex].order_attributes;
-                              var isAllowSplit = true;
+                              var isAllowSplit = orderDataList[dataIndex].maySplit;
                               
                               try {
                                 if (orderId) {
@@ -99,20 +98,12 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                         id: orderId,
                                         isDynamic: false
                                     });
-
-                                    for (var attrIndex = 0; attrIndex < orderAttributes.length; attrIndex++) {
-                                        var attrName = orderAttributes[attrIndex].attrName;
-                                        var attrValue = orderAttributes[attrIndex].attrValue;
-                                        if (attrName && attrName === 'ALLOW_SPLIT') {
-                                            isAllowSplit = attrValue;  
-                                        }
-                                    }
                 
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
                                         var lineId = itemList[itemIndex].line_id;
                                         var locationId = itemList[itemIndex].location_id;
                                         var tags = itemList[itemIndex].tags; 
-                                        if (isAllowSplit && isAllowSplit === 'false') {
+                                        if (isAllowSplit && isAllowSplit === 'N') {
                                             //add order location
                                             salesOrderRecord.setValue ({
                                                 fieldId: 'location',
