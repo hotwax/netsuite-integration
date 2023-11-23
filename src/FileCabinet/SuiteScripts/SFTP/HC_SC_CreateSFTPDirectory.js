@@ -66,45 +66,88 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
             path: 'transferorder'
         });
         connection.makeDirectory({
-            path: 'transferorder/fulfillment-nifi'
-        });
-        
-        connection.makeDirectory({
-            path: 'purchaseorder'
+            path: 'transferorder/fulfillment'
         });
         connection.makeDirectory({
-            path: 'purchaseorder/fulfillment'
+            path: 'transferorder/fulfillment/archive'
         });
 
         connection.makeDirectory({
-            path: 'inventoryitem'
+            path: 'transferorder/fulfillment-nifi'
         });
         connection.makeDirectory({
-            path: 'inventoryitem/csv'
+            path: 'transferorder/fulfillment-nifi/archive'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/receipt'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/receipt/archive'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/receipt/error'
         });
 
         connection.makeDirectory({
             path: 'salesorder'
         });
         connection.makeDirectory({
+            path: 'salesorder/customerdeposit'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/customerdeposit/archive'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/customerdeposit/error'
+        });
+
+        connection.makeDirectory({
+            path: 'salesorder/export'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/export/archive'
+        });
+
+        connection.makeDirectory({
             path: 'salesorder/import'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/import/fulfillment'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/import/fulfillment/archive'
         });
         connection.makeDirectory({
             path: 'salesorder/import/orderidentification'
         });
         connection.makeDirectory({
+            path: 'salesorder/import/orderidentification/archive'
+        });
+        connection.makeDirectory({
             path: 'salesorder/import/orderitemattribute'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/import/orderitemattribute/archive'
         });
         connection.makeDirectory({
             path: 'salesorder/import/fulfillment-nifi'
         });
-
-        
         connection.makeDirectory({
-            path: 'product'
+            path: 'salesorder/import/fulfillment-nifi/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'salesorder/invoice'
         });
         connection.makeDirectory({
-            path: 'product/csv'
+            path: 'salesorder/invoice/error'
+        });
+
+        connection.makeDirectory({
+            path: 'salesorder/update'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/update/archive'
         });
 
         connection.makeDirectory({
@@ -114,7 +157,13 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
             path: 'discountitem/import'
         });
         connection.makeDirectory({
+            path: 'discountitem/import/archive'
+        });
+        connection.makeDirectory({
             path: 'discountitem/delete'
+        });
+        connection.makeDirectory({
+            path: 'discountitem/delete/archive'
         });
 
         connection.makeDirectory({
@@ -124,10 +173,94 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
             path: 'customer/import'
         });
         connection.makeDirectory({
+            path: 'customer/import/archive'
+        });
+        connection.makeDirectory({
+            path: 'customer/export'
+        });
+        connection.makeDirectory({
+            path: 'customer/export/archive'
+        });
+        connection.makeDirectory({
             path: 'historicalshopifycustomer'
         });
         connection.makeDirectory({
             path: 'historicalshopifycustomer/csv'
+        });
+        connection.makeDirectory({
+            path: 'historicalshopifycustomer/csv/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'cashsale'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/export'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/export/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'fulfilledsalesorder'
+        });
+        connection.makeDirectory({
+            path: 'fulfilledsalesorder/export'
+        });
+        connection.makeDirectory({
+            path: 'fulfilledsalesorder/export/archive'
+        });
+        connection.makeDirectory({
+            path: 'fulfilledsalesorder/export/error'
+        });
+
+        connection.makeDirectory({
+            path: 'inventoryadjustment'
+        });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/csv'
+        });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'inventoryitem'
+        });
+        connection.makeDirectory({
+            path: 'inventoryitem/csv'
+        });
+        connection.makeDirectory({
+            path: 'inventoryitem/csv/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'product'
+        });
+        connection.makeDirectory({
+            path: 'product/csv'
+        });
+        connection.makeDirectory({
+            path: 'product/csv/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'purchaseorder'
+        });
+        connection.makeDirectory({
+            path: 'purchaseorder/fulfillment'
+        });
+        connection.makeDirectory({
+            path: 'purchaseorder/fulfillment/archive'
+        });
+        connection.makeDirectory({
+            path: 'purchaseorder/receipt'
+        });
+        connection.makeDirectory({
+            path: 'purchaseorder/receipt/archive'
+        });
+        connection.makeDirectory({
+            path: 'purchaseorder/receipt/error'
         });
         
       } catch (e) {
