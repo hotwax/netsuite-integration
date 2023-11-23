@@ -1,0 +1,24 @@
+<scheduledscript scriptid="customscript_create_sftpdirectory">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_CreateSFTPDirectory</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/SFTP/HC_SC_CreateSFTPDirectory.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_create_sftpdirectory">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>TESTING</status>
+      <title>HC_SC_CreateSFTPDirectory</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2022-05-25</startdate>
+          <starttime>23:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
