@@ -200,6 +200,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'cashsale/export/archive'
         });
+        connection.makeDirectory({
+            path: 'cashsale/export/error'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/export/failed'
+        });
 
         connection.makeDirectory({
             path: 'fulfilledsalesorder'
