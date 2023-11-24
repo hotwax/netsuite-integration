@@ -2,7 +2,7 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/search', 'N/record', 'N/error', 'N/sftp'], function (search, record, error, sftp) {
+define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search, record, error, sftp, file) {
     function execute(context) {
       try {  
           //Get Custom Record Type SFTP details
