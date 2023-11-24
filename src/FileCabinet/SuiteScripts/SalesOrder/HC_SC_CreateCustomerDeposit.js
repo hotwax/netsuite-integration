@@ -137,7 +137,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                               });
           
                               connection.upload({
-                                directory: '/error/',
+                                directory: '/customerdeposit/error/',
                                 file: fileObj
                               });
                           }
