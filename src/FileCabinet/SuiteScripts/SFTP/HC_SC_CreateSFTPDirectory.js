@@ -194,6 +194,13 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
             path: 'customer/export/archive'
         });
         connection.makeDirectory({
+            path: 'customer/export/error'
+        });
+        connection.makeDirectory({
+            path: 'customer/export/failed'
+        });
+
+        connection.makeDirectory({
             path: 'historicalshopifycustomer'
         });
         connection.makeDirectory({
