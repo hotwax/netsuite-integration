@@ -107,6 +107,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'salesorder/export/archive'
         });
+        connection.makeDirectory({
+            path: 'salesorder/export/error'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/export/failed'
+        });
 
         connection.makeDirectory({
             path: 'salesorder/import'
