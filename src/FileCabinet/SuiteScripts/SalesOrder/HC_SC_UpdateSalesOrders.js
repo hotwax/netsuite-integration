@@ -2,7 +2,7 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error, search) {
+define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, task, error, search, file) {
     function execute(context) {
       try {
         // Establish a connection to a remote FTP server
@@ -74,8 +74,10 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
         for (var i=0; i<list.length; i++) {
           if (!list[i].directory) {
+          var fileName = null;
           try {
-            var fileName = list[i].name;
+            fileName = list[i].name;
+            var errorList = [];
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
@@ -98,24 +100,49 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
               connection.move({
                 from: '/update/'+fileName,
                 to: '/update/archive/'+fileName
-              })
+              });
               log.debug('File moved!');
             }
           } catch (e) {
               log.error({
-                title: 'Error in processing sales order csv files',
+                title: 'Error in processing update sales order csv files',
                 details: e,
               });
+              var errorInfo = fileName + ',' + e.message + '\n';
+              errorList.push(errorInfo);
+              if (errorList.length !== 0) {
+                var fileLines = 'fileName,errorMessage\n';
+                fileLines = fileLines + errorList;
+          
+                var date = new Date();
+                var errorFileName = date + '-ErrorUpdateSaleOrder.csv';
+                var fileObj = file.create({
+                  name: errorFileName,
+                  fileType: file.Type.CSV,
+                  contents: fileLines
+                });
+      
+                connection.upload({
+                  directory: '/update/error/',
+                  file: fileObj
+                });
+      
+                // Move the file to failed dir
+                connection.move({
+                  from: '/update/'+fileName,
+                  to: '/update/failed/'+fileName
+                });
+              }
           }
           }
         }
       } catch (e) {
         log.error({
-          title: 'Error in importing sales order csv files',
+          title: 'Error in importing update sales order csv files',
           details: e,
         });
         throw error.create({
-          name:"Error in importing sales order csv files",
+          name:"Error in importing update sales order csv files",
           message: e
         });
       }

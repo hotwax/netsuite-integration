@@ -100,7 +100,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, ta
               connection.move({
                 from: '/export/'+fileName,
                 to: '/export/archive/'+fileName
-              })
+              });
               log.debug('File moved!');
             }
           } catch (e) {
