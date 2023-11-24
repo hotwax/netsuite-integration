@@ -248,6 +248,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'inventoryadjustment/archive'
         });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/error'
+        });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/failed'
+        });
 
         connection.makeDirectory({
             path: 'inventoryitem'
