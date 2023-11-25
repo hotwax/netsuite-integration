@@ -292,5 +292,74 @@
         </fieldmapping>
       </fieldmappings>
     </recordmapping>
+    <recordmapping>
+      <record>SALESORDER::BILLINGADDRESS</record>
+      <fieldmappings>
+        <fieldmapping>
+          <field>ADDR1</field>
+          <columnreference>
+            <column>Billing Address1</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ADDR2</field>
+          <columnreference>
+            <column>Billing Address 2</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ADDRESSEE</field>
+          <columnreference>
+            <column>Billing Addressee</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ADDRPHONE</field>
+          <columnreference>
+            <column>Billing Phone</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>CITY</field>
+          <columnreference>
+            <column>Billing City</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>COUNTRY</field>
+          <columnreference>
+            <column>Billing Country</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>STATE</field>
+          <columnreference>
+            <column>Billing State</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>ZIP</field>
+          <columnreference>
+            <column>Billing Zip</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+      </fieldmappings>
+    </recordmapping>
   </recordmappings>
 </savedcsvimport>
