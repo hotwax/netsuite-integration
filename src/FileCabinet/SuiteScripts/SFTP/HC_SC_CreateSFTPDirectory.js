@@ -107,6 +107,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'salesorder/export/archive'
         });
+        connection.makeDirectory({
+            path: 'salesorder/export/error'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/export/failed'
+        });
 
         connection.makeDirectory({
             path: 'salesorder/import'
@@ -149,6 +155,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'salesorder/update/archive'
         });
+        connection.makeDirectory({
+            path: 'salesorder/update/error'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/update/failed'
+        });
 
         connection.makeDirectory({
             path: 'discountitem'
@@ -182,6 +194,13 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
             path: 'customer/export/archive'
         });
         connection.makeDirectory({
+            path: 'customer/export/error'
+        });
+        connection.makeDirectory({
+            path: 'customer/export/failed'
+        });
+
+        connection.makeDirectory({
             path: 'historicalshopifycustomer'
         });
         connection.makeDirectory({
@@ -199,6 +218,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         connection.makeDirectory({
             path: 'cashsale/export/archive'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/export/error'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/export/failed'
         });
 
         connection.makeDirectory({
@@ -222,6 +247,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         connection.makeDirectory({
             path: 'inventoryadjustment/archive'
+        });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/error'
+        });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/failed'
         });
 
         connection.makeDirectory({

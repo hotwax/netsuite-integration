@@ -3,7 +3,7 @@
  * @NScriptType ScheduledScript
 */
 
-define(['N/sftp', 'N/record', 'N/error', 'N/search'], function (sftp, record, error, search) {
+define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, record, error, search, file) {
 
     function execute(context) {
       try {

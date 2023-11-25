@@ -2,7 +2,7 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error, search) {
+define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, task, error, search, file) {
     function execute(context) {
       try {
         // Establish a connection to a remote FTP server
@@ -74,8 +74,10 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
         for (var i=0; i<list.length; i++) {
           if (!list[i].directory) {
+          var fileName = null;  
           try {
-            var fileName = list[i].name;
+            fileName = list[i].name;
+            var errorList = [];
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
@@ -98,7 +100,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
               connection.move({
                 from: '/export/'+fileName,
                 to: '/export/archive/'+fileName
-              })
+              });
               log.debug('File moved!');
             }
           } catch (e) {
@@ -106,6 +108,31 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
                 title: 'Error in processing customer csv files',
                 details: e,
               });
+              var errorInfo = fileName + ',' + e.message + '\n';
+              errorList.push(errorInfo);
+              if (errorList.length !== 0) {
+                var fileLines = 'fileName,errorMessage\n';
+                fileLines = fileLines + errorList;
+          
+                var date = new Date();
+                var errorFileName = date + '-ErrorAddCustomer.csv';
+                var fileObj = file.create({
+                  name: errorFileName,
+                  fileType: file.Type.CSV,
+                  contents: fileLines
+                });
+      
+                connection.upload({
+                  directory: '/export/error/',
+                  file: fileObj
+                });
+      
+                // Move the file to failed dir
+                connection.move({
+                  from: '/export/'+fileName,
+                  to: '/export/failed/'+fileName
+                });
+              }
           }
           }
         }

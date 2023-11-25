@@ -2,7 +2,7 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error, search) {
+define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, task, error, search, file) {
     function execute(context) {
       try {
         //Get Custom Record Type SFTP details
@@ -64,12 +64,15 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
         var list = connection.list({
           path: '/export/'
-        });
+        });        
 
         for (var i=0; i<list.length; i++) {
           if (!list[i].directory) {
+          var fileName = null;
+          
           try {
-            var fileName = list[i].name;
+            fileName = list[i].name;
+            var errorList = [];
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
@@ -89,10 +92,11 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             if (taskStatus.status === 'FAILED') {
               log.debug("Import Cash Sale CSV task has been failed");
             } else {
+              // Archive the file
               connection.move({
                 from: '/export/'+fileName,
                 to: '/export/archive/'+fileName
-              })
+              });
               log.debug('File moved!');
             }
           } catch (e) {
@@ -100,7 +104,32 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
                 title: 'Error in processing cash sale csv files',
                 details: e,
               });
-          }
+              var errorInfo = fileName + ',' + e.message + '\n';
+              errorList.push(errorInfo);
+              if (errorList.length !== 0) {
+                var fileLines = 'fileName,errorMessage\n';
+                fileLines = fileLines + errorList;
+          
+                var date = new Date();
+                var errorFileName = date + '-ErrorCashSale.csv';
+                var fileObj = file.create({
+                  name: errorFileName,
+                  fileType: file.Type.CSV,
+                  contents: fileLines
+                });
+      
+                connection.upload({
+                  directory: '/export/error/',
+                  file: fileObj
+                });
+      
+                // Move the file to failed dir
+                connection.move({
+                  from: '/export/'+fileName,
+                  to: '/export/failed/'+fileName
+                });
+              }
+            }
           }
         }
       } catch (e) {

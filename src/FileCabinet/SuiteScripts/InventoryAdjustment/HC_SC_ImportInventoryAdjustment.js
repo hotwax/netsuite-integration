@@ -2,7 +2,7 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error, search) {
+define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, task, error, search, file) {
     function execute(context) {
       try {
         // Establish a connection to a remote FTP server
@@ -73,8 +73,10 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
 
         for (var i=0; i<list.length; i++) {
           if (!list[i].directory) {
+          var fileName = null; 
           try {
-            var fileName = list[i].name;
+            fileName = list[i].name;
+            var errorList = [];
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
@@ -88,6 +90,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
             scriptTask.mappingId = 'custimport_inventoryadjustment_hc';
             scriptTask.importFile = downloadedFile;
             scriptTask.name = 'Inventory Adjustment' + '-' + fileName;
+
             var csvImportTaskId = scriptTask.submit();
             
             var taskStatus = task.checkStatus(csvImportTaskId);
@@ -97,7 +100,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
               connection.move({
                 from: '/csv/'+fileName,
                 to: '/archive/'+fileName
-              })
+              });
               log.debug('File moved!');
             }
           } catch (e) {
@@ -105,6 +108,31 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search'], function (sftp, task, error,
                 title: 'Error in processing inventory cycle count csv files',
                 details: e,
               });
+              var errorInfo = fileName + ',' + e.message + '\n';
+              errorList.push(errorInfo);
+              if (errorList.length !== 0) {
+                var fileLines = 'fileName,errorMessage\n';
+                fileLines = fileLines + errorList;
+          
+                var date = new Date();
+                var errorFileName = date + '-ErrorInventoryAdjustment.csv';
+                var fileObj = file.create({
+                  name: errorFileName,
+                  fileType: file.Type.CSV,
+                  contents: fileLines
+                });
+      
+                connection.upload({
+                  directory: '/error/',
+                  file: fileObj
+                });
+      
+                // Move the file to failed dir
+                connection.move({
+                  from: '/csv/'+fileName,
+                  to: '/failed/'+fileName
+                });
+              }
           }
           }
         }
