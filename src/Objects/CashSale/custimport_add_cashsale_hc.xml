@@ -41,7 +41,7 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
-          <field>[scriptid=custbody_hc_shopify_pos_number]</field>
+          <field>[scriptid=custbody_hc_shopify_order_id]</field>
           <columnreference>
             <column>HC Shopify POS Order Id</column>
             <file>CASHSALE</file>
