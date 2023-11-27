@@ -100,7 +100,6 @@
         <path>~/Objects/DiscountItem/customsearch_hc_export_discount_items.xml</path>
         <path>~/Objects/DiscountItem/customsearch_hc_export_inactive_discount.xml</path>
         <path>~/Objects/PurchaseOrder/customsearch_open_purchaserorder.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_export_salesorder_for_cd.xml</path>
         <path>~/Objects/SalesOrder/customsearch_export_so_for_invoice.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorder_item.xml</path>
