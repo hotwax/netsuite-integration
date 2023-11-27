@@ -1,0 +1,14 @@
+<entitycustomfield scriptid="custentity_hc_shop_cust_id">
+  <accesslevel>2</accesslevel>
+  <appliestocustomer>T</appliestocustomer>
+  <displaytype>NORMAL</displaytype>
+  <encryptatrest>F</encryptatrest>
+  <fieldtype>TEXT</fieldtype>
+  <globalsearch>F</globalsearch>
+  <isformula>F</isformula>
+  <ismandatory>F</ismandatory>
+  <isparent>F</isparent>
+  <label>HC Shopify Customer Id</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</entitycustomfield>

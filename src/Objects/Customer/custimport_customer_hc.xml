@@ -42,6 +42,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>[scriptid=custentity_hc_shop_cust_id]</field>
+          <columnreference>
+            <column>HC Shopify Customer Id</column>
+            <file>CUSTOMER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>ENTITYSTATUS</field>
           <columnreference>
             <column>Status</column>

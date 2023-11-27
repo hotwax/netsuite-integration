@@ -1,0 +1,14 @@
+<transactionbodycustomfield scriptid="custbody_hc_shopify_pos_number">
+  <accesslevel>2</accesslevel>
+  <bodydeposit>T</bodydeposit>
+  <bodyitemfulfillment>T</bodyitemfulfillment>
+  <bodyjournal>T</bodyjournal>
+  <bodysale>T</bodysale>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>TEXT</fieldtype>
+  <globalsearch>T</globalsearch>
+  <label>HC Shopify POS Order Id</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+  <subtab>TRANSACTIONMAIN</subtab>
+</transactionbodycustomfield>
