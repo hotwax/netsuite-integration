@@ -73,7 +73,16 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var destinationLocationId = contextValues.values.transferlocation.value;
             var trackingNumber = contextValues.values.trackingnumbers;
             var transferOrderNumber = contextValues.values.formulatext;
-            var transferOrderNumberAttr = 'EXTERNAL_ORDER_ID:' + transferOrderNumber; 
+            var transferOrderNumberAttr = 'EXTERNAL_ORDER_ID:' + transferOrderNumber;
+            if (internalid) {
+                var id = record.submitFields({
+                    type: record.Type.TRANSFER_ORDER,
+                    id: internalid,
+                    values: {
+                        custbody_hc_order_exported: true
+                    }
+                }); 
+            } 
 
             var transferorderdata = {
                 'externalId': internalid,
