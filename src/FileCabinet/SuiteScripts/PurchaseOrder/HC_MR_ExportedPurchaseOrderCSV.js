@@ -72,6 +72,16 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var locationInternalId = contextValues.values.location.value;
             var arrivalDate = contextValues.values.formulatext;
 
+            if (internalid) {
+                var id = record.submitFields({
+                    type: record.Type.PURCHASE_ORDER,
+                    id: internalid,
+                    values: {
+                        custbody_hc_order_exported: true
+                    }
+                }); 
+            }
+
             var podata = {
                 'externalId': internalid,
                 'productSku': productSku,
