@@ -66,6 +66,22 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>EMAIL</field>
+          <columnreference>
+            <column>Email</column>
+            <file>CUSTOMER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>PHONE</field>
+          <columnreference>
+            <column>Phone</column>
+            <file>CUSTOMER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>FIRSTNAME</field>
           <columnreference>
             <column>First Name</column>

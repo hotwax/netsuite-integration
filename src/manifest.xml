@@ -16,6 +16,7 @@
       <feature required="false">OPPORTUNITIES</feature>
       <feature required="true">SALESORDERS</feature>
       <feature required="true">ACCOUNTING</feature>
+      <feature required="false">MULTILOCINVT</feature>
     </features>
   </dependencies>
 </manifest>

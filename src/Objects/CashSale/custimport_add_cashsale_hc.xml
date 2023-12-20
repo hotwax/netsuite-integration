@@ -97,6 +97,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>MEMO</field>
+          <columnreference>
+            <column>Order Note</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>TRANDATE</field>
           <columnreference>
             <column>Date</column>
