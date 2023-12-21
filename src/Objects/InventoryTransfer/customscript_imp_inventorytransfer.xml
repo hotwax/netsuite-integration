@@ -5,7 +5,7 @@
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/InventoryAdjustment/HC_SC_ImportInventoryTransfer.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/InventoryTransfer/HC_SC_ImportInventoryTransfer.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy1">
       <isdeployed>T</isdeployed>
