@@ -113,6 +113,9 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'salesorder/export/failed'
         });
+        connection.makeDirectory({
+            path: 'salesorder/export/required_fields_missing'
+        });
 
         connection.makeDirectory({
             path: 'salesorder/import'
@@ -199,6 +202,9 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'customer/export/failed'
         });
+        connection.makeDirectory({
+            path: 'customer/export/required_fields_missing'
+        });
 
         connection.makeDirectory({
             path: 'historicalshopifycustomer'
@@ -224,6 +230,9 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         connection.makeDirectory({
             path: 'cashsale/export/failed'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/export/required_fields_missing'
         });
 
         connection.makeDirectory({
@@ -253,6 +262,9 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         connection.makeDirectory({
             path: 'inventoryadjustment/failed'
+        });
+        connection.makeDirectory({
+            path: 'inventoryadjustment/required_fields_missing'
         });
 
         connection.makeDirectory({
@@ -292,6 +304,25 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         connection.makeDirectory({
             path: 'purchaseorder/receipt/error'
+        });
+
+        connection.makeDirectory({
+            path: 'inventorytransfer'
+        });
+        connection.makeDirectory({
+            path: 'inventorytransfer/csv'
+        });
+        connection.makeDirectory({
+            path: 'inventorytransfer/archive'
+        });
+        connection.makeDirectory({
+            path: 'inventorytransfer/error'
+        });
+        connection.makeDirectory({
+            path: 'inventorytransfer/failed'
+        });
+        connection.makeDirectory({
+            path: 'inventorytransfer/required_fields_missing'
         });
         
       } catch (e) {
