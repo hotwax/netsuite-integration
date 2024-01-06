@@ -72,5 +72,12 @@
       <label>Cash Sale Export Date</label>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_rej_so_item_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Rejected Sales Order Item Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
   </customrecordcustomfields>
 </customrecordtype>

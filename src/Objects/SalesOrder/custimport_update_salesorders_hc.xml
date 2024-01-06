@@ -46,6 +46,14 @@
       <record>SALESORDER:ITEM</record>
       <fieldmappings>
         <fieldmapping>
+          <field>[scriptid=custcol_hc_order_item_rejected]</field>
+          <columnreference>
+            <column>Rejected</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>ISCLOSED</field>
           <columnreference>
             <column>Closed</column>
