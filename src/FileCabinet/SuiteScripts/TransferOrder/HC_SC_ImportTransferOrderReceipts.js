@@ -91,64 +91,91 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
 
                 try {
                   if (orderId) {
-                    // Initilize ItemReceipt Object from TransferOrder
-                    var itemReceiptRecord = record.transform({
-                      fromType: record.Type.TRANSFER_ORDER,
-                      fromId: orderId,
-                      toType: record.Type.ITEM_RECEIPT,
+                    //Load sales order object
+                    var transferOrderRecord = record.load({
+                      type: record.Type.TRANSFER_ORDER, 
+                      id: orderId,
                       isDynamic: false
                     });
-
-                    for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
-                      /* Note:
-                        1) OrderLine is key field to create ItemReceipt.
-                        2) It field is used for transforms, because it implies a link between the previous transaction and the current one.
-                        3) To add an item receipt from a transfer order, the transfer order lines would be "orderLines", because the receipt has not been saved.
-                        4) We will add +2 increment for each transfer order line value while setting up it in ItemReceipt.
-                         because Netsuite reserve +1 value of line value for ItemFulfillment record.
-                         For Example: If transfer order contains 2 items, so order line values will be like
-                         For first Item 1 for transfer order, 2 for ItemFulfillment, 3 for ItemReceipt
-                         For second Item, 4 for transfer order, 5 for ItemFulfillment, 6 for ItemReceipt.
-                      */
-                      var lineId = Number(itemList[itemIndex].line_id) + 2;
-                      lineId = lineId.toString();
-
-                      var quantity = itemList[itemIndex].quantity;
-                      var lineCnt = itemReceiptRecord.getLineCount({sublistId: 'item'});
-                      var lineSeq = null;
-                      for (var j = 0; j < lineCnt; j++) {
-                        var orderline = itemReceiptRecord.getSublistValue({
-                          sublistId: 'item',
-                          fieldId: 'orderline',
-                          line: j
+                    var fulfillmentCount = transferOrderRecord.getLineCount({ sublistId: 'links' });
+                    // Loop through each fulfillment and retrieve its ID
+                    for (var linkIndex = 0; linkIndex < fulfillmentCount; linkIndex++) {
+                      var linkType = transferOrderRecord.getSublistValue({
+                        sublistId: 'links',
+                        fieldId: 'type',
+                        line: linkIndex
+                      });
+                      if (linkType === 'Item Fulfillment') {
+                        var fulfillmentId = transferOrderRecord.getSublistValue({
+                          sublistId: 'links',
+                          fieldId: 'id',
+                          line: linkIndex
                         });
-                        if (orderline === lineId) {
-                          lineSeq = j;
-                          break;
+
+                        // Initilize ItemReceipt Object from TransferOrder
+                        var itemReceiptRecord = record.transform({
+                          fromType: record.Type.TRANSFER_ORDER,
+                          fromId: orderId,
+                          toType: record.Type.ITEM_RECEIPT,
+                          defaultValues: {
+                            itemfulfillment: fulfillmentId
+                          }
+                        });
+                        // set memo
+                        itemReceiptRecord.setValue({
+                          fieldId: 'memo',
+                          value: 'Item Receipt created by HotWax'
+                        });
+
+                        for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
+                          /* Note:
+                            1) OrderLine is key field to create ItemReceipt.
+                            2) It field is used for transforms, because it implies a link between the previous transaction and the current one.
+                            3) To add an item receipt from a transfer order, the transfer order lines would be "orderLines", because the receipt has not been saved.
+                            4) We will add +2 increment for each transfer order line value while setting up it in ItemReceipt.
+                             because Netsuite reserve +1 value of line value for ItemFulfillment record.
+                             For Example: If transfer order contains 2 items, so order line values will be like
+                             For first Item 1 for transfer order, 2 for ItemFulfillment, 3 for ItemReceipt
+                             For second Item, 4 for transfer order, 5 for ItemFulfillment, 6 for ItemReceipt.
+                          */
+                          var lineId = Number(itemList[itemIndex].line_id) + 2;
+                          lineId = lineId.toString();
+    
+                          var quantity = itemList[itemIndex].quantity;
+                          var lineCnt = itemReceiptRecord.getLineCount({sublistId: 'item'});
+                          for (var j = 0; j < lineCnt; j++) {
+                            var orderline = itemReceiptRecord.getSublistValue({
+                              sublistId: 'item',
+                              fieldId: 'orderline',
+                              line: j
+                            });
+                            if (orderline && orderline === lineId) {
+                              // set received qty
+                              if (quantity > 0) {
+                                itemReceiptRecord.setSublistValue({
+                                  sublistId: 'item',
+                                  fieldId: 'quantity',
+                                  line: j,
+                                  value: quantity
+                                });
+                              } else {
+                                itemReceiptRecord.setSublistValue({
+                                  sublistId: 'item',
+                                  fieldId: 'itemreceive',
+                                  line: j,
+                                  value: false
+                                });
+                              }
+                            }
+                          }
                         }
-                      }
-                      // set received qty
-                      if (quantity > 0) {
-                        itemReceiptRecord.setSublistValue({
-                          sublistId: 'item',
-                          fieldId: 'quantity',
-                          line: lineSeq,
-                          value: quantity
+                        // save the itemreceipt object
+                        var itemId = itemReceiptRecord.save({
+                          enableSourceing: true
                         });
-                      } else {
-                        itemReceiptRecord.setSublistValue({
-                          sublistId: 'item',
-                          fieldId: 'itemreceive',
-                          line: lineSeq,
-                          value: false
-                        });
+                        log.debug("Item receipt is created for transfer order with Item Id " + itemId);                        
                       }
                     }
-                    // save the itemreceipt object
-                    var itemId = itemReceiptRecord.save({
-                      enableSourceing: true
-                    });
-                    log.debug("Item receipt is created for transfer order with Item Id " + itemId);
                   }
                 } catch(e) {
                   log.error({

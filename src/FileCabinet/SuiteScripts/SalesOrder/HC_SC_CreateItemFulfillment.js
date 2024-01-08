@@ -181,7 +181,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                         // set memo
                                         itemFulfillmentRecord.setValue({
                                             fieldId: 'memo',
-                                            value: 'Item Fulfillment is created by HotWax'
+                                            value: 'Item Fulfillment created by HotWax'
                                         });
 
                                         for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
