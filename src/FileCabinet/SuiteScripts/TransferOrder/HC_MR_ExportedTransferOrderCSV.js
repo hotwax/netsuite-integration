@@ -72,6 +72,9 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var locationInternalId = contextValues.values.location.value;
             var destinationLocationId = contextValues.values.transferlocation.value;
             var trackingNumber = contextValues.values.trackingnumbers;
+            if (trackingNumber && trackingNumber.includes("<BR>")) {
+                trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
+            }
             var transferOrderNumber = contextValues.values.formulatext;
             var transferOrderNumberAttr = 'EXTERNAL_ORDER_ID:' + transferOrderNumber;
             if (internalid) {
