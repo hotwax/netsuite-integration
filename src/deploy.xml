@@ -29,6 +29,7 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateItemFulfillment.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateSalesOrderInvoice.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedRejectedSalesOrderItemCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_UpdateSalesOrders.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SFTP/HC_SC_CreateSFTPDirectory.js</path>
@@ -49,6 +50,7 @@
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_shopify_order_id.xml</path>
+        <path>~/Objects/SalesOrder/custcol_hc_order_item_rejected.xml</path>
         <path>~/Objects/Customer/custentity_hc_shop_cust_id.xml</path>
         <path>~/Objects/TransferOrder/custbody_hc_order_exported.xml</path>
 
@@ -91,6 +93,7 @@
         <path>~/Objects/SalesOrder/customscript_export_so_fulfillment.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_invoice.xml</path>
         <path>~/Objects/SalesOrder/customscript_create_itemfulfillment.xml</path>
+        <path>~/Objects/SalesOrder/customscript_export_rejected_so_items.xml</path>
 
         <path>~/Objects/SFTP/customscript_create_sftpdirectory.xml</path>
 
@@ -110,6 +113,7 @@
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorder_item.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_so_fulfillment.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_hc_exp_rejected_items.xml</path>
         <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
         <path>~/Objects/TransferOrder/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
