@@ -117,7 +117,7 @@
           <columnreference>
             <column>Shipping Method</column>
             <file>SALESORDER</file>
-            <type>NAME</type>
+            <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
         <fieldmapping>
