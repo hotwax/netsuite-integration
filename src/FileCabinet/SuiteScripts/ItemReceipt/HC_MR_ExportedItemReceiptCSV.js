@@ -52,7 +52,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             // Push the customFilters into defaultFilters.
 
             defaultFilters.push(search.createFilter({
-                name: "lastmodifieddate",
+                name: "datecreated",
                 operator: search.Operator.WITHIN,
                 values: lastExportDateString, dateStringWithoutSeconds
             }));
@@ -70,6 +70,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var lineId = contextValues.values.line;
             var quantity = contextValues.values.quantity;
             var locationInternalId = contextValues.values.location.value;
+            var comments = "Inventory Adjusted from ItemReceipt # " + internalid + " in NetSuite ";
             
             if (internalid) {
                 var id = record.submitFields({
@@ -86,7 +87,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 'idValue': productSku,
                 'idType': "NETSUITE_PRODUCT_ID",
                 'availableDelta': quantity,
-                'comments': "Inventory Adjusted from ItemReceipt NetSuite"
+                'comments': comments
             };
             
             mapContext.write({

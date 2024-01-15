@@ -10,4 +10,5 @@
   <label>HC Item Receipt Exported</label>
   <searchlevel>2</searchlevel>
   <storevalue>T</storevalue>
+  <subtab>TRANSACTIONITEMS</subtab>
 </transactionbodycustomfield>
