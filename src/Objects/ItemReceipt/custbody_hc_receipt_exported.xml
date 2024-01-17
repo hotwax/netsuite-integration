@@ -1,0 +1,14 @@
+<transactionbodycustomfield scriptid="custbody_hc_receipt_exported">
+  <accesslevel>2</accesslevel>
+  <bodyitemreceipt>T</bodyitemreceipt>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>CHECKBOX</fieldtype>
+  <globalsearch>F</globalsearch>
+  <isformula>F</isformula>
+  <ismandatory>F</ismandatory>
+  <isparent>F</isparent>
+  <label>HC Item Receipt Exported</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+  <subtab>TRANSACTIONITEMS</subtab>
+</transactionbodycustomfield>
