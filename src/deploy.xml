@@ -40,7 +40,9 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderReceipts.js</path>
 
-        <path>~/FileCabinet/SuiteScripts/ItemReceipt/HC_MR_ExportedItemReceiptCSV.js</path> 
+        <path>~/FileCabinet/SuiteScripts/ItemReceipt/HC_MR_ExportedItemReceiptCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_GenerateHistoricalCustomerCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_UploadHistoricalCustomerCSV.js</path> 
     </files>
     <objects>
         <!--Custom Record-->
@@ -108,6 +110,10 @@
 
         <path>~/Objects/ItemReceipt/customscript_export_itemreceipt.xml</path>
 
+        <path>~/Objects/Customer/customscript_generate_hist_shop_customer.xml</path>
+        <path>~/Objects/Customer/customscript_upload_hist_shop_customer.xml</path>
+
+
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
@@ -123,6 +129,7 @@
         <path>~/Objects/TransferOrder/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
         <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
+        <path>~/Objects/Customer/customsearch_hc_exp_historical_customer.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
