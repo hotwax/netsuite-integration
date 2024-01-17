@@ -129,7 +129,6 @@
         <path>~/Objects/TransferOrder/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
         <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
-        <path>~/Objects/Customer/customsearch_hc_exp_historical_customer.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
