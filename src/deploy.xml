@@ -128,7 +128,6 @@
         <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
         <path>~/Objects/TransferOrder/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
-        <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
