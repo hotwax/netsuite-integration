@@ -71,6 +71,9 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var shippedDate = contextValues.values.lastmodifieddate;
             var quantity = contextValues.values.quantity;
             var trackingNumber = contextValues.values.trackingnumbers;
+            if (trackingNumber && trackingNumber.includes("<BR>")) {
+                trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
+            }
             var shippingCarrier = contextValues.values.shipcarrier.text;
 
             var shipmentData = {
