@@ -18,10 +18,10 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             
             var dateStringWithoutSeconds = datePart + ' ' + timeWithoutSeconds + ' ' + ampmPart;
             
-            // get last sales order fulfillment export runtime
+            // get last item receipt export runtime
             var customRecordSearch = search.create({
                 type: 'customrecord_hc_last_runtime_export',
-                columns: ['custrecord_so_fulfillment_ex_date']
+                columns: ['custrecord_item_receipt_ex_date']
             });
       
             var searchResults = customRecordSearch.run().getRange({
@@ -31,7 +31,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
               
             var searchResult = searchResults[0];
             var lastExportDate = searchResult.getValue({
-                name: 'custrecord_so_fulfillment_ex_date'
+                name: 'custrecord_item_receipt_ex_date'
             });
 
             var lastExportDateParts = lastExportDate.split(' ');
@@ -44,66 +44,69 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             
             var lastExportDateString = lastExportDatePart + ' ' + lastExportTimeWithoutSeconds + ' ' + ampmExportPart;
             
-            // Get sales order fulfillment search query
-            var salesOrderFulfillmentSearch = search.load({ id: 'customsearch_hc_export_so_fulfillment' });
+            // Get item receipt search query
+            var itemReceiptSearch = search.load({ id: 'customsearch_hc_export_wh_item_receipt' });
             
-            var defaultFilters = salesOrderFulfillmentSearch.filters;
+            var defaultFilters = itemReceiptSearch.filters;
 
             // Push the customFilters into defaultFilters.
 
             defaultFilters.push(search.createFilter({
-                name: "lastmodifieddate",
+                name: "datecreated",
                 operator: search.Operator.WITHIN,
                 values: lastExportDateString, dateStringWithoutSeconds
             }));
             // Copy the modified defaultFilters
-            salesOrderFulfillmentSearch.filters = defaultFilters;
+            itemReceiptSearch.filters = defaultFilters;
             
-            return salesOrderFulfillmentSearch;
+            return itemReceiptSearch;
         }        
 
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var orderId = contextValues.values.formulatext;
-            var orderItemSeqId = contextValues.values.custcol_hc_order_line_id;
-            var externalFacilityId = contextValues.values.location.value;
-            var shippedDate = contextValues.values.lastmodifieddate;
+            var internalid = contextValues.values.internalid.value;
+            var productSku = contextValues.values.item.value;
+            var lineId = contextValues.values.line;
             var quantity = contextValues.values.quantity;
-            var trackingNumber = contextValues.values.trackingnumbers;
-            if (trackingNumber && trackingNumber.includes("<BR>")) {
-                trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
-            }
-            var shippingCarrier = contextValues.values.shipcarrier.text;
+            var locationInternalId = contextValues.values.location.value;
+            var comments = "Inventory Adjusted from ItemReceipt # " + internalid + " in NetSuite ";
+            
+            if (internalid) {
+                var id = record.submitFields({
+                    type: record.Type.ITEM_RECEIPT,
+                    id: internalid,
+                    values: {
+                        custbody_hc_receipt_exported: true
+                    }
+                }); 
+            } 
 
-            var shipmentData = {
-                'orderId': orderId,
-                'orderItemSeqId': orderItemSeqId,
-                'externalFacilityId': externalFacilityId,
-                'shippedDate': shippedDate,
-                'quantity': quantity,
-                'trackingNumber' : trackingNumber,
-                'shippingCarrier': shippingCarrier
+            var itemReceiptData = {
+                'externalFacilityId': locationInternalId,
+                'idValue': productSku,
+                'idType': "NETSUITE_PRODUCT_ID",
+                'availableDelta': quantity,
+                'comments': comments
             };
             
             mapContext.write({
-                key: contextValues.id + orderItemSeqId,
-                value: shipmentData
+                key: contextValues.id + lineId,
+                value: itemReceiptData
             });
         }
         
         const reduce = (reduceContext) => {
             var contextValues = JSON.parse(reduceContext.values);
-            var shipmentId = reduceContext.key; 
+            var keyId = reduceContext.key; 
 
-            var content = contextValues.orderId + ',' + contextValues.orderItemSeqId + ',' + contextValues.externalFacilityId + ',' + contextValues.shippedDate + ',' + contextValues.quantity + ',' + contextValues.trackingNumber + ',' + contextValues.shippingCarrier + '\n';
- 
-            reduceContext.write(shipmentId, content);
+            var content = contextValues.externalFacilityId + ',' + contextValues.idValue + ',' + contextValues.idType + ',' + contextValues.availableDelta + ',' + contextValues.comments + '\n';
+                reduceContext.write(keyId, content);
         }
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'orderId,orderItemSeqId,externalFacilityId,shippedDate,quantity,trackingNumber,carrier\n';
+                var fileLines = 'externalFacilityId,idValue,idType,availableDelta,comments\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
@@ -114,18 +117,12 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 log.debug("====totalRecordsExported=="+totalRecordsExported);
                 if (totalRecordsExported > 0) {
 
-                    var fileName =  summaryContext.dateCreated + '-SalesOrderFulfillment.csv';
+                    var fileName =  summaryContext.dateCreated + '-ItemReceipt.csv';
                     var fileObj = file.create({
                         name: fileName,
                         fileType: file.Type.CSV,
                         contents: fileLines
                     });
-
-                    // Establish a connection to a remote FTP server
-                    /* The host key can be obtained using OpenSSH's ssh-keyscan tool:
-                    ssh-keyscan -t <hostKeyType> -p <port> <hostDomain>
-                    Example: ssh-keyscan -t ECDSA -p 235 hc-uat.hotwax.io 
-                    */
 
                     //Get Custom Record Type SFTP details
                     var customRecordSFTPSearch = search.create({
@@ -171,7 +168,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         name: 'custrecord_ns_sftp_default_file_dir'
                     });
 
-                    sftpDirectory = sftpDirectory + 'salesorder';
+                    sftpDirectory = sftpDirectory + 'itemreceipt';
                     sftpPort = parseInt(sftpPort);
         
                     var connection = sftp.createConnection({
@@ -191,10 +188,10 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         });
                     }
                     connection.upload({
-                        directory: '/import/fulfillment-nifi/',
+                        directory: '/csv/',
                         file: fileObj
                     });
-                    log.debug("Sales Order Fulfillment CSV File Uploaded Successfully to SFTP server with file" + fileName);
+                    log.debug("Item Receipt File Uploaded Successfully to SFTP server with file" + fileName);
                     
             
                     var currentDate = format.format({value : summaryContext.dateCreated, type: format.Type.DATETIME});
@@ -214,22 +211,22 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         name: 'internalid'
                     });
 
-                    // save last sales order fulfillment export date
+                    // Save Last Item Receipt Export Date
                     record.submitFields({
                         type: 'customrecord_hc_last_runtime_export',
                         id: lastRuntimeExportInternalId,
                         values: {
-                            custrecord_so_fulfillment_ex_date : currentDate
+                            custrecord_item_receipt_ex_date : currentDate
                         }
                     });
                 }
             } catch (e) {
                 log.error({
-                title: 'Error in exporting and uploading sales order fulfillment csv files',
+                title: 'Error in exporting and uploading item receipt csv files',
                 details: e,
                 });
                 throw error.create({
-                name:"Error in exporting and uploading sales order fulfillment csv files",
+                name:"Error in exporting and uploading item receipt csv files",
                 message: e
                 });
             }            

@@ -1,0 +1,24 @@
+<scheduledscript scriptid="customscript_upload_hist_shop_customer">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_UploadHistoricalCustomerCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/Customer/HC_SC_UploadHistoricalCustomerCSV.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_upload_hist_shop_customer">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>TESTING</status>
+      <title>HC_SC_UploadHistoricalCustomerCSV</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2022-05-25</startdate>
+          <starttime>23:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
