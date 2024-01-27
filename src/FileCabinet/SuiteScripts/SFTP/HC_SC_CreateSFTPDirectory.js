@@ -173,6 +173,13 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
+            path: 'salesorder/giftcard-fulfillment'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/giftcard-fulfillment/archive'
+        });
+
+        connection.makeDirectory({
             path: 'discountitem'
         });
         connection.makeDirectory({
