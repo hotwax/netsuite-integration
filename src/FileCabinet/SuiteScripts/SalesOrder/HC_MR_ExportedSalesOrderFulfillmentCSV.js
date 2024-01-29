@@ -75,6 +75,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
             }
             var shippingCarrier = contextValues.values.shipcarrier.text;
+            var shippingMethod = contextValues.values.shipmethod.text;
 
             var shipmentData = {
                 'orderId': orderId,
@@ -83,7 +84,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 'shippedDate': shippedDate,
                 'quantity': quantity,
                 'trackingNumber' : trackingNumber,
-                'shippingCarrier': shippingCarrier
+                'shippingCarrier': shippingCarrier,
+                'shippingMethod' : shippingMethod
             };
             
             mapContext.write({
@@ -96,14 +98,14 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var contextValues = JSON.parse(reduceContext.values);
             var shipmentId = reduceContext.key; 
 
-            var content = contextValues.orderId + ',' + contextValues.orderItemSeqId + ',' + contextValues.externalFacilityId + ',' + contextValues.shippedDate + ',' + contextValues.quantity + ',' + contextValues.trackingNumber + ',' + contextValues.shippingCarrier + '\n';
+            var content = contextValues.orderId + ',' + contextValues.orderItemSeqId + ',' + contextValues.externalFacilityId + ',' + contextValues.shippedDate + ',' + contextValues.quantity + ',' + contextValues.trackingNumber + ',' + contextValues.shippingCarrier + ',' + contextValues.shippingMethod + '\n';
  
             reduceContext.write(shipmentId, content);
         }
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'orderId,orderItemSeqId,externalFacilityId,shippedDate,quantity,trackingNumber,carrier\n';
+                var fileLines = 'orderId,orderItemSeqId,externalFacilityId,shippedDate,quantity,trackingNumber,carrier,shippingMethod\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
