@@ -1,0 +1,11 @@
+<transactioncolumncustomfield scriptid="custcol_hc_orderline_type_id">
+  <accesslevel>2</accesslevel>
+  <colitemfulfillment>T</colitemfulfillment>
+  <colsale>T</colsale>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>TEXT</fieldtype>
+  <ismandatory>F</ismandatory>
+  <label>External Order Line Type Id</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactioncolumncustomfield>
