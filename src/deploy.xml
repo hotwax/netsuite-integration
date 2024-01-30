@@ -47,6 +47,7 @@
     <objects>
         <!--Custom Record-->
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
+        <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path>
 
         <!-- Custom Fields-->
         <path>~/Objects/InventoryAdjustment/custbody_hc_inventory_adj_number.xml</path>
