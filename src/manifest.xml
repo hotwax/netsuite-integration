@@ -17,6 +17,7 @@
       <feature required="true">SALESORDERS</feature>
       <feature required="true">ACCOUNTING</feature>
       <feature required="true">MULTILOCINVT</feature>
+      <feature required="false">ADVRECEIVING</feature>
     </features>
   </dependencies>
 </manifest>
