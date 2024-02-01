@@ -69,11 +69,18 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var externalId = contextValues.values.externalid.value;
             var externalOrderLineId = contextValues.values.custcol_hc_order_line_id;
             var lineId = contextValues.values.line;
+            var externalOrderLineTypeId = contextValues.values.custcol_hc_orderline_type_id;
+            var attrName = null;
+            if (externalOrderLineTypeId && externalOrderLineTypeId.includes('HC_DISCOUNT_') ) {
+                attrName = "NetsuiteDiscountItemLineId";
+            } else {
+                attrName = "NetsuiteItemLineId"; 
+            }
 
             var salesdata = {
                 'orderId': externalId,
                 'orderItemSeqId': externalOrderLineId,
-                'attrName': "NetsuiteItemLineId",
+                'attrName': attrName,
                 'attrValue': lineId
             };
             mapContext.write({

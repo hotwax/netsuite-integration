@@ -47,12 +47,14 @@
     <objects>
         <!--Custom Record-->
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
+        <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path>
 
         <!-- Custom Fields-->
         <path>~/Objects/InventoryAdjustment/custbody_hc_inventory_adj_number.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
+        <path>~/Objects/SalesOrder/custcol_hc_orderline_type_id.xml</path> 
         <path>~/Objects/SalesOrder/custbody_hc_shopify_order_id.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_item_rejected.xml</path>
         <path>~/Objects/Customer/custentity_hc_shop_cust_id.xml</path>
