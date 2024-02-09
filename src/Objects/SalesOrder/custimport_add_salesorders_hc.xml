@@ -1,5 +1,5 @@
 <savedcsvimport scriptid="custimport_add_salesorders_hc">
-  <charencoding>windows-1252</charencoding>
+  <charencoding>UTF_8</charencoding>
   <columndelimiter>COMMA</columndelimiter>
   <datahandling>ADD</datahandling>
   <decimaldelimiter>PERIOD</decimaldelimiter>
