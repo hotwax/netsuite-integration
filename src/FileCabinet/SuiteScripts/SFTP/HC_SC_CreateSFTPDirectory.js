@@ -348,6 +348,16 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'itemreceipt/csv/archive'
         });
+
+        connection.makeDirectory({
+            path: 'salesorder_audit_report'
+        });
+        connection.makeDirectory({
+            path: 'salesorder_audit_report/csv'
+        });
+        connection.makeDirectory({
+            path: 'salesorder_audit_report/csv/archive'
+        });
         
       } catch (e) {
         log.error({

@@ -1,0 +1,9 @@
+<transactionbodycustomfield scriptid="custbody_hc_fulfillment_exported">
+  <accesslevel>2</accesslevel>
+  <bodyitemfulfillment>T</bodyitemfulfillment>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>CHECKBOX</fieldtype>
+  <label>HC Item Fulfillment Exported</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactionbodycustomfield>

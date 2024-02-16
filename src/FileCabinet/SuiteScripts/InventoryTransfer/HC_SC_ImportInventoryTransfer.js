@@ -102,7 +102,10 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, ta
                 title: 'Error in processing inventory transfer csv files',
                 details: e,
               });
-              var errorInfo = fileName + ',' + e.message + '\n';
+              var errMessage = e.message;
+              errMessage = errMessage.replaceAll(',', '');
+              errMessage = errMessage.replaceAll('\n', '\n,');
+              var errorInfo = fileName + ',' + errMessage + '\n';
               errorList.push(errorInfo);
               if (errorList.length !== 0) {
                 var fileLines = 'fileName,errorMessage\n';
