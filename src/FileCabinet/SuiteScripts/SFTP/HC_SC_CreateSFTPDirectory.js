@@ -73,6 +73,13 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
+            path: 'transferorder/csv'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/csv/archive'
+        });
+
+        connection.makeDirectory({
             path: 'transferorder/fulfillment-nifi'
         });
         connection.makeDirectory({

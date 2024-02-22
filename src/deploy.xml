@@ -3,6 +3,7 @@
         <path>~/AccountConfiguration/*</path>
     </configuration>
     <files>
+        <!--SuiteScript Files-->
         <path>~/FileCabinet/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/CashSale/HC_SC_ImportCashSale.js</path>
         
@@ -45,7 +46,9 @@
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_UploadHistoricalCustomerCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_GenerateSOAuditReports.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_UploadSOAuditReports.js</path> 
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_UploadSOAuditReports.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedStoreTransferOrderCSV.js</path> 
     </files>
     <objects>
         <!--Custom Record-->
@@ -122,6 +125,8 @@
         <path>~/Objects/SalesOrder/customscript_generate_so_report.xml</path>
         <path>~/Objects/SalesOrder/customscript_upload_so_report.xml</path>
 
+        <path>~/Objects/TransferOrder/customscript_exp_store_transfer_odr.xml</path>
+
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
@@ -138,6 +143,7 @@
         <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
 
         <path>~/Objects/SalesOrder/customsearch_hc_exp_so_audit.xml</path>
+        <path>~/Objects/TransferOrder/customsearch_hc_exp_store_transfer_order.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>

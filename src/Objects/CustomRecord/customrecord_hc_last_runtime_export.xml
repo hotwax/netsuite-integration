@@ -100,5 +100,12 @@
       <label>Transfer Order Store Fulfillment Export Date</label>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_store_transfer_order_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Store Transfer Order Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
   </customrecordcustomfields>
 </customrecordtype>
