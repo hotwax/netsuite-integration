@@ -76,6 +76,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             }
             var shippingCarrier = contextValues.values.shipcarrier.text;
             var shippingMethod = contextValues.values.shipmethod.text;
+            var shippingMethodId = contextValues.values.shipmethod.value; 
 
             var shipmentData = {
                 'orderId': orderId,
@@ -85,7 +86,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 'quantity': quantity,
                 'trackingNumber' : trackingNumber,
                 'shippingCarrier': shippingCarrier,
-                'shippingMethod' : shippingMethod
+                'shippingMethod' : shippingMethod,
+                'shippingMethodId': shippingMethodId
             };
             
             mapContext.write({
@@ -98,14 +100,14 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var contextValues = JSON.parse(reduceContext.values);
             var shipmentId = reduceContext.key; 
 
-            var content = contextValues.orderId + ',' + contextValues.orderItemSeqId + ',' + contextValues.externalFacilityId + ',' + contextValues.shippedDate + ',' + contextValues.quantity + ',' + contextValues.trackingNumber + ',' + contextValues.shippingCarrier + ',' + contextValues.shippingMethod + '\n';
+            var content = contextValues.orderId + ',' + contextValues.orderItemSeqId + ',' + contextValues.externalFacilityId + ',' + contextValues.shippedDate + ',' + contextValues.quantity + ',' + contextValues.trackingNumber + ',' + contextValues.shippingCarrier + ',' + contextValues.shippingMethod + ',' + contextValues.shippingMethodId + '\n';
  
             reduceContext.write(shipmentId, content);
         }
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'orderId,orderItemSeqId,externalFacilityId,shippedDate,quantity,trackingNumber,carrier,shippingMethod\n';
+                var fileLines = 'orderId,orderItemSeqId,externalFacilityId,shippedDate,quantity,trackingNumber,carrier,shippingMethod,shippingMethodId\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
