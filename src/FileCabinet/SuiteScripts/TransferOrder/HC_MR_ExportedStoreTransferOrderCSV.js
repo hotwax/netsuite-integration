@@ -44,7 +44,7 @@ define(['N/error', 'N/file', 'N/format', 'N/record', 'N/search', 'N/sftp'],
             var lastStoreTransferOrderExportDateString = StoreTransferOrderExportDate + " " + StoreTransferOrderExportTimeWithoutSeconds + " " + StoreTransferOrderExportAMPM;
              
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearchhc_pendingfulfilled_transfer' });
+            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_transfer_order' });
 
             var defaultFilters = StoreTransferOrderSearch.filters;
          
