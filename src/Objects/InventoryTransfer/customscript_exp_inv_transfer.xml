@@ -1,0 +1,29 @@
+<mapreducescript scriptid="customscript_exp_inv_transfer">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_ExportedInventoryTransferCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/InventoryTransfer/HC_MR_ExportedInventoryTransferCSV.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_exp_inv_transfer">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <status>SCHEDULED</status>
+      <title>HC_MR_ExportedInventoryTransferCSV</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT1H</repeat>
+          <startdate>2023-08-22</startdate>
+          <starttime>05:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>

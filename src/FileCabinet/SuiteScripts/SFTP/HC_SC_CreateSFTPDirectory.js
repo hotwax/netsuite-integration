@@ -345,6 +345,12 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'inventorytransfer/required_fields_missing'
         });
+        connection.makeDirectory({
+            path: 'inventorytransfer/import'
+        });
+        connection.makeDirectory({
+            path: 'inventorytransfer/import/archive'
+        });
 
         connection.makeDirectory({
             path: 'itemreceipt'

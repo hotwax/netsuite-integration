@@ -1,0 +1,9 @@
+<transactionbodycustomfield scriptid="custbody_hc_inventory_transfer_exp">
+  <accesslevel>2</accesslevel>
+  <bodyinventoryadjustment>T</bodyinventoryadjustment>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>CHECKBOX</fieldtype>
+  <label>HC Inventory Transfer Exported</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactionbodycustomfield>
