@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_imp_to_fulfilment_receipt">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_ImportTransferOrderFulfillmentReceipts</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderFulfillmentReceipts.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_imp_to_fulfilment_receipt">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>SCHEDULED</status>
+      <title>HC_SC_ImportTransferOrderFulfillmentReceipts</title>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT15M</repeat>
+          <startdate>2023-08-22</startdate>
+          <starttime>05:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
