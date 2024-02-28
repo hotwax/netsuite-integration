@@ -51,6 +51,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedStoreTransferOrderCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/InventoryTransfer/HC_MR_ExportedInventoryTransferCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedWHTOFulfillmentCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -131,6 +132,7 @@
         <path>~/Objects/TransferOrder/customscript_exp_store_transfer_odr.xml</path>
 
         <path>~/Objects/InventoryTransfer/customscript_exp_inv_transfer.xml</path>
+        <path>~/Objects/TransferOrder/customscript_exp_wh_to_fulfillment.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -149,6 +151,7 @@
 
         <path>~/Objects/SalesOrder/customsearch_hc_exp_so_audit.xml</path>
         <path>~/Objects/TransferOrder/customsearch_hc_exp_store_transfer_order.xml</path>
+        <path>~/Objects/TransferOrder/customsearch_hc_exp_wh_to_fulfillment.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
