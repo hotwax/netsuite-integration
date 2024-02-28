@@ -53,7 +53,7 @@
         <path>~/FileCabinet/SuiteScripts/InventoryTransfer/HC_MR_ExportedInventoryTransferCSV.js</path>
         
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedWHTOFulfillmentCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderFulfillmentReceipts.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTOFulfillmentReceipts.js</path>
     </files>
     <objects>
         <!--Custom Record-->

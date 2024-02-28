@@ -1,17 +1,17 @@
 <scheduledscript scriptid="customscript_imp_to_fulfilment_receipt">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_SC_ImportTransferOrderFulfillmentReceipts</name>
+  <name>HC_SC_ImportTOFulfillmentReceipts</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderFulfillmentReceipts.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/TransferOrder/HC_SC_ImportTOFulfillmentReceipts.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_imp_to_fulfilment_receipt">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>SCHEDULED</status>
-      <title>HC_SC_ImportTransferOrderFulfillmentReceipts</title>
+      <title>HC_SC_ImportTOFulfillmentReceipts</title>
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
