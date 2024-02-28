@@ -174,7 +174,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         });
                     }
                     connection.upload({
-                        directory: '/fulfillment-nifi/',
+                        directory: '/fulfillment/',
                         file: fileObj
                     });
                     log.debug("Transfer Order WH Fulfillment CSV Uploaded Successfully to SFTP server with file" + fileName);
