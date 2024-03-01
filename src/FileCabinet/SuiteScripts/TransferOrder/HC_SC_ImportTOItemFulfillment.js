@@ -87,6 +87,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                           
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
+                              var trackingNumber = orderDataList[dataIndex].tracking_number;
                               var itemList = orderDataList[dataIndex].items;
                               
                               try {
@@ -108,6 +109,24 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                         fieldId: 'memo',
                                         value: 'Item Fulfillment created by HotWax'
                                     });
+
+                                    if (trackingNumber) {
+                                        itemFulfillmentRecord.setSublistValue({
+                                            sublistId: 'package',
+                                            fieldId: 'packagetrackingnumber',
+                                            value: trackingNumber,
+                                            line: 0
+                                        });
+
+                                        // Set Dummy weight
+                                        itemFulfillmentRecord.setSublistValue({
+                                            sublistId: 'package',
+                                            fieldId: 'packageweight',
+                                            value: '1.3',
+                                            line: 0
+                                        });
+                                    }
+
 
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
                                         var lineId = Number(itemList[itemIndex].line_id) + 1;
@@ -159,7 +178,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                 
                               } catch (e) {
                                   log.error({
-                                      title: 'Error in creating item fulfillment records for sales order ' + orderId,
+                                      title: 'Error in creating item fulfillment records for transfer order ' + orderId,
                                       details: e,
                                   });
                                   var errorInfo = orderId + ',' + e.message + '\n';
@@ -172,7 +191,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                               fileLines = fileLines + errorList;
                               
                               var date = new Date();
-                              var errorFileName = date + '-ErrorFulfilledOrders.csv';
+                              var errorFileName = date + '-ErrorFulfilledTransferOrders.csv';
                               var fileObj = file.create({
                                   name: errorFileName,
                                   fileType: file.Type.CSV,
@@ -203,11 +222,11 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
         
       } catch (e) {
         log.error({
-          title: 'Error in creating item fulfillment for sales orders',
+          title: 'Error in creating item fulfillment for transfer orders',
           details: e,
         });
         throw error.create({
-          name: "Error in creating item fulfillment for sales orders",
+          name: "Error in creating item fulfillment for transfer orders",
           message: e
         });
       }
