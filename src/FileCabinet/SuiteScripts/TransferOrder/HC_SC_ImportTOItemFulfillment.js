@@ -110,7 +110,8 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                     });
 
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
-                                        var lineId = itemList[itemIndex].line_id;
+                                        var lineId = Number(itemList[itemIndex].line_id) + 1;
+                                        lineId = lineId.toString();
                                         var quantity = itemList[itemIndex].quantity;
                                         var tags = itemList[itemIndex].tags; 
 
