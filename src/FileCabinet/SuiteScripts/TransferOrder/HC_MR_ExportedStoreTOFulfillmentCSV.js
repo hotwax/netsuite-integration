@@ -2,80 +2,97 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  */
-define(['N/error', 'N/file', 'N/format', 'N/record', 'N/search', 'N/sftp'],
- 
-    (error, file, format, record, search, sftp) => {
-        const getInputData = (inputContext) => { 
-            // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_transfer_order' });
-            return StoreTransferOrderSearch
-        }
+define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
+    (file, record, search, sftp, format, error) => {
+        const getInputData = (inputContext) => {
+            // Get item receipt search query
+            var inventoryTransferSearch = search.load({ id: 'customsearch_hc_exp_store_to_fulfillment' });
+            return inventoryTransferSearch;
+        }        
 
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var internalid = contextValues.values.internalid.value;
-            var productSku = contextValues.values.item.value;
-            var lineId = contextValues.values.transferorderitemline;
+            var fulfillmentInternalId = contextValues.values.internalid.value;
+            var productInternalId = contextValues.values.item.value;
+            var lineId = contextValues.values.line;
             var quantity = contextValues.values.quantity;
             var locationInternalId = contextValues.values.location.value;
             var destinationLocationId = contextValues.values.transferlocation.value;
-            var date = contextValues.values.formulatext;
-            var shipcarrier = contextValues.values.shipcarrier.text;
-            var shipmethod = contextValues.values.shipmethod.text;            
-            var transferOrderNumber = contextValues.values.tranid;
-           
-            if (internalid) {
+            var trackingNumber = contextValues.values.trackingnumbers;
+            if (trackingNumber && trackingNumber.includes("<BR>")) {
+                trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
+            }
+            var transferOrderName = contextValues.values.createdfrom.text; 
+            var transferOrderId = contextValues.values.createdfrom.value;
+            var transferOrderAttr = 'EXTERNAL_ORDER_ID:' + transferOrderId + '|' + 'EXTERNAL_ORDER_NAME:' + transferOrderName;
+            
+            var orderline = null;
+            if (fulfillmentInternalId) {
+                
+                //Load sales order object
+                var fulfillmentRecord = record.load({
+                    type: record.Type.ITEM_FULFILLMENT, 
+                    id: fulfillmentInternalId,
+                    isDynamic: false
+                });
+                var lineCnt = fulfillmentRecord.getLineCount({sublistId: 'item'});
+                for (var i = 0; i < lineCnt; i++) {
+                    var fulfillmentLineId = fulfillmentRecord.getSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'line',
+                        line: i
+                    });
+                    if (fulfillmentLineId === lineId) {
+                        orderline = fulfillmentRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'orderline',
+                            line: i
+                        });
+
+                    }
+                
+                }
+                
                 var id = record.submitFields({
-                    type: record.Type.TRANSFER_ORDER,
-                    id: internalid,
+                    type: record.Type.ITEM_FULFILLMENT,
+                    id: fulfillmentInternalId,
                     values: {
-                        custbody_hc_order_exported: true
+                        custbody_hc_fulfillment_exported: true
                     }
                 }); 
-            } 
-
-            var storetransferorderdata = {
-                'externalId': internalid,
-                'productStoreId': 'STORE',
-                'statusID': 'ORDER_CREATED',
+            }
+ 
+            var transferFulfillmentData = {
+                'externalId': fulfillmentInternalId,
+                'productSku': productInternalId,
+                'idType': "NETSUITE_PRODUCT_ID",
+                'quantity': quantity,
                 'sourceFacilityId': locationInternalId,
                 'destinationFacilityId': destinationLocationId,
-                'orderTypeId':'TRANSFER_ORDER',
-                'orderItemTypeId': 'PRODUCT_ORDER_ITEM',
-                'itemStatusId': 'ITEM_CREATED',
-                'date':date,
-                'productIdValue' : productSku,
-                'productIdType': 'NETSUITE_PRODUCT_ID',
-                'lineId': lineId,
-                'quantity': quantity,
-                'unitListPrice': 0,
-                'unitPrice': 0,
-                'itemTotalDiscount': 0,
-                'grandTotal': 0,
-                'shipmethod': shipmethod,
-                'shipcarrier': shipcarrier,
-                'orderName': transferOrderNumber
+                'lineId': orderline,
+                'shipmentType': "IN_TRANSFER",
+                'trackingNumber': trackingNumber,
+                'transferOrderAttr': transferOrderAttr
             };
             
             mapContext.write({
                 key: contextValues.id + lineId,
-                value: storetransferorderdata
+                value: transferFulfillmentData
             });
         }
-
+        
         const reduce = (reduceContext) => {
             var contextValues = JSON.parse(reduceContext.values);
-            var storetransferOrderId = reduceContext.key; 
+            var keyId = reduceContext.key; 
 
-            var content = contextValues.externalId + ',' + contextValues.productStoreId + ',' + contextValues.statusID + ',' + contextValues.sourceFacilityId + ',' + contextValues.destinationFacilityId + ',' + contextValues.orderTypeId + ',' + contextValues.orderItemTypeId + ',' + contextValues.itemStatusId + ',' + contextValues.date + ',' + contextValues.productIdValue + ',' + contextValues.productIdType + ',' + contextValues.lineId + ',' + contextValues.quantity + ',' + contextValues.unitListPrice + ',' + contextValues.unitPrice + ',' + contextValues.itemTotalDiscount + ',' + contextValues.grandTotal + ',' + contextValues.shipmethod + ',' + contextValues.shipcarrier + ',' + contextValues.orderName + '\n';
-            reduceContext.write(storetransferOrderId, content);
+            var content = contextValues.externalId + ',' + contextValues.productSku + ',' + contextValues.idType + ',' + contextValues.quantity + ',' + contextValues.sourceFacilityId + ',' + contextValues.destinationFacilityId + ',' + contextValues.lineId + ',' + contextValues.trackingNumber + ',' + contextValues.transferOrderAttr + ',' + contextValues.shipmentType + '\n';
+            reduceContext.write(keyId, content);
         }
-
+        
         const summarize = (summaryContext) => {
-
             try {
-                var fileLines = 'external-id,product-store-id,status-id,external-facility-id,external-placing-facility-id,order-type-id,order-item-type-id,item-status-id,entry-date,product-id-value,product-id-type,item-external-id,quantity,unit-list-price,unit-price,item-total-discount,grand-total,shipment-method-type-id,carrier-party-id,order-name\n';
+                var fileLines = 'external-shipment-id,product-sku,id-type,quantity,origin-facility-id,destination-facility-id,item-external-id,tracking-number,shipment-attribute,shipment-type\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
@@ -83,10 +100,10 @@ define(['N/error', 'N/file', 'N/format', 'N/record', 'N/search', 'N/sftp'],
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
-                log.debug("====totalRecordsExported=="+ totalRecordsExported);
+                log.debug("====totalRecordsExported=="+totalRecordsExported);
                 if (totalRecordsExported > 0) {
 
-                    var fileName =  summaryContext.dateCreated + '-ExportStoreTransferOrder.csv';
+                    var fileName =  summaryContext.dateCreated + '-ExportStoreTOFulfillment.csv';
                     var fileObj = file.create({
                         name: fileName,
                         fileType: file.Type.CSV,
@@ -157,21 +174,21 @@ define(['N/error', 'N/file', 'N/format', 'N/record', 'N/search', 'N/sftp'],
                         });
                     }
                     connection.upload({
-                        directory: '/csv/',
+                        directory: '/fulfillment/',
                         file: fileObj
                     });
-                    log.debug("Store Transfer Order CSV File Uploaded Successfully to SFTP server with file" + fileName);
+                    log.debug("Transfer Order Store Fulfillment CSV Uploaded Successfully to SFTP server with file" + fileName);
                 }
             } catch (e) {
                 log.error({
-                title: 'Error in exporting and uploading store transfer order csv files',
+                title: 'Error in exporting and uploading transfer order store fulfillment csv files',
                 details: e,
                 });
                 throw error.create({
-                name:"Error in exporting and uploading store transfer order csv files",
+                name:"Error in exporting and uploading transfer order store fulfillment csv files",
                 message: e
                 });
-            }   
+            }            
         }
         return {getInputData, map, reduce, summarize}
-});
+    });
