@@ -6,4 +6,5 @@
   <label>HC Inventory Transfer Exported</label>
   <searchlevel>2</searchlevel>
   <storevalue>T</storevalue>
+  <subtab>[scriptid=custtab_hc_tab]</subtab>
 </transactionbodycustomfield>

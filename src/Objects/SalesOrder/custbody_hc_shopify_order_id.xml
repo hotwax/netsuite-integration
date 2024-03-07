@@ -14,5 +14,5 @@
   <label>HC Shopify Order Id</label>
   <searchlevel>2</searchlevel>
   <storevalue>T</storevalue>
-  <subtab>TRANSACTIONMAIN</subtab>
+  <subtab>[scriptid=custtab_hc_tab]</subtab>
 </transactionbodycustomfield>
