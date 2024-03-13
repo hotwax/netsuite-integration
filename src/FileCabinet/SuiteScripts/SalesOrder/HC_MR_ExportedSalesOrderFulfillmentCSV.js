@@ -5,60 +5,8 @@
 define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
     (file, record, search, sftp, format, error) => {
         const getInputData = (inputContext) => {
-            var now = format.format({value : new Date(), type: format.Type.DATETIME});
-            
-            var nowDateParts = now.split(' ');
-
-            var datePart = nowDateParts[0];
-            var timePart = nowDateParts[1];
-            var ampmPart = nowDateParts[2];
-            
-            // Remove the seconds from the time part
-            var timeWithoutSeconds = timePart.split(':').slice(0, 2).join(':');
-            
-            var dateStringWithoutSeconds = datePart + ' ' + timeWithoutSeconds + ' ' + ampmPart;
-            
-            // get last sales order fulfillment export runtime
-            var customRecordSearch = search.create({
-                type: 'customrecord_hc_last_runtime_export',
-                columns: ['custrecord_so_fulfillment_ex_date']
-            });
-      
-            var searchResults = customRecordSearch.run().getRange({
-               start: 0,
-               end: 1
-            });
-              
-            var searchResult = searchResults[0];
-            var lastExportDate = searchResult.getValue({
-                name: 'custrecord_so_fulfillment_ex_date'
-            });
-
-            var lastExportDateParts = lastExportDate.split(' ');
-            var lastExportDatePart = lastExportDateParts[0];
-            var lastExportTimePart = lastExportDateParts[1];
-            var ampmExportPart = lastExportDateParts[2];
-            
-            // Remove the seconds from the time part
-            var lastExportTimeWithoutSeconds = lastExportTimePart.split(':').slice(0, 2).join(':');
-            
-            var lastExportDateString = lastExportDatePart + ' ' + lastExportTimeWithoutSeconds + ' ' + ampmExportPart;
-            
             // Get sales order fulfillment search query
             var salesOrderFulfillmentSearch = search.load({ id: 'customsearch_hc_export_so_fulfillment' });
-            
-            var defaultFilters = salesOrderFulfillmentSearch.filters;
-
-            // Push the customFilters into defaultFilters.
-
-            defaultFilters.push(search.createFilter({
-                name: "lastmodifieddate",
-                operator: search.Operator.WITHIN,
-                values: lastExportDateString, dateStringWithoutSeconds
-            }));
-            // Copy the modified defaultFilters
-            salesOrderFulfillmentSearch.filters = defaultFilters;
-            
             return salesOrderFulfillmentSearch;
         }        
 
@@ -76,7 +24,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             }
             var shippingCarrier = contextValues.values.shipcarrier.text;
             var shippingMethod = contextValues.values.shipmethod.text;
-            var shippingMethodId = contextValues.values.shipmethod.value; 
+            var shippingMethodId = contextValues.values.shipmethod.value;
+            var fulfillmentInternalId = contextValues.id; 
 
             var shipmentData = {
                 'orderId': orderId,
@@ -89,6 +38,15 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 'shippingMethod' : shippingMethod,
                 'shippingMethodId': shippingMethodId
             };
+            if (fulfillmentInternalId) {
+                var id = record.submitFields({
+                    type: record.Type.ITEM_FULFILLMENT,
+                    id: fulfillmentInternalId,
+                    values: {
+                        custbody_hc_fulfillment_exported: true
+                    }
+                });
+            }
             
             mapContext.write({
                 key: contextValues.id + orderItemSeqId,
@@ -199,33 +157,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         file: fileObj
                     });
                     log.debug("Sales Order Fulfillment CSV File Uploaded Successfully to SFTP server with file" + fileName);
-                    
-            
-                    var currentDate = format.format({value : summaryContext.dateCreated, type: format.Type.DATETIME});
-
-                    //Get Custom Record Type internal id
-                    var customRecordHCExSearch = search.create({
-                        type: 'customrecord_hc_last_runtime_export',
-                        columns: ['internalid']
-                    });
-                    var searchResults = customRecordHCExSearch.run().getRange({
-                        start: 0,
-                        end: 1
-                    });
-                
-                    var searchResult = searchResults[0];
-                    var lastRuntimeExportInternalId = searchResult.getValue({
-                        name: 'internalid'
-                    });
-
-                    // save last sales order fulfillment export date
-                    record.submitFields({
-                        type: 'customrecord_hc_last_runtime_export',
-                        id: lastRuntimeExportInternalId,
-                        values: {
-                            custrecord_so_fulfillment_ex_date : currentDate
-                        }
-                    });
                 }
             } catch (e) {
                 log.error({
