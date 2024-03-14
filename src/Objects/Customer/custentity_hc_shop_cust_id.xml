@@ -11,4 +11,5 @@
   <label>HC Shopify Customer Id</label>
   <searchlevel>2</searchlevel>
   <storevalue>T</storevalue>
+  <subtab>[scriptid=custtab_hc_entity_tab]</subtab>
 </entitycustomfield>
