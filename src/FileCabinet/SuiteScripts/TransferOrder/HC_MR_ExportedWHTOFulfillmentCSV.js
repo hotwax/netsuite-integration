@@ -62,24 +62,25 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                     }
                 }); 
             }
- 
-            var transferFulfillmentData = {
-                'externalId': fulfillmentInternalId,
-                'productSku': productInternalId,
-                'idType': "NETSUITE_PRODUCT_ID",
-                'quantity': quantity,
-                'sourceFacilityId': locationInternalId,
-                'destinationFacilityId': destinationLocationId,
-                'lineId': orderline,
-                'shipmentType': "IN_TRANSFER",
-                'trackingNumber': trackingNumber,
-                'transferOrderAttr': transferOrderAttr
-            };
+            if (orderline) {
+                var transferFulfillmentData = {
+                    'externalId': fulfillmentInternalId,
+                    'productSku': productInternalId,
+                    'idType': "NETSUITE_PRODUCT_ID",
+                    'quantity': quantity,
+                    'sourceFacilityId': locationInternalId,
+                    'destinationFacilityId': destinationLocationId,
+                    'lineId': orderline,
+                    'shipmentType': "IN_TRANSFER",
+                    'trackingNumber': trackingNumber,
+                    'transferOrderAttr': transferOrderAttr
+                };
             
-            mapContext.write({
-                key: contextValues.id + lineId,
-                value: transferFulfillmentData
-            });
+                mapContext.write({
+                    key: contextValues.id + lineId,
+                    value: transferFulfillmentData
+                });
+            }
         }
         
         const reduce = (reduceContext) => {
