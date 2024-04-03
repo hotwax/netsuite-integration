@@ -14,7 +14,7 @@
   <preventduplicates>F</preventduplicates>
   <recordtype>CUSTOMER</recordtype>
   <runserversuitescript>T</runserversuitescript>
-  <usemultithread>F</usemultithread>
+  <usemultithread>T</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
   <audience>
     <allemployees>F</allemployees>
