@@ -38,9 +38,6 @@
         <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_generateCSV_InventoryItems.js</path>
         <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_uploadCSV_InventoryItems.js</path>
 
-        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderReceipts.js</path>
-
         <path>~/FileCabinet/SuiteScripts/ItemReceipt/HC_MR_ExportedItemReceiptCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_GenerateHistoricalCustomerCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_UploadHistoricalCustomerCSV.js</path>
@@ -126,9 +123,6 @@
         <path>~/Objects/SyncInventory/customscript_exp_inventoryitem.xml</path>
         <path>~/Objects/SyncInventory/customscript_imp_inventoryitem.xml</path>
 
-        <path>~/Objects/TransferOrder/customscript_export_transferorder.xml</path>
-        <path>~/Objects/TransferOrder/customscript_imp_transferorder_receipt.xml</path>
-
         <path>~/Objects/ItemReceipt/customscript_export_itemreceipt.xml</path>
 
         <path>~/Objects/Customer/customscript_generate_hist_shop_customer.xml</path>
@@ -158,7 +152,6 @@
         <path>~/Objects/SalesOrder/customsearch_hc_export_so_fulfillment.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_exp_rejected_items.xml</path>
         <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
-        <path>~/Objects/TransferOrder/customsearch_fulfilled_transferorder.xml</path>
         <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
 
         <path>~/Objects/SalesOrder/customsearch_hc_exp_so_audit.xml</path>
