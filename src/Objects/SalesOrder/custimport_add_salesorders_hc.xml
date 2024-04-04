@@ -13,7 +13,7 @@
   <recordtype>SALESORDER</recordtype>
   <runserversuitescript>T</runserversuitescript>
   <transactionform>[scriptid=custform_hc_sales_order_form]</transactionform>
-  <usemultithread>F</usemultithread>
+  <usemultithread>T</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
   <audience>
     <allemployees>F</allemployees>

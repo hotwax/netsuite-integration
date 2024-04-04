@@ -13,7 +13,7 @@
   <recordtype>CASHSALE</recordtype>
   <runserversuitescript>T</runserversuitescript>
   <transactionform>STANDARDCASHSALE</transactionform>
-  <usemultithread>F</usemultithread>
+  <usemultithread>T</usemultithread>
   <validatemandatorycustfields>T</validatemandatorycustfields>
   <audience>
     <allemployees>F</allemployees>
