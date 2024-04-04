@@ -198,6 +198,16 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
+            path: 'salesorder/return'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/return/archive'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/return/error'
+        });
+
+        connection.makeDirectory({
             path: 'discountitem'
         });
         connection.makeDirectory({

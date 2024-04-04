@@ -58,9 +58,10 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedStoreTOFulfillmentCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateReturnRefund.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_UE_ReturnRefund.js</path>
     </files>
     <objects>
-        <!-- Custom Record -->
+        <!--Custom Record-->
         <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
         <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path>
 
@@ -149,6 +150,7 @@
         <path>~/Objects/TransferOrder/customscript_exp_store_to_fulfillment.xml</path>
 
         <path>~/Objects/SalesOrder/customscript_create_return_refund.xml</path>
+        <path>~/Objects/SalesOrder/customscript_hc_ue_returnrefund.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>

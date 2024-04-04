@@ -120,12 +120,19 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                         fieldId: 'orderstatus',
                                         value: "B"
                                     });
+                                    // Set Return Payment method
+                                    returnAuthorizationRecord.setValue({
+                                        fieldId: 'custbody_hc_payment_method',
+                                        value: paymentmethodid
+                                    });
 
                                     var lineCount = returnAuthorizationRecord.getLineCount({
                                         sublistId: 'item'
                                     });
 
                                     var removeListline = [];
+
+                                    var cust_ExternalLineID = []
 
                                     for (var j = 0; j < lineCount; j++) {
                                         var matchFound = false;
@@ -183,6 +190,9 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                                         fieldId: 'location',
                                                         value: locationid
                                                     });
+
+                                                    cust_ExternalLineID.push(externallineid)
+
                                                 }
 
                                                 returnAuthorizationRecord.commitLine({
@@ -223,12 +233,38 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                             toType: record.Type.ITEM_RECEIPT,
                                             isDynamic: true
                                         });
-    
-                                        
-                                        var itemReceiptId = itemReceipt.save();
-    
-                                        log.debug("Item Receipt created for return authorization with ID: " + returnAuthorizationId + ", Item Receipt ID: " + itemReceiptId);
-    
+                                        var itemReceiptlineCount = itemReceipt.getLineCount({
+                                            sublistId: 'item'
+                                        });
+
+                                        for (var itemlineid = 0; itemlineid < itemReceiptlineCount; itemlineid++) {
+                                            var itemReceiptExternalLineID = itemReceipt.getSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'custcol_hc_order_line_id',
+                                                line: itemlineid
+                                            });
+
+                                            itemReceipt.selectLine({
+                                                sublistId: 'item',
+                                                line: itemlineid
+                                            });
+                                            if (cust_ExternalLineID.includes(itemReceiptExternalLineID)) {
+                                                itemReceipt.setCurrentSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'itemreceive',
+                                                    value: true
+                                                  });
+                                            } else {
+                                                itemReceipt.setCurrentSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'itemreceive',
+                                                    value: false
+                                                  });
+                                            }
+                                        }
+                                            var itemReceiptId = itemReceipt.save();
+                                            log.debug("Item Receipt created for return authorization with ID: " + returnAuthorizationId + ", Item Receipt ID: " + itemReceiptId);
+        
                                     }
                                   
                                     
