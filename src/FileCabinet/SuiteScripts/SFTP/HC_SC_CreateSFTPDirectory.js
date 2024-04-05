@@ -266,6 +266,15 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'cashsale/export/required_fields_missing'
         });
+        connection.makeDirectory({
+            path: 'cashsale/return'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/return/archive'
+        });
+        connection.makeDirectory({
+            path: 'cashsale/return/error'
+        });
 
         connection.makeDirectory({
             path: 'fulfilledsalesorder'
