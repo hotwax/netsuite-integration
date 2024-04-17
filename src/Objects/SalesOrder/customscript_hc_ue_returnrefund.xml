@@ -15,7 +15,7 @@
 <allroles>T</allroles>
 <audslctrole/>
 <eventtype/>
-<executioncontext>SCHEDULED|USERINTERFACE</executioncontext>
+<executioncontext>USERINTERFACE</executioncontext>
 <isdeployed>T</isdeployed>
 <loglevel>DEBUG</loglevel>
 <recordtype>ITEMRECEIPT</recordtype>
