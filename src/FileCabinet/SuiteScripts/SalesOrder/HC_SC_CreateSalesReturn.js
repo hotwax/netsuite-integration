@@ -106,14 +106,12 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                         fieldId: 'returnreason',
                                         value: returnReason
                                     });
-                                    
                                    
                                     // Set order status
                                     returnAuthorizationRecord.setValue({
                                         fieldId: 'orderstatus',
                                         value: "B"
                                     });
-                                    
                                     
                                     // Set Return Payment method
                                     returnAuthorizationRecord.setValue({
