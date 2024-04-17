@@ -101,6 +101,11 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                         isDynamic: true
                                     });
 
+                                    // get customer ID
+                                    var customerID =  returnAuthorizationRecord.getValue({
+                                        fieldId: 'entity', 
+                                    });
+
                                     // Set return reason
                                     returnAuthorizationRecord.setValue({
                                         fieldId: 'returnreason',
