@@ -1,17 +1,17 @@
-<scheduledscript scriptid="customscript_create_return_refund">
+<scheduledscript scriptid="customscript_create_sales_return">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_SC_CreateReturnRefund</name>
+  <name>HC_SC_CreateSalesReturn</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/SalesOrder/HC_SC_CreateReturnRefund.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_SC_CreateSalesReturn.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_create_return_refund">
+    <scriptdeployment scriptid="customdeploy_create_sales_return">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>SCHEDULED</status>
-      <title>HC_SC_CreateReturnRefund</title>
+      <title>HC_SC_CreateSalesReturn</title>
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
