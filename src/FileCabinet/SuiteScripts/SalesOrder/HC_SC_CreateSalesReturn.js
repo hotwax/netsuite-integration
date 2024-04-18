@@ -89,8 +89,8 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                             var orderId = returnAuthorizationDataList[dataIndex].order_id;
                             var itemList = returnAuthorizationDataList[dataIndex].items;
                             var returnReason = returnAuthorizationDataList[dataIndex].return_reason;
-                            var paymentmethodid = returnAuthorizationDataList[dataIndex].payment_method_id;
-
+                            var paymentlist = returnAuthorizationDataList[dataIndex].payment_list;
+                          
                             try {
                                 if (orderId) {
                                     // Initialize Return Authorization from Sales Order
@@ -118,12 +118,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                         value: "B"
                                     });
                                     
-                                    // Set Return Payment method
-                                    returnAuthorizationRecord.setValue({
-                                        fieldId: 'custbody_hc_payment_method',
-                                        value: paymentmethodid
-                                       });
-
                                     var lineCount = returnAuthorizationRecord.getLineCount({
                                         sublistId: 'item'
                                        });
@@ -201,20 +195,19 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                     // Remove line item are not in return
                                     if (removeListline.length > 0) {
                                         for (var k = removeListline.length - 1; k >= 0; k--) {
-                                           var removeitem = removeListline[k]
+                                            var removeitem = removeListline[k]
                                             returnAuthorizationRecord.removeLine({
                                                 sublistId: 'item',
                                                 line: removeitem
                                             });
                                         }
                                     }
-
                                     // Save the Return Authorization
                                     var returnAuthorizationId = returnAuthorizationRecord.save();
 
                                     log.debug("Return Authorization created for sales order with ID: " + orderId + ", RMA ID: " + returnAuthorizationId);
-                                
-                                     // Create item receipt
+
+                                    // Create item receipt
                                     if (returnAuthorizationId && cust_ExternalLineID.length > 0) {
                                         var itemReceipt = record.transform({
                                             fromType: record.Type.RETURN_AUTHORIZATION,
@@ -251,8 +244,10 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                                 });
                                             }
                                         }
-                                          var itemReceiptId = itemReceipt.save();
-                                            log.debug("Item Receipt created for return authorization with ID: " + returnAuthorizationId + ", Item Receipt ID: " + itemReceiptId);
+
+                                        var itemReceiptId = itemReceipt.save();
+
+                                        log.debug("Item Receipt created for return authorization with ID: " + returnAuthorizationId + ", Item Receipt ID: " + itemReceiptId);
                                     }
 
                                     // Create Credit Memo
@@ -270,58 +265,70 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                     }
 
                                     if (creditMemoId) {
-                                        var customerRefund = record.create({
-                                            type: record.Type.CUSTOMER_REFUND,
-                                            isDynamic: true,
-                                            defaultValues: {
+                                        for (let list = 0; list < paymentlist.length; list++) {
+                                            var paymentID = paymentlist[list].payment_method_id
+                                            var refundAmount = paymentlist[list].refund_amount
+                                            
+                                            var customerRefund = record.create({
+                                                type: record.Type.CUSTOMER_REFUND,
+                                                isDynamic: true,
+                                                defaultValues: {
                                                 entity: customerID,
-                                            }
-                                        });
-
-                                        customerRefund.setValue({
-                                            fieldId: 'customer', 
-                                            value: customerID 
-                                        });
-
-                                        // Set Payment Method
-                                        customerRefund.setValue({
-                                            fieldId: 'paymentmethod', 
-                                            value: paymentmethodid 
-                                        });
-
-                                        var lineCountMemo = customerRefund.getLineCount({
-                                            sublistId: 'apply'
-                                        });
-
-                                        for (var countMemo = 0; countMemo < lineCountMemo; countMemo++){
-                                            customerRefund.selectLine({
-                                                sublistId: 'apply',
-                                                line: countMemo
+                                                }
+                                            });
+                                    
+                                            customerRefund.setValue({
+                                                fieldId: 'customer', 
+                                                value: customerID 
                                             });
 
-                                            var creditid = customerRefund.getCurrentSublistValue({
-                                                sublistId: 'apply',
-                                                fieldId: 'internalid',
+                                            // Set Payment Method
+                                            customerRefund.setValue({
+                                                fieldId: 'paymentmethod', 
+                                                value: paymentID 
                                             });
 
-                                            if (creditMemoId == creditid) {
-                                                customerRefund.setCurrentSublistValue({
+                                            var lineCountMemo = customerRefund.getLineCount({
+                                                sublistId: 'apply'
+                                            });
+
+                                            for (var countMemo = 0; countMemo < lineCountMemo; countMemo++){
+                                                customerRefund.selectLine({
                                                     sublistId: 'apply',
-                                                    fieldId: 'apply',
-                                                    value: true
+                                                    line: countMemo
                                                 });
-                                            } else {
-                                                customerRefund.setCurrentSublistValue({
+
+                                                var creditid = customerRefund.getCurrentSublistValue({
                                                     sublistId: 'apply',
-                                                    fieldId: 'apply',
-                                                    value: false
+                                                    fieldId: 'internalid',
                                                 });
+
+                                                if (creditMemoId == creditid) {
+                                                    customerRefund.setCurrentSublistValue({
+                                                        sublistId: 'apply',
+                                                        fieldId: 'apply',
+                                                        value: true
+                                                    });
+
+                                                    customerRefund.setCurrentSublistValue({
+                                                        sublistId: 'apply',
+                                                        fieldId: 'amount',
+                                                        value: refundAmount
+                                                    });
+
+                                                } else {
+                                                    customerRefund.setCurrentSublistValue({
+                                                        sublistId: 'apply',
+                                                        fieldId: 'apply',
+                                                        value: false
+                                                    });
+                                                }
                                             }
+
+                                            var customerRefundId = customerRefund.save();
+
+                                            log.debug("Customer Refund created for credit memo with ID: " + creditMemoId + ", Customer Refund ID: " + customerRefundId);
                                         }
-
-                                        var customerRefundId = customerRefund.save();
-
-                                        log.debug("Customer Refund created for credit memo with ID: " + creditMemoId + ", Customer Refund ID: " + customerRefundId);
                                     }
                                 }
                             } catch (e) {
