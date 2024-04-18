@@ -53,6 +53,9 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTOFulfillmentReceipts.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTOItemFulfillment.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedStoreTOFulfillmentCSV.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateSalesReturn.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_UE_ReturnRefund.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -139,6 +142,9 @@
         <path>~/Objects/TransferOrder/customscript_imp_to_fulfilment_receipt.xml</path>
         <path>~/Objects/TransferOrder/customscript_imp_to_itemfulfillment.xml</path>
         <path>~/Objects/TransferOrder/customscript_exp_store_to_fulfillment.xml</path>
+
+        <path>~/Objects/SalesOrder/customscript_create_sales_return.xml</path>
+        <path>~/Objects/SalesOrder/customscript_hc_ue_returnrefund.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>

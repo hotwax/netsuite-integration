@@ -1,0 +1,26 @@
+<usereventscript scriptid="customscript_hc_ue_returnrefund">
+<description/>
+<isinactive>F</isinactive>
+<name>HC_UE_ReturnRefund</name>
+<notifyadmins>F</notifyadmins>
+<notifyemails/>
+<notifyowner>T</notifyowner>
+<notifyuser>F</notifyuser>
+<scriptfile>[/SuiteScripts/SalesOrder/HC_UE_ReturnRefund.js]</scriptfile>
+<scriptdeployments>
+<scriptdeployment scriptid="customdeploy_hc_ue_returnrefund">
+<allemployees>F</allemployees>
+<alllocalizationcontexts>T</alllocalizationcontexts>
+<allpartners>F</allpartners>
+<allroles>T</allroles>
+<audslctrole/>
+<eventtype/>
+<executioncontext>USERINTERFACE</executioncontext>
+<isdeployed>T</isdeployed>
+<loglevel>DEBUG</loglevel>
+<recordtype>ITEMRECEIPT</recordtype>
+<runasrole>ADMINISTRATOR</runasrole>
+<status>RELEASED</status>
+</scriptdeployment>
+</scriptdeployments>
+</usereventscript>
