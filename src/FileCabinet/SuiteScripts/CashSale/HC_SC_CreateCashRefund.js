@@ -71,7 +71,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
             for (var i = 0; i < list.length; i++) {
                 if (!list[i].directory) {
                     var fileName = list[i].name;
-
                     // Download the file from the remote server
                     var downloadedFile = connection.download({
                         directory: '/',
@@ -84,7 +83,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
 
                         // Parse the Return Authorization JSON file
                         var cashRefundDataList = JSON.parse(contents);
-
                         var errorList = [];
 
                         for (var dataIndex = 0; dataIndex < cashRefundDataList.length; dataIndex++) {
@@ -93,7 +91,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
 
                             try {
                                 if (orderId) {
-                                
                                     // Initialize Return Authorization from Sales Order
                                     var cashRefundRecord = record.transform({
                                         fromType: record.Type.CASH_SALE,
@@ -158,43 +155,35 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                                     value: returnamount
                                                 });
 
-                                               
-                                                    cashRefundRecord.setCurrentSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'location',
-                                                        value: locationid
-                                                    });
-                                           
+                                                cashRefundRecord.setCurrentSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'location',
+                                                    value: locationid
+                                                });
 
                                                 cashRefundRecord.commitLine({
                                                     sublistId: 'item'
                                                 });
-                                          
                                             }
                                         }
-
                                         if (!matchFound) {
                                             removeListline.push(j);
                                         }
                                     }
-
                                     // Remove line item are not in return
                                     if (removeListline.length > 0) {
                                         for (var k = removeListline.length - 1; k >= 0; k--) {
-                                           var removeitem = removeListline[k]
+                                            var removeitem = removeListline[k]
                                             cashRefundRecord.removeLine({
                                                 sublistId: 'item',
                                                 line: removeitem
                                             });
-                                            
                                         }
                                     }
-
-                                    // Save the Cash refund 
+                                    // Save the Cash refund
                                     var cashRefundId = cashRefundRecord.save();
 
                                     log.debug("Cash refund created for Cash sale with ID: " + orderId + ", Cash refund ID: " + cashRefundId);
-                                
                                 }
                             } catch (e) {
                                 log.error({
@@ -205,19 +194,18 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                 errorList.push(errorInfo);
                             }
                         }
-
-                         // // Archive the file
+                        // Archive the file
                         connection.move({
                             from: '/' + fileName,
                             to: '/archive/' + fileName
                         });
 
-                        log.debug('File moved!   '  + fileName);
+                        log.debug('File moved!' + fileName);
 
                         if (errorList.length !== 0) {
                             var fileLines = 'orderId,errorMessage\n';
                             fileLines = fileLines + errorList;
-
+                            
                             var date = new Date();
                             var errorFileName = date + '-ErrorCashSaleReturn.csv';
                             var fileObj = file.create({
@@ -231,7 +219,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                 file: fileObj
                             });
                         }
-
                     }
                 }
             }
@@ -246,7 +233,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
             });
         }
     }
-
     return {
         execute: execute
     };
