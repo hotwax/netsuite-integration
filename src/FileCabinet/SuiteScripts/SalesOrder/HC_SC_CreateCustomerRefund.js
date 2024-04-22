@@ -98,8 +98,9 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                     var customerDepositSearch = search.create({
                                         type: search.Type.CUSTOMER_DEPOSIT,
                                         filters: [
-                                            ['createdfrom', 'anyof', orderId],
-                                            ['paymentmethod', 'anyof', shopifyPaymentMethodId]
+                                            ['createdfrom', 'is', orderId],
+                                            'and',
+                                            ['paymentmethod', 'is', shopifyPaymentMethodId]
                                         ],
                                         columns: [
                                             search.createColumn({
