@@ -11,7 +11,7 @@
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>SCHEDULED</status>
-      <title>HC_SC_CreateCustomerRefund<</title>
+      <title>HC_SC_CreateCustomerRefund</title>
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
