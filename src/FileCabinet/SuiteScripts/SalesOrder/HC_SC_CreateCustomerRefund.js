@@ -124,14 +124,19 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                             toType: record.Type.CUSTOMER_REFUND,
                                             isDynamic: false
                                         });
+                                        
                                         customerRefundRecord.setValue({fieldId: 'paymentmethod', value: shopifyPaymentMethodId});
-                                        customerRefundRecord.setValue({fieldId: 'total', value: refundAmount});
+                                        customerRefundRecord.setSublistValue({
+                                            sublistId: 'deposit',
+                                            fieldId: 'amount',
+                                            value: refundAmount,
+                                            line: 0
+                                        });
                                         
                                         var customerRefundId = customerRefundRecord.save();
                                         log.debug("customer refund is created with id " + customerRefundId);
                                     }                    
                                 }
-                
                               } catch (e) {
                                   log.error({
                                       title: 'Error in creating customer refund records for sales order ' + orderId,
