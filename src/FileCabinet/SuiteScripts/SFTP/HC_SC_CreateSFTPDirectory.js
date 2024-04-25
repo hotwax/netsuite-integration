@@ -120,6 +120,16 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
+            path: 'salesorder/customer-refund'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/customer-refund/archive'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/customer-refund/error'
+        });
+
+        connection.makeDirectory({
             path: 'salesorder/export'
         });
         connection.makeDirectory({

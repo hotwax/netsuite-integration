@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_so_customer_refund">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_CreateCustomerRefund</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_SC_CreateCustomerRefund.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_so_customer_refund">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>SCHEDULED</status>
+      <title>HC_SC_CreateCustomerRefund</title>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT30M</repeat>
+          <startdate>2023-08-22</startdate>
+          <starttime>05:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
