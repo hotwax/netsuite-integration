@@ -1,0 +1,20 @@
+<othercustomfield scriptid="custrecord_hc_inv_sync">
+  <accesslevel>2</accesslevel>
+  <applyformatting>F</applyformatting>
+  <checkspelling>F</checkspelling>
+  <defaultchecked>F</defaultchecked>
+  <description>HotWax Inventory Sync</description>
+  <displayheight></displayheight>
+  <displaytype>NORMAL</displaytype>
+  <encryptatrest>F</encryptatrest>
+  <fieldtype>CHECKBOX</fieldtype>
+  <isformula>F</isformula>
+  <ismandatory>F</ismandatory>
+  <label>HotWax Inventory Sync</label>
+  <rectype>-103</rectype>
+  <searchlevel>2</searchlevel>
+  <selectrecordtype></selectrecordtype>
+  <showhierarchy>F</showhierarchy>
+  <showinlist>F</showinlist>
+  <storevalue>T</storevalue>
+</othercustomfield>

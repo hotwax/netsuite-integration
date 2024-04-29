@@ -78,6 +78,7 @@
         <path>~/Objects/ItemReceipt/custbody_hc_receipt_exported.xml</path>
         <path>~/Objects/TransferOrder/custbody_hc_fulfillment_exported.xml</path>
         <path>~/Objects/InventoryTransfer/custbody_hc_inventory_transfer_exp.xml</path>
+        <path>~/Objects/SyncInventory/custrecord_hc_inv_sync.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
