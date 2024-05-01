@@ -115,7 +115,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
 
             var connection = sftp.createConnection({
                 username: sftpUserName,
-                keyId: sftpKeyId,
+                secret: sftpKeyId,
                 url: sftpUrl,
                 port: sftpPort,
                 directory: sftpDirectory,

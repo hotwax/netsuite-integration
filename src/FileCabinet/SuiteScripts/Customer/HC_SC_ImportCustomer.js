@@ -60,7 +60,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, ta
 
         var connection = sftp.createConnection({
             username: sftpUserName,
-            keyId: sftpKeyId,
+            secret: sftpKeyId,
             url: sftpUrl,
             port: sftpPort,
             directory: sftpDirectory,

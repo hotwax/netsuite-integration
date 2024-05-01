@@ -116,7 +116,7 @@ define(['N/file', 'N/sftp', 'N/search', 'N/error', 'N/record', 'N/search'], func
     
             var connection = sftp.createConnection({
                 username: sftpUserName,
-                keyId: sftpKeyId,
+                secret: sftpKeyId,
                 url: sftpUrl,
                 port: sftpPort,
                 directory: sftpDirectory,
