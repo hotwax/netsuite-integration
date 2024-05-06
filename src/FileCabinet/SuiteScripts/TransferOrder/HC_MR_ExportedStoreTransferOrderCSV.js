@@ -142,7 +142,7 @@ define(['N/error', 'N/file', 'N/format', 'N/record', 'N/search', 'N/sftp'],
         
                     var connection = sftp.createConnection({
                         username: sftpUserName,
-                        keyId: sftpKeyId,
+                        secret: sftpKeyId,
                         url: sftpUrl,
                         port: sftpPort,
                         directory: sftpDirectory,

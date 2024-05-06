@@ -33,6 +33,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>ADJLOCATION</field>
+          <columnreference>
+            <column>Adjustment Location</column>
+            <file>INVENTORYADJUSTMENT</file>
+            <type>INTERNAL_ID</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>MEMO</field>
           <columnreference>
             <column>Memo</column>
