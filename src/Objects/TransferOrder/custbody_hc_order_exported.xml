@@ -2,6 +2,7 @@
   <accesslevel>2</accesslevel>
   <bodypurchase>T</bodypurchase>
   <bodytransferorder>T</bodytransferorder>
+  <bodysale>T</bodysale>
   <displaytype>NORMAL</displaytype>
   <fieldtype>CHECKBOX</fieldtype>
   <globalsearch>F</globalsearch>
