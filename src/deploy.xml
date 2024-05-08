@@ -81,6 +81,7 @@
         <path>~/Objects/SyncInventory/custrecord_hc_inv_sync.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_gc_fulfillment_exported.xml</path>
         <path>~/Objects/Customer/custentity_hc_cust_exported.xml</path>
+        <path>~/Objects/SalesOrder/custcol_hc_order_item_exported.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
