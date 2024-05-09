@@ -75,6 +75,22 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/runtime'],
                 custentity_hc_cust_exported: false
               }
             }); 
+          } else if (RecordType == "CASH_SALE") {
+            record.submitFields({
+              type: record.Type.CASH_SALE,
+              id: internalid,
+              values: {
+                custbody_hc_order_exported: false
+              }
+            }); 
+          } else if (RecordType == "INVENTORY_TRANSFER") {
+            record.submitFields({
+              type: record.Type.INVENTORY_TRANSFER,
+              id: internalid,
+              values: {
+                custbody_hc_inventory_transfer_exp: false
+              }
+            }); 
           }
         } 
       } catch (e) {
