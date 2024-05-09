@@ -49,7 +49,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             }
             
             mapContext.write({
-                key: contextValues.id + orderItemSeqId,
+                key: contextValues.id + '-' + orderItemSeqId,
                 value: shipmentData
             });
         }
@@ -159,6 +159,67 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                     log.debug("Sales Order Fulfillment CSV File Uploaded Successfully to SFTP server with file" + fileName);
                 }
             } catch (e) {
+                //Generate error csv
+                var errorFileLine = 'orderId,Recordtype\n';
+                
+                summaryContext.output.iterator().each(function (key, value) {
+                    var index = key.split('-')
+                    var internalId = index[0];
+                    var recordType = "ITEM_FULFILLMENT";
+
+                    var valueContents = internalId + ',' + recordType + '\n';
+                    errorFileLine += valueContents;
+
+                    return true;
+                });
+
+                var fileName = summaryContext.dateCreated + '-FailedSalesOrderFulfillmentExport.csv';
+                var failExportCSV = file.create({
+                    name: fileName,
+                    fileType: file.Type.CSV,
+                    contents: errorFileLine
+                });
+
+                // Check HotWax Export Fail Record CSV is created or not
+                var folderInternalId = search
+                    .create({
+                        type: search.Type.FOLDER,
+                        filters: [['name', 'is', 'HotWax Export Fail Record CSV']],
+                        columns: ['internalid']
+                    })
+                    .run()
+                    .getRange({ start: 0, end: 1 })
+                    .map(function (result) {
+                        return result.getValue('internalid');
+                    })[0];
+
+                // Made Export Fail Sales Order CSV folder in NetSuite File Cabinet
+                if (folderInternalId == null) {
+                    var folder = record.create({ type: record.Type.FOLDER });
+                    folder.setValue({
+                        fieldId: 'name',
+                        value: 'HotWax Export Fail Record CSV'
+                    });
+
+                    var folderInternalId = folder.save();
+                }    
+                    
+                failExportCSV.folder = folderInternalId;
+                failExportCSV.save();
+
+                if (folderInternalId) {
+                    var scriptTask = task.create({
+                        taskType: task.TaskType.MAP_REDUCE,
+                    });
+
+                    scriptTask.scriptId = 'customscript_hc_mr_mark_false',
+                    scriptTask.deploymentId = 'customdeploy_hc_mr_mark_false'
+                    scriptTask.params = { "custscript_hc_mr_mark_false": folderInternalId }
+
+                    var mapReduceTaskId = scriptTask.submit();
+                    log.debug("Map/reduce task submitted!");
+                }
+
                 log.error({
                 title: 'Error in exporting and uploading sales order fulfillment csv files',
                 details: e,

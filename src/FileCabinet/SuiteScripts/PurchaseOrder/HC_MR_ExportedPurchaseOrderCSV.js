@@ -40,7 +40,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             };
             
             mapContext.write({
-                key: contextValues.id + lineId,
+                key: contextValues.id + '-' + lineId,
                 value: podata
             });
         }
