@@ -145,11 +145,10 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                 var errorFileLine = 'orderId,Recordtype\n';
                 
                 summaryContext.output.iterator().each(function (key, value) {
-                    var index = key.split('-')
-                    var internalId = index[0]
-                    var recordType = "CASH_SALE"
+                    var internalId = key;
+                    var recordType = "CASH_SALE";
 
-                    var valueContents = internalId + ',' + recordType + '\n'
+                    var valueContents = internalId + ',' + recordType + '\n';
                     errorFileLine += valueContents;
 
                     return true;

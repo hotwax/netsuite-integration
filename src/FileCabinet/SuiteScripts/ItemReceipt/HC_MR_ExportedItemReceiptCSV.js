@@ -5,60 +5,8 @@
 define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
     (file, record, search, sftp, format, error) => {
         const getInputData = (inputContext) => {
-            var now = format.format({value : new Date(), type: format.Type.DATETIME});
-            
-            var nowDateParts = now.split(' ');
-
-            var datePart = nowDateParts[0];
-            var timePart = nowDateParts[1];
-            var ampmPart = nowDateParts[2];
-            
-            // Remove the seconds from the time part
-            var timeWithoutSeconds = timePart.split(':').slice(0, 2).join(':');
-            
-            var dateStringWithoutSeconds = datePart + ' ' + timeWithoutSeconds + ' ' + ampmPart;
-            
-            // get last item receipt export runtime
-            var customRecordSearch = search.create({
-                type: 'customrecord_hc_last_runtime_export',
-                columns: ['custrecord_item_receipt_ex_date']
-            });
-      
-            var searchResults = customRecordSearch.run().getRange({
-               start: 0,
-               end: 1
-            });
-              
-            var searchResult = searchResults[0];
-            var lastExportDate = searchResult.getValue({
-                name: 'custrecord_item_receipt_ex_date'
-            });
-
-            var lastExportDateParts = lastExportDate.split(' ');
-            var lastExportDatePart = lastExportDateParts[0];
-            var lastExportTimePart = lastExportDateParts[1];
-            var ampmExportPart = lastExportDateParts[2];
-            
-            // Remove the seconds from the time part
-            var lastExportTimeWithoutSeconds = lastExportTimePart.split(':').slice(0, 2).join(':');
-            
-            var lastExportDateString = lastExportDatePart + ' ' + lastExportTimeWithoutSeconds + ' ' + ampmExportPart;
-            
             // Get item receipt search query
             var itemReceiptSearch = search.load({ id: 'customsearch_hc_export_wh_item_receipt' });
-            
-            var defaultFilters = itemReceiptSearch.filters;
-
-            // Push the customFilters into defaultFilters.
-
-            defaultFilters.push(search.createFilter({
-                name: "datecreated",
-                operator: search.Operator.WITHIN,
-                values: lastExportDateString, dateStringWithoutSeconds
-            }));
-            // Copy the modified defaultFilters
-            itemReceiptSearch.filters = defaultFilters;
-            
             return itemReceiptSearch;
         }        
 
@@ -192,35 +140,69 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         file: fileObj
                     });
                     log.debug("Item Receipt File Uploaded Successfully to SFTP server with file" + fileName);
-                    
-            
-                    var currentDate = format.format({value : summaryContext.dateCreated, type: format.Type.DATETIME});
-
-                    //Get Custom Record Type internal id
-                    var customRecordHCExSearch = search.create({
-                        type: 'customrecord_hc_last_runtime_export',
-                        columns: ['internalid']
-                    });
-                    var searchResults = customRecordHCExSearch.run().getRange({
-                        start: 0,
-                        end: 1
-                    });
-                
-                    var searchResult = searchResults[0];
-                    var lastRuntimeExportInternalId = searchResult.getValue({
-                        name: 'internalid'
-                    });
-
-                    // Save Last Item Receipt Export Date
-                    record.submitFields({
-                        type: 'customrecord_hc_last_runtime_export',
-                        id: lastRuntimeExportInternalId,
-                        values: {
-                            custrecord_item_receipt_ex_date : currentDate
-                        }
-                    });
                 }
             } catch (e) {
+                //Generate error csv
+                var errorFileLine = 'orderId,Recordtype\n';
+                
+                summaryContext.output.iterator().each(function (key, value) {
+                    var index = key.split('-')
+                    var internalId = index[0]
+                    var recordType = "ITEM_RECEIPT"
+
+                    var valueContents = internalId + ',' + recordType + '\n'
+                    errorFileLine += valueContents;
+
+                    return true;
+                });
+
+                var fileName = summaryContext.dateCreated + '-FailedItemReceiptExport.csv';
+                var failExportCSV = file.create({
+                    name: fileName,
+                    fileType: file.Type.CSV,
+                    contents: errorFileLine
+                });
+
+                // Check HotWax Export Fail Record CSV is created or not
+                var folderInternalId = search
+                    .create({
+                        type: search.Type.FOLDER,
+                        filters: [['name', 'is', 'HotWax Export Fail Record CSV']],
+                        columns: ['internalid']
+                    })
+                    .run()
+                    .getRange({ start: 0, end: 1 })
+                    .map(function (result) {
+                        return result.getValue('internalid');
+                    })[0];
+
+                // Made Export Fail Sales Order CSV folder in NetSuite File Cabinet
+                if (folderInternalId == null) {
+                    var folder = record.create({ type: record.Type.FOLDER });
+                    folder.setValue({
+                        fieldId: 'name',
+                        value: 'HotWax Export Fail Record CSV'
+                    });
+
+                    var folderInternalId = folder.save();
+                }    
+                    
+                failExportCSV.folder = folderInternalId;
+                failExportCSV.save();
+
+                if (folderInternalId) {
+                    var scriptTask = task.create({
+                        taskType: task.TaskType.MAP_REDUCE,
+                    });
+
+                    scriptTask.scriptId = 'customscript_hc_mr_mark_false',
+                    scriptTask.deploymentId = 'customdeploy_hc_mr_mark_false'
+                    scriptTask.params = { "custscript_hc_mr_mark_false": folderInternalId }
+
+                    var mapReduceTaskId = scriptTask.submit();
+                    log.debug("Map/reduce task submitted!");
+                }
+
                 log.error({
                 title: 'Error in exporting and uploading item receipt csv files',
                 details: e,

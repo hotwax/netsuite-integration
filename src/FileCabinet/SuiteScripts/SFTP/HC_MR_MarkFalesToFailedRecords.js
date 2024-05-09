@@ -91,6 +91,14 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/runtime'],
                 custbody_hc_inventory_transfer_exp: false
               }
             }); 
+          } else if (RecordType == "ITEM_RECEIPT") {
+            record.submitFields({
+              type: record.Type.ITEM_RECEIPT,
+              id: internalid,
+              values: {
+                custbody_hc_inventory_transfer_exp: false
+              }
+            }); 
           }
         } 
       } catch (e) {
