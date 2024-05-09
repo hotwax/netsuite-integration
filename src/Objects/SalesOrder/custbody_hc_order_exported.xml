@@ -1,11 +1,14 @@
 <transactionbodycustomfield scriptid="custbody_hc_order_exported">
   <accesslevel>2</accesslevel>
   <bodypurchase>T</bodypurchase>
-  <bodytransferorder>T</bodytransferorder>
   <bodysale>T</bodysale>
+  <bodytransferorder>T</bodytransferorder>
   <displaytype>NORMAL</displaytype>
+  <encryptatrest>F</encryptatrest>
   <fieldtype>CHECKBOX</fieldtype>
+  <fldsizelabel></fldsizelabel>
   <globalsearch>F</globalsearch>
+  <help></help>
   <isformula>F</isformula>
   <ismandatory>F</ismandatory>
   <isparent>F</isparent>
