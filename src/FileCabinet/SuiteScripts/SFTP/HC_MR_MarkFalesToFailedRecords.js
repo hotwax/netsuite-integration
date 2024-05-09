@@ -119,7 +119,7 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/runtime'],
         var archiveFolderId = search
           .create({
             type: search.Type.FOLDER,
-            filters: [['name', 'is', 'Archive Export Fail Sales Order CSV']],
+            filters: [['name', 'is', 'Archive HotWax Export Fail Record CSV']],
             columns: ['internalid']
           })
           .run()
@@ -133,7 +133,7 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/runtime'],
           var folder = record.create({ type: record.Type.FOLDER });
           folder.setValue({
             fieldId: 'name',
-            value: 'Archive Export Fail Sales Order CSV'
+            value: 'Archive HotWax Export Fail Record CSV'
           });
           archiveFolderId = folder.save();
           log.debug("Made Archive Export Fail Sales Order CSV folder in NetSuite File Cabinet with Id ! " + archiveFolderId);
