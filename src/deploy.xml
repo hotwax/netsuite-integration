@@ -75,7 +75,7 @@
         <path>~/Objects/SalesOrder/custbody_hc_shopify_order_id.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_item_rejected.xml</path>
         <path>~/Objects/Customer/custentity_hc_shop_cust_id.xml</path>
-        <path>~/Objects/SalesOrder/custbody_hc_order_exported.xml</path>
+        <path>~/Objects/TransferOrder/custbody_hc_order_exported.xml</path>
         <path>~/Objects/ItemReceipt/custbody_hc_receipt_exported.xml</path>
         <path>~/Objects/TransferOrder/custbody_hc_fulfillment_exported.xml</path>
         <path>~/Objects/InventoryTransfer/custbody_hc_inventory_transfer_exp.xml</path>

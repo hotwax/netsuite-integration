@@ -1,7 +1,6 @@
 <transactionbodycustomfield scriptid="custbody_hc_order_exported">
   <accesslevel>2</accesslevel>
   <bodypurchase>T</bodypurchase>
-  <bodysale>T</bodysale>
   <bodytransferorder>T</bodytransferorder>
   <displaytype>NORMAL</displaytype>
   <encryptatrest>F</encryptatrest>
