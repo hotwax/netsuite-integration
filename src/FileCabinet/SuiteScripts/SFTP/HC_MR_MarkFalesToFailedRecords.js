@@ -96,15 +96,7 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/runtime'],
               type: record.Type.ITEM_RECEIPT,
               id: internalid,
               values: {
-                custbody_hc_receipt_exported: false
-              }
-            }); 
-          } else if (RecordType == "SALES_ORDER_ITEM") {
-            record.submitFields({
-              type: record.Type.SALES_ORDER,
-              id: internalid,
-              values: {
-                custbody_hc_order_item_exported: false
+                custbody_hc_inventory_transfer_exp: false
               }
             }); 
           }
