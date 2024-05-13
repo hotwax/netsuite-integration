@@ -1,0 +1,10 @@
+<transactionbodycustomfield scriptid="custbody_hc_gc_fulfillment_exported">
+  <accesslevel>2</accesslevel>
+  <bodyitemfulfillment>T</bodyitemfulfillment>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>CHECKBOX</fieldtype>
+  <label>HC GiftCard Fulfillment Exported</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+  <subtab>[scriptid=custtab_hc_tab]</subtab>
+</transactionbodycustomfield>

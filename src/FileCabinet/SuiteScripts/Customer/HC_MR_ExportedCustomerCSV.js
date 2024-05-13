@@ -6,29 +6,29 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
     (file, record, search, sftp, format, error) => {
         const getInputData = (inputContext) => {
             var now = format.format({value : new Date(), type: format.Type.DATETIME});
-            
+
             var nowDateParts = now.split(' ');
 
             var datePart = nowDateParts[0];
             var timePart = nowDateParts[1];
             var ampmPart = nowDateParts[2];
-            
+
             // Remove the seconds from the time part
             var timeWithoutSeconds = timePart.split(':').slice(0, 2).join(':');
-            
+
             var dateStringWithoutSeconds = datePart + ' ' + timeWithoutSeconds + ' ' + ampmPart;
-            
+
             // get last customer export runtime
             var customRecordSearch = search.create({
                 type: 'customrecord_hc_last_runtime_export',
                 columns: ['custrecord_customer_ex_date']
             });
-      
+
             var searchResults = customRecordSearch.run().getRange({
                start: 0,
                end: 1
             });
-              
+
             var searchResult = searchResults[0];
             var lastExportDate = searchResult.getValue({
                 name: 'custrecord_customer_ex_date'
@@ -38,15 +38,14 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var lastExportDatePart = lastExportDateParts[0];
             var lastExportTimePart = lastExportDateParts[1];
             var ampmExportPart = lastExportDateParts[2];
-            
+
             // Remove the seconds from the time part
             var lastExportTimeWithoutSeconds = lastExportTimePart.split(':').slice(0, 2).join(':');
-            
+
             var lastExportDateString = lastExportDatePart + ' ' + lastExportTimeWithoutSeconds + ' ' + ampmExportPart;
-            
+
             // Get customer search query
             var customerSearch = search.load({ id: 'customsearch_hc_export_customer' });
-            
             // Copy the filters from customerSearch into defaultFilters.
             var defaultFilters = customerSearch.filters;
 
@@ -59,7 +58,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             }));
             // Copy the modified defaultFilters
             customerSearch.filters = defaultFilters;
-            
+
             return customerSearch;
         }        
 
@@ -182,10 +181,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         file: customerFileObj
                     });
                     log.debug("Customer CSV File Uploaded Successfully to SFTP server with file" + fileName);
-                    
-            
                     var currentDate = format.format({value : summaryContext.dateCreated, type: format.Type.DATETIME});
-
+                    
                     //Get Custom Record Type internal id
                     var customRecordHCExSearch = search.create({
                         type: 'customrecord_hc_last_runtime_export',
@@ -201,7 +198,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         name: 'internalid'
                     });
 
-                    // save last customer export date
+                    // save last sales order export date
                     record.submitFields({
                         type: 'customrecord_hc_last_runtime_export',
                         id: lastRuntimeExportInternalId,
