@@ -328,6 +328,18 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'product/csv/archive'
         });
+        connection.makeDirectory({
+            path: 'product/kit'
+        });
+        connection.makeDirectory({
+            path: 'product/kit/archive'
+        });
+        connection.makeDirectory({
+            path: 'product/kit-nifi'
+        });
+        connection.makeDirectory({
+            path: 'product/kit-nifi/archive'
+        });
 
         connection.makeDirectory({
             path: 'purchaseorder'
