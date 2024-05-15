@@ -13,12 +13,12 @@ define(['N/file', 'N/search', 'N/sftp', 'N/error'],
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var memberItemId = contextValues.values.memberitem.value;
-            var internalId = contextValues.values.internalid.value;
+            var memberItemId = contextValues.values.memberitem.text;
+            var kitName = contextValues.values.itemid;
             var quantity = contextValues.values.memberquantity; 
 
             var kitProductData = {
-                'productId': internalId,
+                'productId': kitName,
                 'productIdTo': memberItemId,
                 'quantity': quantity,
                 'productAssocTypeId': 'PRODUCT_COMPONENT'
