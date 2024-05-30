@@ -56,6 +56,8 @@
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerRefund.js</path>
         <path>~/FileCabinet/SuiteScripts/SFTP/HC_MR_MarkFalesToFailedRecords.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/Product/HC_MR_ExportedKITProductCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -149,6 +151,8 @@
 
         <path>~/Objects/SFTP/customscript_hc_mr_mark_false.xml</path>
 
+        <path>~/Objects/Product/customscript_exp_kitproducts.xml</path>
+
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
@@ -167,6 +171,7 @@
         <path>~/Objects/TransferOrder/customsearch_hc_exp_store_transfer_order.xml</path>
         <path>~/Objects/TransferOrder/customsearch_hc_exp_wh_to_fulfillment.xml</path>
         <path>~/Objects/TransferOrder/customsearch_hc_exp_store_to_fulfillment.xml</path>
+        <path>~/Objects/Product/customsearch_hc_exp_kit_component.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
