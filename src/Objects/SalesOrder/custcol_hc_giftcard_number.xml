@@ -1,0 +1,10 @@
+<transactioncolumncustomfield scriptid="custcol_hc_giftcard_number">
+  <accesslevel>2</accesslevel>
+  <colitemfulfillment>T</colitemfulfillment>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>TEXT</fieldtype>
+  <ismandatory>F</ismandatory>
+  <label>HC GiftCard Number</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactioncolumncustomfield>
