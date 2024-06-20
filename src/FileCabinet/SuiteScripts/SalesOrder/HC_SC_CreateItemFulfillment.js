@@ -102,7 +102,9 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
                                         var lineId = itemList[itemIndex].line_id;
                                         var locationId = itemList[itemIndex].location_id;
-                                        var tags = itemList[itemIndex].tags; 
+                                        var tags = itemList[itemIndex].tags;
+                                        var shipmentMethodTypeId = itemList[itemIndex].shipment_method_type_id;
+ 
                                         if (isAllowSplit && isAllowSplit === 'N') {
                                             //add order location
                                             salesOrderRecord.setValue ({
@@ -126,6 +128,14 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                                             fieldId: 'custcol_hc_item_tag',
                                                             line: lineCountIndex,
                                                             value: tags
+                                                        });
+                                                    }
+                                                    if (shipmentMethodTypeId && shipmentMethodTypeId === "STOREPICKUP") {
+                                                        salesOrderRecord.setSublistValue({
+                                                            sublistId: 'item',
+                                                            fieldId: 'custcolisbopis',
+                                                            line: lineCountIndex,
+                                                            value: true
                                                         });
                                                     }
                                                 } 
@@ -155,6 +165,14 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                                             fieldId: 'custcol_hc_item_tag',
                                                             line: lineCountIndex,
                                                             value: tags
+                                                        });
+                                                    }
+                                                    if (shipmentMethodTypeId && shipmentMethodTypeId === "STOREPICKUP") {
+                                                        salesOrderRecord.setSublistValue({
+                                                            sublistId: 'item',
+                                                            fieldId: 'custcolisbopis',
+                                                            line: lineCountIndex,
+                                                            value: true
                                                         });
                                                     }
                                                 } 
