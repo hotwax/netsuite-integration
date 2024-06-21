@@ -2,8 +2,8 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  */
-define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
-    (file, record, search, sftp, format, error) => {
+define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
+    (file, record, search, sftp, task, error) => {
         const getInputData = (inputContext) => {
             // Get item receipt search query
             var itemReceiptSearch = search.load({ id: 'customsearch_hc_export_wh_item_receipt' });

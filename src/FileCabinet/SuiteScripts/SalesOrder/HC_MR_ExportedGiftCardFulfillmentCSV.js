@@ -2,8 +2,8 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  */
-define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
-    (file, record, search, sftp, format, error) => {
+define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/error'],
+    (file, record, search, sftp, error) => {
         const getInputData = (inputContext) => {
             // Get sales order fulfillment search query
             var salesOrderFulfillmentSearch = search.load({ id: 'customsearch_hc_exp_giftcard_fulfillment' });

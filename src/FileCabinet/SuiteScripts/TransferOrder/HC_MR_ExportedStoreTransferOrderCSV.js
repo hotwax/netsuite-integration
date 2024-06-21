@@ -2,9 +2,9 @@
  * @NApiVersion 2.1
  * @NScriptType MapReduceScript
  */
-define(['N/error', 'N/file', 'N/format', 'N/record', 'N/search', 'N/sftp'],
+define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
  
-    (error, file, format, record, search, sftp) => {
+    (error, file, task, record, search, sftp) => {
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
             var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_transfer_order' });
