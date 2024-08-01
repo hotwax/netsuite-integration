@@ -396,14 +396,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/format'], func
                                 errorList.push(errorInfo);
                             }
                         }
-                         // // Archive the file
-                        connection.move({
-                            from: '/' + fileName,
-                            to: '/archive/' + fileName
-                        });
-
-                        log.debug('File moved!' + fileName);
-
+                        
                         if (errorList.length !== 0) {
                             var fileLines = 'orderId,errorMessage\n';
                             fileLines = fileLines + errorList;
@@ -421,6 +414,13 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/format'], func
                                 file: fileObj
                             });
                         }
+                        
+                        // Archive the file
+                        connection.move({
+                            from: '/' + fileName,
+                            to: '/archive/' + fileName
+                        });
+                        log.debug('File moved!' + fileName);
                     }
                 }
             }
