@@ -1,0 +1,13 @@
+<transactioncolumncustomfield scriptid="custcol_hc_retrun_reason">
+  <accesslevel>2</accesslevel>
+  <colitemreceipt>T</colitemreceipt>
+  <colsale>T</colsale>
+  <displaytype>NORMAL</displaytype>
+  <encryptatrest>F</encryptatrest>
+  <fieldtype>TEXT</fieldtype>
+  <isformula>F</isformula>
+  <ismandatory>F</ismandatory>
+  <label>HC Return Reason</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactioncolumncustomfield>
