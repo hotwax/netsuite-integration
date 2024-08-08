@@ -59,6 +59,7 @@
 
         <path>~/FileCabinet/SuiteScripts/Product/HC_MR_ExportedKITProductCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedGiftCardFulfillmentCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/POSReturn/HC_SC_CreatePOSReturn.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -86,6 +87,7 @@
         <path>~/Objects/SalesOrder/custbody_hc_gc_fulfillment_exported.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_giftcard_number.xml</path>
         <path>~/Objects/SalesOrder/custcolisbopis.xml</path>
+        <path>~/Objects/POSReturn/custcol_hc_retrun_reason.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -156,6 +158,7 @@
 
         <path>~/Objects/Product/customscript_exp_kitproducts.xml</path>
         <path>~/Objects/SalesOrder/customscript_exp_giftcard_fulfillment.xml</path>
+        <path>~/Objects/POSReturn/customscript_create_pos_return.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>

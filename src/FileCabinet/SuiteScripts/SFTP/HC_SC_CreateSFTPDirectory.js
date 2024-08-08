@@ -404,6 +404,16 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'salesorder_audit_report/csv/archive'
         });
+
+        connection.makeDirectory({
+            path: 'pos-return'
+        });
+        connection.makeDirectory({
+            path: 'pos-return/archive'
+        });
+        connection.makeDirectory({
+            path: 'pos-return/error'
+        });
         
       } catch (e) {
         log.error({
