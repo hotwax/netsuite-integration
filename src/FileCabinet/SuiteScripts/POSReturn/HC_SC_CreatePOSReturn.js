@@ -87,8 +87,10 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
 
                         for (var dataIndex = 0; dataIndex < returnAuthorizationDataList.length; dataIndex++) {
                             var orderId = returnAuthorizationDataList[dataIndex].order_id;
+                            var posReturnTotal = returnAuthorizationDataList[dataIndex].pos_return_total;
                             var itemList = returnAuthorizationDataList[dataIndex].items;
                             var paymentlist = returnAuthorizationDataList[dataIndex].payment_list;
+                            // exchange credit value contain giftcard amount. 
                             var exchangeCredit = returnAuthorizationDataList[dataIndex].exchange_credit;
                             var itemDiscount = returnAuthorizationDataList[dataIndex].item_discount;
                             try {
@@ -110,7 +112,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                     returnAuthorizationRecord.setValue({
                                         fieldId: 'orderstatus',
                                         value: "B"
-                                    });                        
+                                    });
                                     
                                     var lineCount = returnAuthorizationRecord.getLineCount({
                                         sublistId: 'item'   
@@ -202,38 +204,9 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                                 line: removeitem
                                             });
                                         }
-                                    }
+                                    }                                    
 
-                                    if (exchangeCredit) {
-                                        for (var creditIndex = 0; creditIndex < exchangeCredit.length; creditIndex++) {
-                                            var creditProductId = exchangeCredit[creditIndex].product_id
-                                            var creditAmount = exchangeCredit[creditIndex].amount
-                                            
-                                            returnAuthorizationRecord.selectNewLine({
-                                                sublistId: 'item',
-                                            });
-                                            returnAuthorizationRecord.setCurrentSublistValue({
-                                                sublistId: 'item',
-                                                fieldId: 'item',
-                                                value: creditProductId
-                                            });
-                                            returnAuthorizationRecord.setCurrentSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'price',
-                                                    value: "-1"
-                                            });
-                                            returnAuthorizationRecord.setCurrentSublistValue({
-                                                sublistId: 'item',
-                                                fieldId: 'amount',
-                                                value: creditAmount
-                                            });
-                                            returnAuthorizationRecord.commitLine({
-                                                sublistId: 'item'
-                                            });
-                                        }
-                                    }
-
-                                    if (itemDiscount) {
+                                    if (itemDiscount.length != 0) {
                                         for (var itemDiscountIndex = 0; itemDiscountIndex < itemDiscount.length; itemDiscountIndex++) {
                                             var itemDiscountProductId = itemDiscount[itemDiscountIndex].product_id
                                             var itemDiscountAmount = itemDiscount[itemDiscountIndex].amount
@@ -278,6 +251,94 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
 
                                     log.debug("Return Authorization created for POS order with ID: " + orderId + ", RMA ID: " + returnAuthorizationId);
 
+                                    var rmaRecord = record.load({
+                                        type: record.Type.RETURN_AUTHORIZATION,
+                                        id: returnAuthorizationId,
+                                        isDynamic: true
+                                    });
+                                    
+                                    // get netsuite order total
+                                    var totalNS = rmaRecord.getValue({fieldId : "total"});
+
+                                    if(totalNS && parseFloat(totalNS) > 0 && posReturnTotal && parseFloat(posReturnTotal) > 0){
+                                        var offsetLineValue = posReturnTotal - totalNS;
+                                    }
+                                    log.debug("offsetLineValue", offsetLineValue);
+
+                                    if (exchangeCredit.length != 0 || offsetLineValue != 0) {
+                                        // Load the RMA Record to prevent The total can not be negative error.
+                                        var returnAuthorizationRecord = record.load({
+                                            type: record.Type.RETURN_AUTHORIZATION,
+                                            id: returnAuthorizationId,
+                                            isDynamic: true
+                                        });
+                                        for (var creditIndex = 0; creditIndex < exchangeCredit.length; creditIndex++) {
+                                            var creditProductId = exchangeCredit[creditIndex].product_id
+                                            var creditAmount = exchangeCredit[creditIndex].amount
+                                            
+                                            returnAuthorizationRecord.selectNewLine({
+                                                sublistId: 'item',
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'item',
+                                                value: creditProductId
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'price',
+                                                    value: "-1"
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'amount',
+                                                value: creditAmount
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'taxcode',
+                                                value: "-7"
+                                            });
+                                            returnAuthorizationRecord.commitLine({
+                                                sublistId: 'item'
+                                            });
+                                        }
+
+                                        if (offsetLineValue != 0) {
+                                            returnAuthorizationRecord.selectNewLine({
+                                                sublistId: 'item',
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'item',
+                                                value: "19036"
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'price',
+                                                    value: "-1"
+                                            });
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'amount',
+                                                value: offsetLineValue
+                                            });
+                                            
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'taxcode',
+                                                value: "-7"
+                                            });
+                                        
+                                            returnAuthorizationRecord.commitLine({
+                                                sublistId: 'item'
+                                            });
+                                        }
+                                        // Update the Return Authorization
+                                        var returnAuthorizationId = returnAuthorizationRecord.save();
+                                        log.debug("Return Authorization is updated for order: " + orderId + ", POS RMA ID: " + returnAuthorizationId);
+                                    }
+
                                     // Create item receipt
                                     if (returnAuthorizationId) {
                                         var itemReceipt = record.transform({
@@ -316,6 +377,23 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                             toType: record.Type.CREDIT_MEMO,
                                             isDynamic: true
                                         })
+
+                                        var returnAuthorizationRecord= record.load({
+                                            type: record.Type.RETURN_AUTHORIZATION,
+                                            id: returnAuthorizationId,
+                                            isDynamic: true
+                                        });
+                                        var rmaAmount = returnAuthorizationRecord.getValue('taxtotal')
+                                        var rmaTaxOverRideAmount = returnAuthorizationRecord.getValue('taxamountoverride')
+                                        
+                                        creditMemo.setValue({
+                                            fieldId: 'taxtotal',
+                                            value: rmaAmount
+                                        });
+                                        creditMemo.setValue({
+                                            fieldId: 'taxamountoverride',
+                                            value: rmaTaxOverRideAmount
+                                        });
 
                                         var creditMemoId = creditMemo.save();
 
