@@ -1,0 +1,12 @@
+<transactionbodycustomfield scriptid="custbody_hc_inv_transfer_no">
+  <accesslevel>2</accesslevel>
+  <bodysale>T</bodysale>
+  <displaytype>NORMAL</displaytype>
+  <encryptatrest>F</encryptatrest>
+  <fieldtype>TEXT</fieldtype>
+  <globalsearch>T</globalsearch>
+  <label>HC Inventory Transfer Number</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+  <subtab>[scriptid=custtab_hc_tab]</subtab>
+</transactionbodycustomfield>

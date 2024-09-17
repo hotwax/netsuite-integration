@@ -88,6 +88,7 @@
         <path>~/Objects/SalesOrder/custcol_hc_giftcard_number.xml</path>
         <path>~/Objects/SalesOrder/custcolisbopis.xml</path>
         <path>~/Objects/POSReturn/custcol_hc_retrun_reason.xml</path>
+        <path>~/Objects/InventoryTransfer/custbody_hc_inv_transfer_no.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
