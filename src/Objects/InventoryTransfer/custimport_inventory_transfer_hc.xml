@@ -32,6 +32,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>[scriptid=custbody_hc_inv_transfer_no]</field>
+          <columnreference>
+            <column>HC Inventory Transfer Number</column>
+            <file>INVENTORYTRANSFER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>LOCATION</field>
           <columnreference>
             <column>From Location</column>
