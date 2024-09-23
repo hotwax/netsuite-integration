@@ -53,8 +53,8 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'unitPrice': 0,
                 'itemTotalDiscount': 0,
                 'grandTotal': 0,
-                'shipmethod': shipmethod,
-                'shipcarrier': shipcarrier,
+                'shipmethod': "STANDARD",
+                'shipcarrier': "_NA_",
                 'orderName': transferOrderNumber
             };
             
