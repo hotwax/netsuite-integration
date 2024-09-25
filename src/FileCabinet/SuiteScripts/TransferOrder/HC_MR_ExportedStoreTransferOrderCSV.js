@@ -5,6 +5,17 @@
 define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
  
     (error, file, task, record, search, sftp) => {
+        const internalIdList = new Set([]);
+        
+        const checkInternalId = (internalid) => {
+            if (internalIdList.has(internalid)) {
+                return false;
+            } else {
+                internalIdList.add(internalid);
+                return true;
+            }
+        }
+
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
             var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_transfer_order' });
@@ -26,13 +37,16 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
             var transferOrderNumber = contextValues.values.tranid;
            
             if (internalid) {
-                var id = record.submitFields({
-                    type: record.Type.TRANSFER_ORDER,
-                    id: internalid,
-                    values: {
-                        custbody_hc_order_exported: true
-                    }
-                }); 
+                var checkId  = checkInternalId(internalid);
+                if (checkId) {
+                    var id = record.submitFields({
+                        type: record.Type.TRANSFER_ORDER,
+                        id: internalid,
+                        values: {
+                            custbody_hc_order_exported: true
+                        }
+                    });
+                } 
             } 
 
             var storetransferorderdata = {
