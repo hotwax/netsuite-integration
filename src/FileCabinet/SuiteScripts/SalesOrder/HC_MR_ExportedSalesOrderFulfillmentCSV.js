@@ -4,6 +4,17 @@
  */
 define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
     (file, record, search, sftp, task, error) => {
+        const internalIdList = new Set([]);
+        
+        const checkInternalId = (internalid) => {
+            if (internalIdList.has(internalid)) {
+                return false;
+            } else {
+                internalIdList.add(internalid);
+                return true;
+            }
+        }
+
         const getInputData = (inputContext) => {
             // Get sales order fulfillment search query
             var salesOrderFulfillmentSearch = search.load({ id: 'customsearch_hc_export_so_fulfillment' });
@@ -39,13 +50,16 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 'shippingMethodId': shippingMethodId
             };
             if (fulfillmentInternalId) {
-                var id = record.submitFields({
-                    type: record.Type.ITEM_FULFILLMENT,
-                    id: fulfillmentInternalId,
-                    values: {
-                        custbody_hc_fulfillment_exported: true
-                    }
-                });
+                var checkId  = checkInternalId(fulfillmentInternalId);
+                if (checkId) {
+                    var id = record.submitFields({
+                        type: record.Type.ITEM_FULFILLMENT,
+                        id: fulfillmentInternalId,
+                        values: {
+                            custbody_hc_fulfillment_exported: true
+                        }
+                    });
+                }
             }
             
             mapContext.write({

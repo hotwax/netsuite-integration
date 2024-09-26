@@ -4,6 +4,17 @@
  */
 define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/error', 'N/task'],
     (file, record, search, sftp, error, task) => {
+        const internalIdList = new Set([]);
+        
+        const checkInternalId = (internalid) => {
+            if (internalIdList.has(internalid)) {
+                return false;
+            } else {
+                internalIdList.add(internalid);
+                return true;
+            }
+        }
+
         const getInputData = (inputContext) => {
             // Get item receipt search query
             var inventoryTransferSearch = search.load({ id: 'customsearch_hc_exp_wh_inv_transfer' });
@@ -21,13 +32,16 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/error', 'N/task'],
             var comments = "Inventory Adjusted from Inventory Transfer # " + internalid + " in NetSuite ";
             
             if (internalid) {
-                var id = record.submitFields({
-                    type: record.Type.INVENTORY_TRANSFER,
-                    id: internalid,
-                    values: {
-                        custbody_hc_inventory_transfer_exp: true
-                    }
-                }); 
+                var checkId  = checkInternalId(internalid);
+                if (checkId) {
+                    var id = record.submitFields({
+                        type: record.Type.INVENTORY_TRANSFER,
+                        id: internalid,
+                        values: {
+                            custbody_hc_inventory_transfer_exp: true
+                        }
+                    });
+                } 
             } 
 
             var inventoryDeltaData = {
