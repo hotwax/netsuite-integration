@@ -88,6 +88,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                         for (var dataIndex = 0; dataIndex < returnAuthorizationDataList.length; dataIndex++) {
                             var orderId = returnAuthorizationDataList[dataIndex].order_id;
                             var posReturnTotal = returnAuthorizationDataList[dataIndex].pos_return_total;
+                            var hcReturnId = returnAuthorizationDataList[dataIndex].hc_return_id;
                             var itemList = returnAuthorizationDataList[dataIndex].items;
                             var paymentlist = returnAuthorizationDataList[dataIndex].payment_list;
                             // exchange credit value contain giftcard amount. 
@@ -112,6 +113,11 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                     returnAuthorizationRecord.setValue({
                                         fieldId: 'orderstatus',
                                         value: "B"
+                                    });
+
+                                    returnAuthorizationRecord.setValue({
+                                        fieldId: 'custbody_hc_pos_return_id',
+                                        value: hcReturnId
                                     });
                                     
                                     var lineCount = returnAuthorizationRecord.getLineCount({

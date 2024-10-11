@@ -60,6 +60,7 @@
         <path>~/FileCabinet/SuiteScripts/Product/HC_MR_ExportedKITProductCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedGiftCardFulfillmentCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/POSReturn/HC_SC_CreatePOSReturn.js</path>
+        <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedInventoryAdjustmentCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -89,6 +90,8 @@
         <path>~/Objects/SalesOrder/custcolisbopis.xml</path>
         <path>~/Objects/POSReturn/custcol_hc_retrun_reason.xml</path>
         <path>~/Objects/InventoryTransfer/custbody_hc_inv_transfer_no.xml</path>
+        <path>~/Objects/InventoryAdjustment/custbody_hc_inven_adjustment_exported.xml</path>
+        <path>~/Objects/POSReturn/custbody_hc_pos_return_id.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -160,6 +163,7 @@
         <path>~/Objects/Product/customscript_exp_kitproducts.xml</path>
         <path>~/Objects/SalesOrder/customscript_exp_giftcard_fulfillment.xml</path>
         <path>~/Objects/POSReturn/customscript_create_pos_return.xml</path>
+        <path>~/Objects/InventoryAdjustment/customscript_exp_inventory_adj.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
