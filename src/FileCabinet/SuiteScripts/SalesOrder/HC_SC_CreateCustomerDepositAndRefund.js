@@ -63,7 +63,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
           log.debug("Connection established successfully with SFTP server!");
 
           var list = connection.list({
-              path: '/customer-refund/'
+              path: '/CD-CR/'
           });
 
           for (var i=0; i<list.length; i++) {
@@ -73,7 +73,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
       
                       // Download the file from the remote server
                       var downloadedFile = connection.download({
-                          directory: '/customer-refund',
+                          directory: '/CD-CR',
                           filename: fileName
                       });
                       
@@ -87,14 +87,44 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                           
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
                               var orderId = orderDataList[dataIndex].order_id;
-                              var refundAmount = orderDataList[dataIndex].refund_amount;
-                              var shopifyPaymentMethodId = orderDataList[dataIndex].refund_payment_method;
+                              var totalAmount = orderDataList[dataIndex].total_amount;
                               var externalId = orderDataList[dataIndex].external_id;
+                              var statusId = orderDataList[dataIndex].status_id;
                               var parentRefId = orderDataList[dataIndex].parent_ref_id;
+                              var shopifyPaymentMethodId = orderDataList[dataIndex].payment_method;
                               
                               try {
-                                if (refundAmount > 0 && orderId) {
+                                // Create a customer deposit
+                                if (totalAmount > 0 && orderId && statusId === 'PAYMENT_SETTLED') {
+                                    var fieldLookUp = search.lookupFields({
+                                      type: search.Type.SALES_ORDER,
+                                      id: orderId,
+                                      columns: ['lastmodifieddate']
+                                    });
+                                    var date = fieldLookUp.lastmodifieddate;
+                                        
+                                    var customerDeposit = record.create({
+                                        type: record.Type.CUSTOMER_DEPOSIT, 
+                                        isDynamic: false,
+                                        defaultValues: {
+                                            salesorder: orderId 
+                                        }
+                                     });
+                
+                                    customerDeposit.setValue({fieldId: 'payment', value: totalAmount});
+                                    customerDeposit.setValue({fieldId: 'trandate', value: new Date(date)});
+                                    customerDeposit.setValue({fieldId: 'paymentmethod', value: shopifyPaymentMethodId});
+                                    if (externalId) {
+                                        customerDeposit.setValue({fieldId: 'externalid', value: externalId});
+                                    }
+                
+                                    var customerDepositId = customerDeposit.save();
+                                    log.debug("customer deposit is created with id " + customerDepositId);
+                                }
+                                // Create a customer refund
+                                if (totalAmount > 0 && orderId && statusId === 'PAYMENT_REFUNDED') {
                                     var depositInternalId = '';
+                                    // Create search to find customer deposit associated with Parent Ref Id of customer Refund
                                     if (parentRefId) {
                                         var customerDepositSearch = search.create({
                                             type: search.Type.CUSTOMER_DEPOSIT,
@@ -136,7 +166,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                             depositInternalId = searchResults[0].getValue({ name: 'internalid' });
                                         }
                                      }
-                                    
+                                    // If customer deposit found, retrieve its internal ID
                                     if (depositInternalId) {
                                         var customerRefundRecord = record.transform({
                                             fromType: record.Type.CUSTOMER_DEPOSIT,
@@ -146,23 +176,28 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                         });
                                         
                                         customerRefundRecord.setValue({fieldId: 'paymentmethod', value: shopifyPaymentMethodId});
-                                        customerRefundRecord.setSublistValue({
-                                            sublistId: 'deposit',
-                                            fieldId: 'amount',
-                                            value: refundAmount,
-                                            line: 0
-                                        });
                                         if (externalId) {
                                             customerRefundRecord.setValue({fieldId: 'externalid', value: externalId});
                                         }
+                                        customerRefundRecord.setSublistValue({
+                                            sublistId: 'deposit',
+                                            fieldId: 'amount',
+                                            value: totalAmount,
+                                            line: 0
+                                        });
                                         
                                         var customerRefundId = customerRefundRecord.save();
                                         log.debug("customer refund is created with id " + customerRefundId);
-                                    }                    
+                                    } else {
+                                        log.debug("Customer Deposit Not Found Unable to process a customer refund because the Parent Reference Number provided is invalid or missing " , orderId);
+                                        var errorInfo = orderId + ',' + "Customer Deposit Not Found Unable to process a customer refund because the Parent Reference Number provided is invalid or missing" + ',' + fileName + '\n';
+                                        errorList.push(errorInfo);
+                                    }                  
                                 }
+                
                               } catch (e) {
                                   log.error({
-                                      title: 'Error in creating customer refund records for sales order ' + orderId,
+                                      title: 'Error in creating customer deposit and customer refund records for sales order ' + orderId,
                                       details: e,
                                   });
                                   var errorInfo = orderId + ',' + e.message + ',' + fileName + '\n';
@@ -174,7 +209,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                               fileLines = fileLines + errorList;
                         
                               var date = new Date();
-                              var errorFileName = date + '-ErrorCustomerRefund.csv';
+                              var errorFileName = date + '-ErrorCustomerDepositAndRefund.csv';
                               var fileObj = file.create({
                                 name: errorFileName,
                                 fileType: file.Type.CSV,
@@ -182,20 +217,20 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                               });
           
                               connection.upload({
-                                directory: '/customer-refund/error/',
+                                directory: '/CD-CR/error/',
                                 file: fileObj
                               });
                           }
                           // Archive the file
                           connection.move({
-                                from: '/customer-refund/' + fileName,
-                                to: '/customer-refund/archive/' + fileName
+                                from: '/CD-CR/' + fileName,
+                                to: '/CD-CR/archive/' + fileName
                           })
                           log.debug('File moved!'); 
                       }
                   } catch (e) {
                       log.error({
-                      title: 'Error in processing customer refund csv files',
+                      title: 'Error in creating customer deposit and customer refund records for sales order',
                       details: e,
                       });
                   }
@@ -204,11 +239,11 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
         
       } catch (e) {
         log.error({
-          title: 'Error in creating customer refund for sales orders',
+          title: 'Error in creating customer deposit and customer refund records for sales order',
           details: e,
         });
         throw error.create({
-          name: "Error in creating customer refund for sales orders",
+          name: "Error in creating customer deposit and customer refund records for sales order ",
           message: e
         });
       }

@@ -66,7 +66,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
             var list = connection.list({
                 path: '/'
             });
-
+            
             for (var i = 0; i < list.length; i++) {
                 if (!list[i].directory) {
                     var fileName = list[i].name;
@@ -84,9 +84,12 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                         // Parse the Return Authorization JSON file
                         var returnAuthorizationDataList = JSON.parse(contents);
                         var errorList = [];
+                        var returnErrorMap = [];
 
                         for (var dataIndex = 0; dataIndex < returnAuthorizationDataList.length; dataIndex++) {
                             var orderId = returnAuthorizationDataList[dataIndex].order_id;
+                            var shopifyOrderId = returnAuthorizationDataList[dataIndex].shopify_order_id;
+                            var externalId = returnAuthorizationDataList[dataIndex].hc_external_id;
                             var posReturnTotal = returnAuthorizationDataList[dataIndex].pos_return_total;
                             var hcReturnId = returnAuthorizationDataList[dataIndex].hc_return_id;
                             var itemList = returnAuthorizationDataList[dataIndex].items;
@@ -96,6 +99,19 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                             var itemDiscount = returnAuthorizationDataList[dataIndex].item_discount;
                             try {
                                 if (orderId) {
+                                     // Search for the Sales Order by internal ID and get the status
+                                     var salesOrderStatus = search.create({
+                                        type: search.Type.SALES_ORDER,
+                                        filters: [['internalid', 'is', orderId]],
+                                        columns: ['status']
+                                    })
+                                    .run()
+                                    .getRange({ start: 0, end: 1 })
+                                    .map(function (result) {
+                                        return result.getValue('status');
+                                    })[0];
+                                }
+                                if (orderId && salesOrderStatus !== 'pendingFulfillment' && salesOrderStatus !== 'pendingApprove') {
                                     // Initialize Return Authorization from Sales Order
                                     var returnAuthorizationRecord = record.transform({
                                         fromType: record.Type.SALES_ORDER,
@@ -114,7 +130,15 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                         fieldId: 'orderstatus',
                                         value: "B"
                                     });
-
+                                    
+                                    if (externalId) {
+                                       // Set External Id
+                                       returnAuthorizationRecord.setValue({
+                                         fieldId: 'externalid',
+                                         value: externalId
+                                       });
+                                    }
+                                  
                                     returnAuthorizationRecord.setValue({
                                         fieldId: 'custbody_hc_pos_return_id',
                                         value: hcReturnId
@@ -124,93 +148,78 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                         sublistId: 'item'   
                                     });
 
-                                    var removeListline = [];
-                                    for (var j = 0; j < lineCount; j++) {
-                                        var matchFound = false;
-                                        var itemid = returnAuthorizationRecord.getSublistValue({
+                                    // Remove line item
+                                    for (var j = lineCount - 1; j >= 0; j--) {
+                                        returnAuthorizationRecord.removeLine({
+                                            sublistId: 'item',
+                                            line: j
+                                        });   
+                                    } 
+
+                                    for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
+                                        var productId = itemList[itemIndex].product_id;
+                                        var returnquantity = itemList[itemIndex].quantity;
+                                        var returnamount = itemList[itemIndex].amount;
+                                        var returnlineid = itemList[itemIndex].external_order_line_id;
+                                        var locationid = itemList[itemIndex].location_id;
+                                        var returnReason = itemList[itemIndex].return_reason;
+
+                                        returnAuthorizationRecord.selectNewLine({
+                                            sublistId: 'item',
+                                        });
+
+                                        returnAuthorizationRecord.setCurrentSublistValue({
                                             sublistId: 'item',
                                             fieldId: 'item',
-                                            line: j
+                                            value: productId
                                         });
 
-                                        var externallineid = returnAuthorizationRecord.getSublistValue({
+                                        returnAuthorizationRecord.setCurrentSublistValue({
+                                            sublistId: 'item',
+                                            fieldId: 'quantity',
+                                            value: returnquantity
+                                        });
+
+                                        // Custom price level
+                                        returnAuthorizationRecord.setCurrentSublistValue({
+                                            sublistId: 'item',
+                                            fieldId: 'price',
+                                            value: "-1"
+                                        });
+
+                                        returnAuthorizationRecord.setCurrentSublistValue({
+                                            sublistId: 'item',
+                                            fieldId: 'amount',
+                                            value: returnamount
+                                        });
+
+                                        returnAuthorizationRecord.setCurrentSublistValue({
                                             sublistId: 'item',
                                             fieldId: 'custcol_hc_order_line_id',
-                                            line: j
+                                            value: returnlineid
                                         });
-                                       
-                                        for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
-                                            var productId = itemList[itemIndex].product_id;
-                                            var returnquantity = itemList[itemIndex].quantity;
-                                            var returnamount = itemList[itemIndex].amount;
-                                            var returnlineid = itemList[itemIndex].external_order_line_id;
-                                            var locationid = itemList[itemIndex].location_id;
-                                            var returnReason = itemList[itemIndex].return_reason;
 
-                                            // If return item match with sales order item
-                                            if (productId === itemid && returnlineid === externallineid) {
-                                                matchFound = true;
-                                                returnAuthorizationRecord.selectLine({
-                                                    sublistId: 'item',
-                                                    line: j
-                                                });
-
-                                                returnAuthorizationRecord.setCurrentSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'quantity',
-                                                    value: returnquantity
-                                                });
-
-                                                // Custom price level
-                                                returnAuthorizationRecord.setCurrentSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'price',
-                                                    value: "-1"
-                                                });
-
-                                                returnAuthorizationRecord.setCurrentSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'amount',
-                                                    value: returnamount
-                                                });
-
-                                                // Set return reason memo
-                                                if (returnReason !== null) {
-                                                    returnAuthorizationRecord.setCurrentSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'custcol_hc_retrun_reason',
-                                                        value: returnReason
-                                                    });
-                                                }
-
-                                                if (locationid !== "") {
-                                                    returnAuthorizationRecord.setCurrentSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'location',
-                                                        value: locationid
-                                                    });
-                                                }
-
-                                                returnAuthorizationRecord.commitLine({
-                                                    sublistId: 'item'
-                                                });
-                                            }
-                                        }
-
-                                        if (!matchFound) {
-                                            removeListline.push(j);
-                                        }
-                                    }
-                                    // Remove line item are not in return
-                                    if (removeListline.length > 0) {
-                                        for (var k = removeListline.length - 1; k >= 0; k--) {
-                                            var removeitem = removeListline[k]
-                                            returnAuthorizationRecord.removeLine({
+                                        // Set return reason memo
+                                        if (returnReason !== null) {
+                                            returnAuthorizationRecord.setCurrentSublistValue({
                                                 sublistId: 'item',
-                                                line: removeitem
+                                                fieldId: 'custcol_hc_retrun_reason',
+                                                value: returnReason
                                             });
                                         }
-                                    }                                    
+
+                                        if (locationid !== "") {
+                                            returnAuthorizationRecord.setCurrentSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'location',
+                                                value: locationid
+                                            });
+                                        }
+
+                                        returnAuthorizationRecord.commitLine({
+                                            sublistId: 'item'
+                                        });    
+                                    }
 
                                     if (itemDiscount.length != 0) {
                                         for (var itemDiscountIndex = 0; itemDiscountIndex < itemDiscount.length; itemDiscountIndex++) {
@@ -310,7 +319,9 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                             });
                                         }
 
-                                        if (offsetLineValue != 0) {
+                                        if (offsetLineValue && offsetLineValue != 0) {
+                                            var offsetLineAmount = offsetLineValue.toFixed(2);
+                                          
                                             returnAuthorizationRecord.selectNewLine({
                                                 sublistId: 'item',
                                             });
@@ -327,7 +338,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                             returnAuthorizationRecord.setCurrentSublistValue({
                                                 sublistId: 'item',
                                                 fieldId: 'amount',
-                                                value: offsetLineValue
+                                                value: offsetLineAmount
                                             });
                                             
                                             returnAuthorizationRecord.setCurrentSublistValue({
@@ -470,19 +481,50 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
                                             log.debug("Customer Refund created for credit memo with ID: " + creditMemoId + ", Customer Refund ID: " + customerRefundId);
                                         }
                                     }
+                                } else {
+                                    if (salesOrderStatus == 'pendingFulfillment' || salesOrderStatus == 'pendingApprove') {
+                                        log.debug("RMA cannot be created as the order is in Pending Fulfillment or Pending Approval status");
+                                        var errorInfo = shopifyOrderId + ',' + "RMA cannot be created as the order is in Pending Fulfillment or Pending Approval status : " + ',' + fileName + '\n';
+                                        var returnMap = returnAuthorizationDataList[dataIndex]
+                                        returnErrorMap.push(returnMap);
+                                        errorList.push(errorInfo);
+
+                                    } else {
+                                        log.debug("Order is not found to create loop return");
+                                        var errorInfo = shopifyOrderId + ',' + "Order is not found to create pos return : " + ',' + fileName + '\n';
+                                        var returnMap = returnAuthorizationDataList[dataIndex]
+                                        returnErrorMap.push(returnMap);
+                                        errorList.push(errorInfo);
+                                    }
                                 }
                             } catch (e) {
                                 log.error({
                                     title: 'Error in processing POS order ' + orderId,
                                     details: e
                                 });
-                                var errorInfo = orderId + ',' + e.message + '\n';
+                                var errorInfo = orderId + ',' + e.message + ',' + fileName + '\n';
                                 errorList.push(errorInfo);
                             }
                         }
+                      
+                        if (returnErrorMap.length !== 0) {
+                            log.debug("return map create")
+                            var returnJSON = JSON.stringify(returnErrorMap);
+                            var date = new Date();
+                            var jsonFile = file.create({
+                                name: date + '-POSReturnRetry.json',
+                                fileType: file.Type.JSON,
+                                contents: returnJSON,
+                            });
+
+                            connection.upload({
+                                directory: '/',
+                                file: jsonFile
+                            });
+                        }
                         
                         if (errorList.length !== 0) {
-                            var fileLines = 'orderId,errorMessage\n';
+                            var fileLines = 'orderId,errorMessage,fileName\n';
                             fileLines = fileLines + errorList;
 
                             var date = new Date();
