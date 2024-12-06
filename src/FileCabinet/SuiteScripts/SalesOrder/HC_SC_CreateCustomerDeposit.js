@@ -89,6 +89,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                               var orderId = orderDataList[dataIndex].order_id;
                               var totalAmount = orderDataList[dataIndex].total_amount;
                               var shopifyPaymentMethodId = orderDataList[dataIndex].payment_method;
+                              var externalId = orderDataList[dataIndex].external_id;
                               
                               try {
                                 if (totalAmount > 0 && orderId) {
@@ -110,6 +111,13 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                     customerDeposit.setValue({fieldId: 'payment', value: totalAmount});
                                     customerDeposit.setValue({fieldId: 'trandate', value: new Date(date)});
                                     customerDeposit.setValue({fieldId: 'paymentmethod', value: shopifyPaymentMethodId});
+                                    if (externalId) {
+                                        // Set CD External Id
+                                        customerDeposit.setValue({
+                                            fieldId: 'externalid',
+                                            value: externalId
+                                        });
+                                    }
                 
                                     var customerDepositId = customerDeposit.save();
                                     log.debug("customer deposit is created with id " + customerDepositId);
@@ -120,12 +128,13 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                                       title: 'Error in creating customer deposit records for sales order ' + orderId,
                                       details: e,
                                   });
-                                  var errorInfo = orderId + ',' + e.message + '\n';
+                                
+                                  var errorInfo = orderId + ',' + e.message + ',' + fileName + '\n';
                                   errorList.push(errorInfo);
                               }
                           }
                           if (errorList.length !== 0) {
-                              var fileLines = 'orderId,errorMessage\n';
+                              var fileLines = 'orderId,errorMessage,fileName\n';
                               fileLines = fileLines + errorList;
                         
                               var date = new Date();
