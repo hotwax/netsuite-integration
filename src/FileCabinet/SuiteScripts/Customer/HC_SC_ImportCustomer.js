@@ -69,7 +69,8 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, ta
         log.debug("Connection established successfully with SFTP server!");
 
         var list = connection.list({
-          path: '/export/'
+          path: '/export/',
+          sort: sftp.Sort.DATE
         });
 
         for (var i=0; i<list.length; i++) {
