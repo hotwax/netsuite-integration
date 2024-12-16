@@ -65,11 +65,11 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var externalId = contextValues.values.externalid.value;
             var internalid = contextValues.values.internalid.value;
+            var hcCustomerId = contextValues.values.custentity_hc_customer_id.value;
 
             var customerdata = {
-                'partyId': externalId,
+                'partyId': hcCustomerId,
                 'partyIdentificationTypeId': "NETSUITE_CUSTOMER_ID",
                 'idValue': internalid
             };
@@ -106,12 +106,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
                         fileType: file.Type.CSV,
                         contents: fileLines
                     });
-
-                    // Establish a connection to a remote FTP server
-                    /* The host key can be obtained using OpenSSH's ssh-keyscan tool:
-                    ssh-keyscan -t <hostKeyType> -p <port> <hostDomain>
-                    Example: ssh-keyscan -t ECDSA -p 235 hc-uat.hotwax.io 
-                    */
 
                     //Get Custom Record Type SFTP details
                     var customRecordSFTPSearch = search.create({
