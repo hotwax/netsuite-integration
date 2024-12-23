@@ -67,7 +67,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var contextValues = JSON.parse(mapContext.value);
 
             var internalId = contextValues.values.internalid.value;
-            var hcOrderId = contextValues.values.custbody_hc_shopify_order_id;
+            var hcOrderId = contextValues.values.custbody_hc_order_id;
 
             var salesdata = {
                 'orderId': hcOrderId,

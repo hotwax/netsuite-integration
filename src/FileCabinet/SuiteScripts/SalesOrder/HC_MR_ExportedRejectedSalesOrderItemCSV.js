@@ -138,7 +138,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var hcOrderId = contextValues.values.custbody_hc_shopify_order_id;
+            var hcOrderId = contextValues.values.custbody_hc_order_id;
             var internalId = contextValues.values.internalid.value;
             var externalOrderLineId = contextValues.values.custcol_hc_order_line_id;
             var lineId = contextValues.values.line;
