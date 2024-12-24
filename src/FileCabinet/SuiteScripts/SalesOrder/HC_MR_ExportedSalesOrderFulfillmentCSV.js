@@ -24,7 +24,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var orderId = contextValues.values.formulatext;
+            var orderId = contextValues.values.custbody_hc_order_id;
             var orderItemSeqId = contextValues.values.custcol_hc_order_line_id;
             var externalFacilityId = contextValues.values.location.value;
             var shippedDate = contextValues.values.lastmodifieddate;

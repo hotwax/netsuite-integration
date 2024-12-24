@@ -49,6 +49,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>[scriptid=custbody_hc_order_id]</field>
+          <columnreference>
+            <column>HC Sales Order Id</column>
+            <file>SALESORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>DEPARTMENT</field>
           <columnreference>
             <column>Department</column>
