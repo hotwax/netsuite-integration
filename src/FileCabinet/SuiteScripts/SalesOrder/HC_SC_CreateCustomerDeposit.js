@@ -63,7 +63,8 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
           log.debug("Connection established successfully with SFTP server!");
 
           var list = connection.list({
-              path: '/customerdeposit/'
+              path: '/customerdeposit/',
+              sort: sftp.Sort.DATE
           });
 
           for (var i=0; i<list.length; i++) {
