@@ -94,6 +94,8 @@
         <path>~/Objects/InventoryTransfer/custbody_hc_inv_transfer_no.xml</path>
         <path>~/Objects/InventoryAdjustment/custbody_hc_inven_adjustment_exported.xml</path>
         <path>~/Objects/POSReturn/custbody_hc_pos_return_id.xml</path>
+        <path>~/Objects/Customer/custentity_hc_customer_id.xml</path>
+        <path>~/Objects/SalesOrder/custbody_hc_order_id.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>

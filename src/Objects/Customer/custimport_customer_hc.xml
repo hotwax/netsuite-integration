@@ -50,6 +50,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>[scriptid=custentity_hc_customer_id]</field>
+          <columnreference>
+            <column>HC Customer Id</column>
+            <file>CUSTOMER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>ENTITYSTATUS</field>
           <columnreference>
             <column>Status</column>
