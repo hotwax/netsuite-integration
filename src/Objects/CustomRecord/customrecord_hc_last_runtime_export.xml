@@ -58,5 +58,12 @@
       <label>Rejected Sales Order Item Export Date</label>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_cust_deposit_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Customer Deposit Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
   </customrecordcustomfields>
 </customrecordtype>

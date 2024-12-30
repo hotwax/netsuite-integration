@@ -414,6 +414,13 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'pos-return/error'
         });
+
+        connection.makeDirectory({
+            path: 'salesorder/import/orderpayment'
+        });
+        connection.makeDirectory({
+            path: 'salesorder/import/orderpayment/archive'
+        });
         
       } catch (e) {
         log.error({

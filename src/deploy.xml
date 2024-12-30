@@ -170,6 +170,7 @@
         <path>~/Objects/InventoryAdjustment/customscript_exp_inventory_adj.xml</path>
 
         <path>~/Objects/SalesOrder/customscript_create_cd_and_cr.xml</path>
+        <path>~/Objects/SalesOrder/customscript_export_cust_deposit.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -190,6 +191,7 @@
         <path>~/Objects/TransferOrder/customsearch_hc_exp_wh_to_fulfillment.xml</path>
         <path>~/Objects/TransferOrder/customsearch_hc_exp_store_to_fulfillment.xml</path>
         <path>~/Objects/Product/customsearch_hc_exp_kit_component.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_hc_exp_customer_deposit.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
