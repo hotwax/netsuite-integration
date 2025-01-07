@@ -1,0 +1,30 @@
+<mapreducescript scriptid="customscript_exp_oms_fulfilled_so">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_ExportedOMSFulfilledBackOrdCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_MR_ExportedOMSFulfilledBackOrdCSV.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_exp_oms_fulfilled_so">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>SCHEDULED</status>
+      <title>HC_MR_ExportedOMSFulfilledBackOrdCSV</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT12H</repeat>
+          <startdate>2023-08-21</startdate>
+          <starttime>07:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
