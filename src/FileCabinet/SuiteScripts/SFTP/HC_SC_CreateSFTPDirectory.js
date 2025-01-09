@@ -428,6 +428,16 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'salesorder/import/oms-fulfillment-nifi/archive'
         });
+
+        connection.makeDirectory({
+            path: 'pos-return/import'
+        });
+        connection.makeDirectory({
+            path: 'pos-return/import/returnidentification'
+        });
+        connection.makeDirectory({
+            path: 'pos-return/import/returnidentification/archive'
+        });
         
       } catch (e) {
         log.error({
