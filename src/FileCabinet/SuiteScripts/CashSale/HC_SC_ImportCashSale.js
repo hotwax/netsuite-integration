@@ -2,9 +2,12 @@
  * @NApiVersion 2.1
  * @NScriptType ScheduledScript
  */
-define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, task, error, search, file) {
+define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file', 'N/runtime'], function (sftp, task, error, search, file, runtime) {
     function execute(context) {
       try {
+        var usageThreshold = 500; // Set a threshold for remaining usage units
+        var scriptObj = runtime.getCurrentScript();
+
         //Get Custom Record Type SFTP details
         var customRecordSFTPSearch = search.create({
           type: 'customrecord_ns_sftp_configuration',
@@ -68,6 +71,11 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file'], function (sftp, ta
         });        
 
         for (var i=0; i<list.length; i++) {
+          if (scriptObj.getRemainingUsage() < usageThreshold) {
+            log.debug('Scheduled script has exceeded the usage unit threshold.');
+            return;
+          }
+          
           if (!list[i].directory) {
           var fileName = null;
           
