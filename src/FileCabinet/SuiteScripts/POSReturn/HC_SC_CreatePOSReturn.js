@@ -3,10 +3,13 @@
  * @NScriptType ScheduledScript
  */
 
-define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, record, error, search, file) {
+define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], function (sftp, record, error, search, file, runtime) {
 
     function execute(context) {
         try {
+            var usageThreshold = 500; // Set a threshold for remaining usage units
+            var scriptObj = runtime.getCurrentScript();
+
             // Establish a connection to a remote FTP server
             var customRecordSFTPSearch = search.create({
                 type: 'customrecord_ns_sftp_configuration',
@@ -69,6 +72,11 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file'], function (sftp, 
             });
             
             for (var i = 0; i < list.length; i++) {
+                if (scriptObj.getRemainingUsage() < usageThreshold) {
+                    log.debug('Scheduled script has exceeded the usage unit threshold.');
+                    return;
+                }
+
                 if (!list[i].directory) {
                     var fileName = list[i].name;
 
