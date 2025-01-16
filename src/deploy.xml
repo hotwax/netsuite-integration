@@ -65,6 +65,7 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerDepositAndRefund.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedOMSFulfilledBackOrdCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedPOSReturnCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_CreateCustomerDeposit.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -175,6 +176,7 @@
         <path>~/Objects/SalesOrder/customscript_export_cust_deposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_exp_oms_fulfilled_so.xml</path>
         <path>~/Objects/SalesOrder/customscript_exp_pos_return.xml</path>
+        <path>~/Objects/SalesOrder/customscript_hc_mr_createcustomerdeposit.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
