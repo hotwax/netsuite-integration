@@ -64,8 +64,9 @@
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerDepositAndRefund.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedOMSFulfilledBackOrdCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedPOSReturnCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/POSReturn/HC_MR_ExportedPOSReturnCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_CreateCustomerDeposit.js</path>
+        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedCustomerDepositCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -175,7 +176,8 @@
         <path>~/Objects/SalesOrder/customscript_create_cd_and_cr.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_cust_deposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_exp_oms_fulfilled_so.xml</path>
-        <path>~/Objects/SalesOrder/customscript_exp_pos_return.xml</path>
+
+        <path>~/Objects/POSReturn/customscript_exp_pos_return.xml</path>
         <path>~/Objects/SalesOrder/customscript_hc_mr_createcustomerdeposit.xml</path>
 
         <!--Saved Search-->
@@ -199,7 +201,7 @@
         <path>~/Objects/Product/customsearch_hc_exp_kit_component.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_exp_customer_deposit.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_exp_oms_shipped_orders.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_pos_return.xml</path>
+        <path>~/Objects/POSReturn/customsearch_hc_exp_pos_return.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>

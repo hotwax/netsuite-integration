@@ -5,7 +5,7 @@
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/InventoryTransfer/HC_MR_ExportedInventoryAdjustmentCSV.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/InventoryAdjustment/HC_MR_ExportedInventoryAdjustmentCSV.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_exp_inventory_adj">
       <buffersize>1</buffersize>
