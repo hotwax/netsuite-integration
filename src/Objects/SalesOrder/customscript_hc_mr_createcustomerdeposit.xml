@@ -1,0 +1,29 @@
+<mapreducescript scriptid="customscript_hc_mr_createcustomerdeposit">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_CreateCustomerDeposit</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/SalesOrder/HC_MR_CreateCustomerDeposit.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_mr_createcustomerdeposit">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <status>SCHEDULED</status>
+      <title>HC_MR_CreateCustomerDeposit</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT15M</repeat>
+          <startdate>2024-12-24</startdate>
+          <starttime>08:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
