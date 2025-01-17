@@ -35,7 +35,7 @@
         <fieldmapping>
           <field>[scriptid=custbody_hc_sales_channel]</field>
           <columnreference>
-            <column>Sales Channel</column>
+            <column>salesChannel</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -43,7 +43,7 @@
         <fieldmapping>
           <field>[scriptid=custbody_hc_shopify_order_id]</field>
           <columnreference>
-            <column>HC Shopify Sales Order Id</column>
+            <column>HCShopifySalesOrderId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -51,7 +51,7 @@
         <fieldmapping>
           <field>[scriptid=custbody_hc_order_id]</field>
           <columnreference>
-            <column>HC Sales Order Id</column>
+            <column>HCSalesOrderId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -59,7 +59,7 @@
         <fieldmapping>
           <field>DEPARTMENT</field>
           <columnreference>
-            <column>Department</column>
+            <column>department</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -67,7 +67,7 @@
         <fieldmapping>
           <field>DISCOUNTITEM</field>
           <columnreference>
-            <column>Discount Item</column>
+            <column>discountItem</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -75,7 +75,7 @@
         <fieldmapping>
           <field>DISCOUNTRATE</field>
           <columnreference>
-            <column>Rate</column>
+            <column>rate</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -83,7 +83,7 @@
         <fieldmapping>
           <field>EMAIL</field>
           <columnreference>
-            <column>Email</column>
+            <column>email</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -91,7 +91,7 @@
         <fieldmapping>
           <field>ENTITY</field>
           <columnreference>
-            <column>Customer</column>
+            <column>customer</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -99,7 +99,7 @@
         <fieldmapping>
           <field>EXTERNALID</field>
           <columnreference>
-            <column>External Id</column>
+            <column>externalId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -107,7 +107,7 @@
         <fieldmapping>
           <field>MEMO</field>
           <columnreference>
-            <column>Order Note</column>
+            <column>orderNote</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -123,7 +123,7 @@
         <fieldmapping>
           <field>SHIPMETHOD</field>
           <columnreference>
-            <column>Shipping Method</column>
+            <column>shippingMethod</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -131,7 +131,7 @@
         <fieldmapping>
           <field>SHIPPINGCOST</field>
           <columnreference>
-            <column>Shipping Cost</column>
+            <column>shippingCost</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -139,7 +139,7 @@
         <fieldmapping>
           <field>SHIPPINGTAXCODE</field>
           <columnreference>
-            <column>Shipping Tax Code</column>
+            <column>shippingTaxCode</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -147,7 +147,7 @@
         <fieldmapping>
           <field>TRANDATE</field>
           <columnreference>
-            <column>Date</column>
+            <column>date</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -155,7 +155,7 @@
         <fieldmapping>
           <field>OTHERREFNUM</field>
           <columnreference>
-            <column>Order Id</column>
+            <column>orderId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -163,7 +163,7 @@
         <fieldmapping>
           <field>SUBSIDIARY</field>
           <columnreference>
-            <column>Subsidiary</column>
+            <column>subsidiary</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -174,17 +174,9 @@
       <record>SALESORDER:ITEM</record>
       <fieldmappings>
         <fieldmapping>
-          <field>AMOUNT</field>
-          <columnreference>
-            <column>Amount</column>
-            <file>SALESORDER</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
           <field>[scriptid=custcol_hc_item_tag]</field>
           <columnreference>
-            <column>Tag</column>
+            <column>tag</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -192,7 +184,7 @@
         <fieldmapping>
           <field>[scriptid=custcol_hc_order_line_id]</field>
           <columnreference>
-            <column>Order Line Id</column>
+            <column>orderLineId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -200,7 +192,7 @@
         <fieldmapping>
           <field>[scriptid=custcol_hc_orderline_type_id]</field>
           <columnreference>
-            <column>Order Line Type Id</column>
+            <column>orderLineTypeId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -208,7 +200,7 @@
         <fieldmapping>
           <field>ISCLOSED</field>
           <columnreference>
-            <column>Closed</column>
+            <column>closed</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -216,7 +208,7 @@
         <fieldmapping>
           <field>ITEM</field>
           <columnreference>
-            <column>Item</column>
+            <column>item</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -224,7 +216,7 @@
         <fieldmapping>
           <field>PRICE</field>
           <columnreference>
-            <column>Price Level</column>
+            <column>priceLevel</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -232,7 +224,7 @@
         <fieldmapping>
           <field>QUANTITY</field>
           <columnreference>
-            <column>Quantity</column>
+            <column>quantity</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -240,7 +232,7 @@
         <fieldmapping>
           <field>RATE</field>
           <columnreference>
-            <column>Price</column>
+            <column>price</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -248,7 +240,7 @@
         <fieldmapping>
           <field>TAXCODE</field>
           <columnreference>
-            <column>Tax Code</column>
+            <column>taxCode</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -261,7 +253,7 @@
         <fieldmapping>
           <field>ADDR1</field>
           <columnreference>
-            <column>Address 1</column>
+            <column>address1</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -269,7 +261,7 @@
         <fieldmapping>
           <field>ADDR2</field>
           <columnreference>
-            <column>Address 2</column>
+            <column>address2</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -277,7 +269,7 @@
         <fieldmapping>
           <field>ADDRESSEE</field>
           <columnreference>
-            <column>Addressee</column>
+            <column>addressee</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -285,7 +277,7 @@
         <fieldmapping>
           <field>ADDRPHONE</field>
           <columnreference>
-            <column>Phone</column>
+            <column>phone</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -293,7 +285,7 @@
         <fieldmapping>
           <field>CITY</field>
           <columnreference>
-            <column>City</column>
+            <column>city</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -301,7 +293,7 @@
         <fieldmapping>
           <field>COUNTRY</field>
           <columnreference>
-            <column>Country</column>
+            <column>country</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -309,7 +301,7 @@
         <fieldmapping>
           <field>STATE</field>
           <columnreference>
-            <column>State</column>
+            <column>state</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -317,7 +309,7 @@
         <fieldmapping>
           <field>ZIP</field>
           <columnreference>
-            <column>Zip</column>
+            <column>zip</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -330,7 +322,7 @@
         <fieldmapping>
           <field>ADDR1</field>
           <columnreference>
-            <column>Billing Address1</column>
+            <column>billingAddress1</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -338,7 +330,7 @@
         <fieldmapping>
           <field>ADDR2</field>
           <columnreference>
-            <column>Billing Address 2</column>
+            <column>billingAddress2</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -346,7 +338,7 @@
         <fieldmapping>
           <field>ADDRESSEE</field>
           <columnreference>
-            <column>Billing Addressee</column>
+            <column>billingAddressee</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -354,7 +346,7 @@
         <fieldmapping>
           <field>ADDRPHONE</field>
           <columnreference>
-            <column>Billing Phone</column>
+            <column>billingPhone</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -362,7 +354,7 @@
         <fieldmapping>
           <field>CITY</field>
           <columnreference>
-            <column>Billing City</column>
+            <column>billingCity</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -370,7 +362,7 @@
         <fieldmapping>
           <field>COUNTRY</field>
           <columnreference>
-            <column>Billing Country</column>
+            <column>billingCountry</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -378,7 +370,7 @@
         <fieldmapping>
           <field>STATE</field>
           <columnreference>
-            <column>Billing State</column>
+            <column>billingState</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -386,7 +378,7 @@
         <fieldmapping>
           <field>ZIP</field>
           <columnreference>
-            <column>Billing Zip</column>
+            <column>billingZip</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
