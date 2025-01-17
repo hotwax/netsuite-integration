@@ -36,7 +36,7 @@
         <fieldmapping>
           <field>DEFAULTORDERPRIORITY</field>
           <columnreference>
-            <column>Default Order Priority</column>
+            <column>defaultOrderPriority</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -44,7 +44,7 @@
         <fieldmapping>
           <field>[scriptid=custentity_hc_shop_cust_id]</field>
           <columnreference>
-            <column>HC Shopify Customer Id</column>
+            <column>HCShopifyCustomerId</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -52,7 +52,7 @@
         <fieldmapping>
           <field>[scriptid=custentity_hc_customer_id]</field>
           <columnreference>
-            <column>HC Customer Id</column>
+            <column>HCCustomerId</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -60,7 +60,7 @@
         <fieldmapping>
           <field>ENTITYSTATUS</field>
           <columnreference>
-            <column>Status</column>
+            <column>status</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -68,7 +68,7 @@
         <fieldmapping>
           <field>EXTERNALID</field>
           <columnreference>
-            <column>External Id</column>
+            <column>externalId</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -76,7 +76,7 @@
         <fieldmapping>
           <field>EMAIL</field>
           <columnreference>
-            <column>Email</column>
+            <column>email</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -84,7 +84,7 @@
         <fieldmapping>
           <field>PHONE</field>
           <columnreference>
-            <column>Phone</column>
+            <column>phone</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -92,7 +92,7 @@
         <fieldmapping>
           <field>FIRSTNAME</field>
           <columnreference>
-            <column>First Name</column>
+            <column>firstName</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -100,7 +100,7 @@
         <fieldmapping>
           <field>ISPERSON</field>
           <columnreference>
-            <column>Individual</column>
+            <column>individual</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -108,7 +108,7 @@
         <fieldmapping>
           <field>LASTNAME</field>
           <columnreference>
-            <column>Last Name</column>
+            <column>lastName</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>
@@ -116,7 +116,7 @@
         <fieldmapping>
           <field>LEADSOURCE</field>
           <columnreference>
-            <column>Account Source</column>
+            <column>accountSource</column>
             <file>CUSTOMER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -124,7 +124,7 @@
         <fieldmapping>
           <field>SUBSIDIARY</field>
           <columnreference>
-            <column>Subsidiary</column>
+            <column>subsidiary</column>
             <file>CUSTOMER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -132,7 +132,7 @@
         <fieldmapping>
           <field>TAXABLE</field>
           <columnreference>
-            <column>Taxable</column>
+            <column>taxable</column>
             <file>CUSTOMER</file>
             <type>NAME</type>
           </columnreference>

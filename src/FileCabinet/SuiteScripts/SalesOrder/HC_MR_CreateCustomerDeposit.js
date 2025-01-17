@@ -104,10 +104,10 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            var orderId = contextValues.order_id;
-            var totalAmount = contextValues.total_amount;
-            var shopifyPaymentMethodId = contextValues.payment_method;
-            var externalId = contextValues.external_id;
+            var orderId = contextValues.orderId;
+            var totalAmount = contextValues.totalAmount;
+            var shopifyPaymentMethodId = contextValues.paymentMethod;
+            var externalId = contextValues.externalId;
 
             try {
                 if (totalAmount > 0 && orderId) {

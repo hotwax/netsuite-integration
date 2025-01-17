@@ -35,7 +35,7 @@
         <fieldmapping>
           <field>[scriptid=custbody_hc_sales_channel]</field>
           <columnreference>
-            <column>Sales Channel</column>
+            <column>salesChannel</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -43,7 +43,15 @@
         <fieldmapping>
           <field>[scriptid=custbody_hc_shopify_order_id]</field>
           <columnreference>
-            <column>HC Shopify POS Order Id</column>
+            <column>HCShopifyPOSOrderId</column>
+            <file>CASHSALE</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>[scriptid=custbody_hc_order_id]</field>
+          <columnreference>
+            <column>HCPOSOrderId</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -51,7 +59,7 @@
         <fieldmapping>
           <field>DEPARTMENT</field>
           <columnreference>
-            <column>Department</column>
+            <column>department</column>
             <file>CASHSALE</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -59,7 +67,7 @@
         <fieldmapping>
           <field>DISCOUNTITEM</field>
           <columnreference>
-            <column>Discount Item</column>
+            <column>discountItem</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -67,7 +75,7 @@
         <fieldmapping>
           <field>DISCOUNTRATE</field>
           <columnreference>
-            <column>Rate</column>
+            <column>rate</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -75,7 +83,7 @@
         <fieldmapping>
           <field>ENTITY</field>
           <columnreference>
-            <column>Customer</column>
+            <column>customer</column>
             <file>CASHSALE</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -83,7 +91,7 @@
         <fieldmapping>
           <field>EXTERNALID</field>
           <columnreference>
-            <column>External Id</column>
+            <column>externalId</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -91,7 +99,7 @@
         <fieldmapping>
           <field>LOCATION</field>
           <columnreference>
-            <column>Location</column>
+            <column>location</column>
             <file>CASHSALE</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -99,7 +107,7 @@
         <fieldmapping>
           <field>MEMO</field>
           <columnreference>
-            <column>Order Note</column>
+            <column>orderNote</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -107,7 +115,7 @@
         <fieldmapping>
           <field>TRANDATE</field>
           <columnreference>
-            <column>Date</column>
+            <column>date</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -115,7 +123,7 @@
         <fieldmapping>
           <field>OTHERREFNUM</field>
           <columnreference>
-            <column>Order Id</column>
+            <column>orderId</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -123,7 +131,7 @@
         <fieldmapping>
           <field>SUBSIDIARY</field>
           <columnreference>
-            <column>Subsidiary</column>
+            <column>subsidiary</column>
             <file>CASHSALE</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -138,17 +146,9 @@
       <record>CASHSALE:ITEM</record>
       <fieldmappings>
         <fieldmapping>
-          <field>AMOUNT</field>
-          <columnreference>
-            <column>Amount</column>
-            <file>CASHSALE</file>
-            <type>NAME</type>
-          </columnreference>
-        </fieldmapping>
-        <fieldmapping>
           <field>[scriptid=custcol_hc_order_line_id]</field>
           <columnreference>
-            <column>Order Line Id</column>
+            <column>orderLineId</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -156,7 +156,7 @@
         <fieldmapping>
           <field>ITEM</field>
           <columnreference>
-            <column>Item</column>
+            <column>item</column>
             <file>CASHSALE</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -164,7 +164,7 @@
         <fieldmapping>
           <field>PRICE</field>
           <columnreference>
-            <column>Price Level</column>
+            <column>priceLevel</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -172,7 +172,7 @@
         <fieldmapping>
           <field>QUANTITY</field>
           <columnreference>
-            <column>Quantity</column>
+            <column>quantity</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -180,7 +180,7 @@
         <fieldmapping>
           <field>RATE</field>
           <columnreference>
-            <column>Price</column>
+            <column>price</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -188,7 +188,7 @@
         <fieldmapping>
           <field>TAXCODE</field>
           <columnreference>
-            <column>Tax Code</column>
+            <column>taxCode</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -201,7 +201,7 @@
         <fieldmapping>
           <field>ADDR1</field>
           <columnreference>
-            <column>Address 1</column>
+            <column>address1</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -209,7 +209,7 @@
         <fieldmapping>
           <field>ADDR2</field>
           <columnreference>
-            <column>Address 2</column>
+            <column>address2</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -217,7 +217,7 @@
         <fieldmapping>
           <field>CITY</field>
           <columnreference>
-            <column>City</column>
+            <column>city</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -225,7 +225,7 @@
         <fieldmapping>
           <field>COUNTRY</field>
           <columnreference>
-            <column>Country</column>
+            <column>country</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -233,7 +233,7 @@
         <fieldmapping>
           <field>STATE</field>
           <columnreference>
-            <column>State</column>
+            <column>state</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>
@@ -241,7 +241,7 @@
         <fieldmapping>
           <field>ZIP</field>
           <columnreference>
-            <column>Zip</column>
+            <column>zip</column>
             <file>CASHSALE</file>
             <type>NAME</type>
           </columnreference>

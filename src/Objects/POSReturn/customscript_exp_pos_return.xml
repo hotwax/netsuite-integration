@@ -5,7 +5,7 @@
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/SalesOrder/HC_MR_ExportedPOSReturnCSV.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/POSReturn/HC_MR_ExportedPOSReturnCSV.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_exp_pos_return">
       <buffersize>1</buffersize>
