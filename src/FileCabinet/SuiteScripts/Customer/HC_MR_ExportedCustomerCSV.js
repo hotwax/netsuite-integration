@@ -66,7 +66,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var contextValues = JSON.parse(mapContext.value);
 
             var internalid = contextValues.values.internalid.value;
-            var hcCustomerId = contextValues.values.custentity_hc_customer_id.value;
+            var hcCustomerId = contextValues.values.custentity_hc_customer_id;
 
             var customerdata = {
                 'partyId': hcCustomerId,
