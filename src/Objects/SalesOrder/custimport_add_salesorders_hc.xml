@@ -51,7 +51,7 @@
         <fieldmapping>
           <field>[scriptid=custbody_hc_order_id]</field>
           <columnreference>
-            <column>HCSalesOrderId</column>
+            <column>HCOrderId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
