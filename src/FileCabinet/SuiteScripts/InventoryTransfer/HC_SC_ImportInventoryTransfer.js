@@ -88,6 +88,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file', 'N/runtime'], funct
             });
             log.debug("File downloaded successfully !"+fileName);
 
+            if (downloadedFile && downloadedFile.size > 0) {
             // Create CSV import task
             var scriptTask = task.create({taskType: task.TaskType.CSV_IMPORT});
             scriptTask.mappingId = 'custimport_inventory_transfer_hc';
@@ -105,6 +106,13 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file', 'N/runtime'], funct
                 to: '/archive/'+fileName
               });
               log.debug('File moved!');
+            }
+            } else {
+              connection.move({
+                from: '/csv/'+fileName,
+                to: '/archive/'+fileName
+              });
+              log.debug("File is empty, skipping task execution: " + fileName);
             }
           } catch (e) {
               log.error({
