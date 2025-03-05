@@ -38,7 +38,7 @@ define(['N/search', 'N/task'],
 
                         // Submit the task
                         var taskId = scheduledScriptTask.submit();
-                        log.audit('Schedule Script Rescheduled with task ID: ' + taskId);
+                        log.debug('Schedule Script Rescheduled with task ID: ' + taskId);
                         returnMessage = 'Success: Task successfully submitted!';
                     } catch (e) {
                         log.error('Error in Scheduled Script', e.toString());
@@ -75,7 +75,7 @@ define(['N/search', 'N/task'],
 
                         // Submit the task
                         var taskId = scheduledScriptTask.submit();
-                        log.audit('Map/Reduce Script Rescheduled with task ID: ' + taskId);
+                        log.debug('Map/Reduce Script Rescheduled with task ID: ' + taskId);
                         returnMessage = 'Success: Task successfully submitted!';
                     } catch (e) {
                         log.error('Error in Scheduled Script', e.toString());

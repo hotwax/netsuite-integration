@@ -5,10 +5,6 @@
 define(['N/record', 'N/search'],
     ( record, search) => {
         const post = (requestBody) => {
-            log.debug({
-                title: "requestBody",
-                details: requestBody
-            })
             var scriptName = requestBody.name;
             var paused = requestBody.paused;
 
