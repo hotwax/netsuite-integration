@@ -14,7 +14,7 @@ define(['N/record', 'N/search'],
 
             var scriptInternalId = search.create({
                 type: 'scriptdeployment',
-                filters: [['title', 'is', scriptName], 'AND', ['status', 'ISNOT', 'NOTSCHEDULED']],
+                filters: [['title', 'is', scriptName], 'AND', ['status', 'noneof', 'NOTSCHEDULED']],
                 columns: ['internalid']
             }).run().getRange({ start: 0, end: 1 }).map(function (result) {
                 return result.getValue('internalid');
