@@ -22,6 +22,7 @@
       <feature required="false">CUSTOMTRANSACTIONS</feature>
       <feature required="false">RECEIVABLES</feature>
       <feature required="false">PAYABLES</feature>
+      <feature required="false">CRM</feature>
     </features>
   </dependencies>
 </manifest>

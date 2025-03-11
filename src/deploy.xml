@@ -67,6 +67,9 @@
         <path>~/FileCabinet/SuiteScripts/POSReturn/HC_MR_ExportedPOSReturnCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_CreateCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedCustomerDepositCSV.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_UpdateSuiteScriptStatus.js</path>
+        <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_RunSuiteScript.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -179,6 +182,9 @@
 
         <path>~/Objects/POSReturn/customscript_exp_pos_return.xml</path>
         <path>~/Objects/SalesOrder/customscript_hc_mr_createcustomerdeposit.xml</path>
+
+        <path>~/Objects/Restlet/customscript_restlet_updatescript.xml</path>
+        <path>~/Objects/Restlet/customscript_restlet_runscript.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
