@@ -2,8 +2,8 @@
  * @NApiVersion 2.1
  * @NScriptType Restlet
  */
-define(['N/record', 'N/search'],
-    ( record, search) => {
+define(['N/record'],
+    ( record) => {
         const post = (requestBody) => {
             var hostName = requestBody.hostName;
             var userName = requestBody.userName;
@@ -12,36 +12,22 @@ define(['N/record', 'N/search'],
             var defaultDirectory = requestBody.defaultDirectory;
             var secretId = requestBody.secretId;
 
-            //Get SFTP Configuration Custom Record internal id
-            var customRecordHCExSearch = search.create({
-                type: 'customrecord_ns_sftp_configuration',
-                columns: ['internalid']
-            });
-            var searchResults = customRecordHCExSearch.run().getRange({
-                start: 0,
-                end: 1
-            });
-        
-            var searchResult = searchResults[0];
-            var sftpConfigurationInternalId = searchResult.getValue({
-                name: 'internalid'
-            });
-
             // save sftp configuration
-            record.submitFields({
+            var sftpConfigRecord = record.create({
                 type: 'customrecord_ns_sftp_configuration',
-                id: sftpConfigurationInternalId,
-                values: {
-                    custrecord_ns_sftp_server : hostName,
-                    custrecord_ns_sftp_userid : userName,
-                    custrecord_ns_sftp_port_no : port,
-                    custrecord_ns_sftp_host_key : hostKey,
-                    custrecord_ns_sftp_guid : secretId,
-                    custrecord_ns_sftp_default_file_dir : defaultDirectory
-                }
+                isDynamic: false
             });
 
-            
+            sftpConfigRecord.setValue({ fieldId: 'custrecord_ns_sftp_server', value: hostName });
+            sftpConfigRecord.setValue({ fieldId: 'custrecord_ns_sftp_userid', value: userName });
+            sftpConfigRecord.setValue({ fieldId: 'custrecord_ns_sftp_port_no', value: port });
+            sftpConfigRecord.setValue({ fieldId: 'custrecord_ns_sftp_host_key', value: hostKey });
+            sftpConfigRecord.setValue({ fieldId: 'custrecord_ns_sftp_guid', value: secretId });
+            sftpConfigRecord.setValue({ fieldId: 'custrecord_ns_sftp_default_file_dir', value: defaultDirectory });
+
+            var recordId = sftpConfigRecord.save();
+            log.debug('SFTP Configuration Saved', 'Record ID: ' + recordId);
+
             return {
                 status: 'success',
                 message: 'SFTP Configuration is added successfully'
