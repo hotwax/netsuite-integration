@@ -5,7 +5,7 @@
 define(['N/record', 'N/search'],
     ( record, search) => {
         const post = (requestBody) => {
-            var scriptName = requestBody.name;
+            var scriptName = requestBody.jobName;
             var paused = requestBody.paused;
 
             var scriptInternalId = search.create({

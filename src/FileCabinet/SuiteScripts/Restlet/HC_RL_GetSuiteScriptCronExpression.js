@@ -5,7 +5,7 @@
 define(['N/record', 'N/search'],
     ( record, search) => {
         const get = (context) => {
-            var scriptName = context.name;
+            var scriptName = context.jobName;
             var recurrenceMinutes = null;
 
             var scriptDeploymentInternalId = search.create({

@@ -6,7 +6,7 @@ define(['N/search', 'N/task'],
     (search, task) => {
         const post = (requestParams) => {            
             var returnMessage = '';
-            var scriptName = requestParams.name;
+            var scriptName = requestParams.jobName;
             var scriptType = requestParams.scriptType;
             
             if (scriptType === 'SCHEDULED') {
@@ -83,7 +83,10 @@ define(['N/search', 'N/task'],
                     }
                 }
             }
-            return JSON.stringify(returnMessage);
+            return {
+                status: 'success',
+                message: returnMessage
+            };
         }
         return {post}
     });
