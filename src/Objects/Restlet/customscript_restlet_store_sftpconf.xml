@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_restlet_store_sftpconf">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_RL_StoreSFTPConfiguration</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/Restlet/HC_RL_StoreSFTPConfiguration.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_restlet_store_sftpconf">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>HC_RL_StoreSFTPConfiguration</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>
