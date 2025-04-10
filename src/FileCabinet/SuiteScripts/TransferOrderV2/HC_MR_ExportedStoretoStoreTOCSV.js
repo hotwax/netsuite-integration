@@ -18,14 +18,14 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch5735' });
+            var StoreTransferOrderSearch = search.load({ id: 'customsearch5734' });
             return StoreTransferOrderSearch
         }
 
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
 
-            log.debug("====contextValues=="+ contextValues);
+            log.debug("====contextValues=="+ contextValues.values);
 
             var internalid = contextValues.values.internalid.value;
             var productSku = contextValues.values.item.value;
@@ -77,71 +77,37 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 key: contextValues.values.tranid,
                 value: storetransferorderdata
             });
-            
         }
 
-        const reduce = (reduceContext) => {
-            let groupedOrder = {
-                items: []
-            };
-        
-            reduceContext.values.forEach((val) => {
-                const item = JSON.parse(val);
-        
-                if (!groupedOrder.externalId) {
-                    groupedOrder = {
-                        externalId: item.externalId,
-                        orderName: item.orderName,
-                        productStoreId: item.productStoreId,
-                        statusID: item.statusID,
-                        sourceFacilityId: item.sourceFacilityId,
-                        destinationFacilityId: item.destinationFacilityId,
-                        orderTypeId: item.orderTypeId,
-                        shipmethod: item.shipmethod,
-                        shipcarrier: item.shipcarrier,
-                        date: item.date,
-                        statusFlowId: item.statusFlowId,
-                        items: []
-                    };
-                }
-        
-                groupedOrder.items.push({
-                    lineId: item.lineId,
-                    productIdValue: item.productIdValue,
-                    quantity: item.quantity,
-                    itemStatusId: item.itemStatusId
-                });
-            });
-        
-            reduceContext.write({
-                key: reduceContext.key,
-                value: JSON.stringify(groupedOrder)
-            });
-        };
-        
+
+      const reduce = (reduceContext) => {
+            var contextValues = JSON.parse(reduceContext.values);
+            var storetransferOrderId = reduceContext.key; 
+
+            var content = contextValues.externalId + ',' + contextValues.productStoreId + ',' + contextValues.statusID + ',' + contextValues.sourceFacilityId + ',' + contextValues.destinationFacilityId + ',' + contextValues.orderTypeId + ',' + contextValues.orderItemTypeId + ',' + contextValues.itemStatusId + ',' + contextValues.date + ',' + contextValues.productIdValue + ',' + contextValues.productIdType + ',' + contextValues.lineId + ',' + contextValues.quantity + ',' + contextValues.unitListPrice + ',' + contextValues.unitPrice + ',' + contextValues.itemTotalDiscount + ',' + contextValues.grandTotal + ',' + contextValues.shipmethod + ',' + contextValues.shipcarrier + ',' + contextValues.orderName + ',' + contextValues.statusFlowId + '\n';
+            reduceContext.write(storetransferOrderId, content);
+        }
+      
         const summarize = (summaryContext) => {
 
             try {
-        
-                let result = [];
+
+                var fileLines = 'external-id,product-store-id,status-id,external-facility-id,external-placing-facility-id,order-type-id,order-item-type-id,item-status-id,entry-date,product-id-value,product-id-type,item-external-id,quantity,unit-list-price,unit-price,item-total-discount,grand-total,shipment-method-type-id,carrier-party-id,order-name,status-flow-id\n';
                 var totalRecordsExported = 0;
 
-
                 summaryContext.output.iterator().each(function(key, value) {
-                    result.push(JSON.parse(value));
+                    fileLines += value;
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
-
-                
                 log.debug("====totalRecordsExported=="+ totalRecordsExported);
                 if (totalRecordsExported > 0) {
 
+                    var fileName =  summaryContext.dateCreated + '-ExportStoreTransferOrder.csv';
                     var fileObj = file.create({
-                        name: summaryContext.dateCreated + '-ExportStoreTransferOrder.json',
-                        fileType: file.Type.PLAINTEXT,
-                        contents: JSON.stringify(result, null, 2),
-                        encoding: file.Encoding.UTF_8
+                        name: fileName,
+                        fileType: file.Type.CSV,
+                        contents: fileLines
                     });
 
                     //Get Custom Record Type SFTP details
@@ -215,6 +181,8 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 }
             } catch (e) {
                 //Generate error csv
+
+                log.debug("Exceptions: " , e);              
                 var errorFileLine = 'orderId,Recordtype\n';
                 
                 summaryContext.output.iterator().each(function (key, value) {
