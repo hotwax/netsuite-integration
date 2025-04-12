@@ -18,7 +18,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch5734' });
+            var StoreTransferOrderSearch = search.load({ id: 'customsearch5736' });
             return StoreTransferOrderSearch
         }
 
