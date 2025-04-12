@@ -70,7 +70,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'shipmentMethodTypeId': "STANDARD",
                 'carrierPartyId': "_NA_",
                 'orderName': transferOrderNumber,
-                'statusFlowId': "TO_Fulfill_And_Receive"
+                'statusFlowId': "TO_Receive_Only"
             };
             
             mapContext.write({
