@@ -52,13 +52,13 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
             var storetransferorderdata = {
                 'externalId': internalid,
                 'productStoreId': 'STORE',
-                'statusID': 'ORDER_CREATED',
-                'sourceFacilityId': locationInternalId,
+                'statusId': 'ORDER_CREATED',
+                'originFacilityId': locationInternalId,
                 'destinationFacilityId': destinationLocationId,
                 'orderTypeId':'TRANSFER_ORDER',
                 'orderItemTypeId': 'PRODUCT_ORDER_ITEM',
                 'itemStatusId': 'ITEM_CREATED',
-                'date':date,
+                'orderDate':date,
                 'productIdValue' : productSku,
                 'productIdType': 'NETSUITE_PRODUCT_ID',
                 'lineId': lineId,
@@ -67,24 +67,25 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'unitPrice': 0,
                 'itemTotalDiscount': 0,
                 'grandTotal': 0,
-                'shipmethod': "STANDARD",
-                'shipcarrier': "_NA_",
+                'shipmentMethodTypeId': "STANDARD",
+                'carrierPartyId': "_NA_",
                 'orderName': transferOrderNumber,
                 'statusFlowId': "TO_Fulfill_And_Receive"
             };
             
             mapContext.write({
-                key: contextValues.values.tranid,
+                key: contextValues.values.internalid.value,
                 value: storetransferorderdata
             });
             
         }
 
         const reduce = (reduceContext) => {
+
             let groupedOrder = {
-                items: []
+                shipGroups: []
             };
-        
+
             reduceContext.values.forEach((val) => {
                 const item = JSON.parse(val);
         
@@ -93,20 +94,27 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         externalId: item.externalId,
                         orderName: item.orderName,
                         productStoreId: item.productStoreId,
-                        statusID: item.statusID,
-                        sourceFacilityId: item.sourceFacilityId,
-                        destinationFacilityId: item.destinationFacilityId,
+                        statusId: item.statusId,
+                        originFacilityId: item.originFacilityId,
                         orderTypeId: item.orderTypeId,
-                        shipmethod: item.shipmethod,
-                        shipcarrier: item.shipcarrier,
-                        date: item.date,
+                        orderDate: item.orderDate,
                         statusFlowId: item.statusFlowId,
-                        items: []
+                        shipGroups: [
+                            {
+                                shipmentMethodTypeId: item.shipmentMethodTypeId,
+                                carrierPartyId: item.carrierPartyId,
+                                facilityId: item.originFacilityId,
+                                orderFacilityId: item.destinationFacilityId,
+                                items: [] 
+                            }
+                        ]
                     };
                 }
         
-                groupedOrder.items.push({
-                    lineId: item.lineId,
+                groupedOrder.shipGroups[0].items.push({
+                    externalId: item.lineId,
+                    orderItemTypeId: item.orderItemTypeId,
+                    productIdType: item.productIdType,
                     productIdValue: item.productIdValue,
                     quantity: item.quantity,
                     itemStatusId: item.itemStatusId
@@ -137,9 +145,10 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 log.debug("====totalRecordsExported=="+ totalRecordsExported);
                 if (totalRecordsExported > 0) {
 
+                    fileName = 'ExportStoretoStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
                     var fileObj = file.create({
-                        name: summaryContext.dateCreated + '-ExportStoreTransferOrder.json',
-                        fileType: file.Type.PLAINTEXT,
+                        name: fileName,
+                        fileType: file.Type.JSON,
                         contents: JSON.stringify(result, null, 2),
                         encoding: file.Encoding.UTF_8
                     });
