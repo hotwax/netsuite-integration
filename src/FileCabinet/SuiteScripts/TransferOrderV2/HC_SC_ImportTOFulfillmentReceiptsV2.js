@@ -98,6 +98,17 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                             var itemList = transferOrderDataList[dataIndex].items;
                             var itemFulfillment = {}; // Object to group items by fulfillmentId
 
+
+                            var TransferOrderRecord = record.load({
+                                type: record.Type.TRANSFER_ORDER,
+                                id: orderId
+                            });
+                            // Get line count
+                            var lineCount = TransferOrderRecord.getLineCount({
+                                sublistId: 'item'
+                            });
+
+
                             try {
                                 if (orderId) {
                                     log.debug("===========orderId==" + orderId);
@@ -116,18 +127,21 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                                             columns: ['internalid']
                                         });
                                         
-                                        const transferOrderSearch = search.create({
-                                            type: search.Type.ITEM_FULFILLMENT,
-                                            filters: [
-                                                ['internalId', 'is', orderId],
-                                                'and',
-                                                ['mainline', 'is', true]
+                                        
+                                        // Loop through each line item
+                                        for (var i = 0; i < lineCount; i++) {
+                                            // Get item ID
+                                            var itemLineId = TransferOrderRecord.getSublistValue({
+                                                sublistId: 'item',
+                                                fieldId: 'line',
+                                                line: i
+                                            });
 
-                                            ],
-                                            columns: ['internalid']
-                                        });
+                                            log.debug("======itemLineId======" + itemLineId);
+                            
+                                        }
 
-                                        const transferOrderSerchResult = transferOrderSearch.run().getRange({ start: 0, end: 1000 });                                        ;
+                                        const searchResults = fulfillmentSearch.run().getRange({ start: 0, end: 1000 });                                        ;
 
                                         for (let i = 0; i < searchResults.length; i++) {
                                             let fulfillmentId = searchResults[i].getValue({ name: 'internalid' });
