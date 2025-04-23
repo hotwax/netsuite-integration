@@ -72,15 +72,15 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const reduce = (reduceContext) => {
 
-            let TransferOrderMap = {
+            let transferOrderMap = {
                 shipGroups: []
             };
 
             reduceContext.values.forEach((val) => {
                 const item = JSON.parse(val);
         
-                if (!TransferOrderMap.externalId) {
-                    TransferOrderMap = {
+                if (!transferOrderMap.externalId) {
+                    transferOrderMap = {
                         externalId: item.externalId,
                         orderName: item.orderName,
                         productStoreId: item.productStoreId,
@@ -101,7 +101,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     };
                 }
         
-                TransferOrderMap.shipGroups[0].items.push({
+                transferOrderMap.shipGroups[0].items.push({
                     externalId: item.lineId,
                     orderItemTypeId: item.orderItemTypeId,
                     productIdType: item.productIdType,
@@ -113,7 +113,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         
             reduceContext.write({
                 key: reduceContext.key,
-                value: JSON.stringify(TransferOrderMap)
+                value: JSON.stringify(transferOrderMap)
             });
         };
         
@@ -210,7 +210,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         directory: '/export/',
                         file: fileObj
                     });
-                    log.debug("Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
+                    log.debug("Store to Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
                 }
             } catch (e) {
                 //Generate error csv
@@ -218,9 +218,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 
                 summaryContext.output.iterator().each(function (key, value) {
                     var internalId = key;
-                    log.debug("====internalID ==" , internalId)
                     var recordType = "TRANSFER_ORDER";
-
                     var valueContents = internalId + ',' + recordType + '\n';
                     errorFileLine += valueContents;
 
