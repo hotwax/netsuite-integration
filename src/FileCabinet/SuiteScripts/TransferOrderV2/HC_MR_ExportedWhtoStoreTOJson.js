@@ -18,24 +18,14 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch5736' });
+            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_to_wh_tov2' });
             return StoreTransferOrderSearch
         }
 
         const map = (mapContext) => {
+
             var contextValues = JSON.parse(mapContext.value);
-
-            log.debug("====contextValues=="+ contextValues);
-
             var internalid = contextValues.values.internalid.value;
-            var productSku = contextValues.values.item.value;
-            var lineId = contextValues.values.transferorderitemline;
-            var quantity = contextValues.values.quantity;
-            var locationInternalId = contextValues.values.location.value;
-            var destinationLocationId = contextValues.values.transferlocation.value;
-            var date = contextValues.values.formulatext;     
-            var transferOrderNumber = contextValues.values.tranid;
-           
             if (internalid) {
                 var checkId  = checkInternalId(internalid);
                 if (checkId) {
@@ -53,28 +43,28 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'externalId': internalid,
                 'productStoreId': 'STORE',
                 'statusId': 'ORDER_CREATED',
-                'originFacilityId': locationInternalId,
-                'destinationFacilityId': destinationLocationId,
+                'originFacilityExternalId': contextValues.values.location.value,
+                'destinationLocationId': contextValues.values.transferlocation.value,
                 'orderTypeId':'TRANSFER_ORDER',
                 'orderItemTypeId': 'PRODUCT_ORDER_ITEM',
                 'itemStatusId': 'ITEM_CREATED',
-                'orderDate':date,
-                'productIdValue' : productSku,
+                'orderDate': contextValues.values.formulatext,
+                'productIdValue' : contextValues.values.item.value,
                 'productIdType': 'NETSUITE_PRODUCT_ID',
-                'lineId': lineId,
-                'quantity': quantity,
+                'lineId': contextValues.values.transferorderitemline,
+                'quantity': contextValues.values.quantity,
                 'unitListPrice': 0,
                 'unitPrice': 0,
                 'itemTotalDiscount': 0,
                 'grandTotal': 0,
                 'shipmentMethodTypeId': "STANDARD",
                 'carrierPartyId': "_NA_",
-                'orderName': transferOrderNumber,
+                'orderName': contextValues.values.tranid,
                 'statusFlowId': "TO_Receive_Only"
             };
             
             mapContext.write({
-                key: contextValues.values.internalid.value,
+                key: internalid,
                 value: storetransferorderdata
             });
             
@@ -82,20 +72,20 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const reduce = (reduceContext) => {
 
-            let groupedOrder = {
+            let transferOrderMap = {
                 shipGroups: []
             };
 
             reduceContext.values.forEach((val) => {
                 const item = JSON.parse(val);
         
-                if (!groupedOrder.externalId) {
-                    groupedOrder = {
+                if (!transferOrderMap.externalId) {
+                    transferOrderMap = {
                         externalId: item.externalId,
                         orderName: item.orderName,
                         productStoreId: item.productStoreId,
                         statusId: item.statusId,
-                        originFacilityId: item.originFacilityId,
+                        originFacilityExternalId: item.originFacilityExternalId,
                         orderTypeId: item.orderTypeId,
                         orderDate: item.orderDate,
                         statusFlowId: item.statusFlowId,
@@ -103,15 +93,15 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                             {
                                 shipmentMethodTypeId: item.shipmentMethodTypeId,
                                 carrierPartyId: item.carrierPartyId,
-                                facilityId: item.originFacilityId,
-                                orderFacilityId: item.destinationFacilityId,
+                                facilityId: item.originFacilityExternalId,
+                                orderFacilityExternalId: item.destinationLocationId,
                                 items: [] 
                             }
                         ]
                     };
                 }
         
-                groupedOrder.shipGroups[0].items.push({
+                transferOrderMap.shipGroups[0].items.push({
                     externalId: item.lineId,
                     orderItemTypeId: item.orderItemTypeId,
                     productIdType: item.productIdType,
@@ -123,7 +113,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         
             reduceContext.write({
                 key: reduceContext.key,
-                value: JSON.stringify(groupedOrder)
+                value: JSON.stringify(transferOrderMap)
             });
         };
         
@@ -140,12 +130,12 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
-
                 
                 log.debug("====totalRecordsExported=="+ totalRecordsExported);
+                
                 if (totalRecordsExported > 0) {
 
-                    fileName = 'ExportWhtoStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
+                    fileName = 'ExportStoretoStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
                     var fileObj = file.create({
                         name: fileName,
                         fileType: file.Type.JSON,
@@ -217,20 +207,18 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         });
                     }
                     connection.upload({
-                        directory: '/csv/',
+                        directory: '/export/',
                         file: fileObj
                     });
-                    log.debug("Store Transfer Order CSV File Uploaded Successfully to SFTP server with file" + fileName);
+                    log.debug("Warehouse to Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
                 }
             } catch (e) {
                 //Generate error csv
                 var errorFileLine = 'orderId,Recordtype\n';
                 
                 summaryContext.output.iterator().each(function (key, value) {
-                    var index = key.split('-')
-                    var internalId = index[0];
+                    var internalId = key;
                     var recordType = "TRANSFER_ORDER";
-
                     var valueContents = internalId + ',' + recordType + '\n';
                     errorFileLine += valueContents;
 
@@ -281,15 +269,15 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     scriptTask.params = { "custscript_hc_mr_mark_false": folderInternalId }
 
                     var mapReduceTaskId = scriptTask.submit();
-                    log.debug("Map/reduce task submitted!");
+                    log.debug("Map/reduce task submitted!", mapReduceTaskId);
                 }
 
                 log.error({
-                title: 'Error in exporting and uploading store transfer order csv files',
+                title: 'Error in exporting and uploading warehouse to store transfer order json files',
                 details: e,
                 });
                 throw error.create({
-                name:"Error in exporting and uploading store transfer order csv files",
+                name:"Error in exporting and uploading warehouse to store transfer order json files",
                 message: e
                 });
             }   
