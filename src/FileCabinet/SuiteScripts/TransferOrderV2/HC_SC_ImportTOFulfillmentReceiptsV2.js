@@ -98,53 +98,45 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                             var itemList = transferOrderDataList[dataIndex].items;
                             var itemFulfillment = {}; // Object to group items by fulfillmentId
 
-
-                            var TransferOrderRecord = record.load({
-                                type: record.Type.TRANSFER_ORDER,
-                                id: orderId
-                            });
-                            // Get line count
-                            var lineCount = TransferOrderRecord.getLineCount({
-                                sublistId: 'item'
-                            });
-
-
                             try {
                                 if (orderId) {
                                     log.debug("===========orderId==" + orderId);
+
+                                    var TransferOrderRecord = record.load({
+                                        type: record.Type.TRANSFER_ORDER,
+                                        id: orderId
+                                    });
+        
+                                    // Get line count
+                                    var transferOrderlineCount = TransferOrderRecord.getLineCount({
+                                        sublistId: 'item'
+                                    });
+
+                                    log.debug("===transferOrderlineCount: ==" , transferOrderlineCount);
+                                    
+                                    const fulfillmentSearch = search.create({
+                                        type: search.Type.ITEM_FULFILLMENT,
+                                        filters: [
+                                            ['createdfrom.internalId', 'is', orderId],
+                                            'and',
+                                            ['mainline', 'is', true]
+        
+                                        ],
+                                        columns: ['internalid']
+                                    });
+
+                                    const fuflillmentsResults = fulfillmentSearch.run().getRange({ start: 0, end: 1000 });                                       
+
+                                    log.debug("===total fulfillments:==" , fuflillmentsResults.length);
+
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
                                         var orderLine = Number(itemList[itemIndex].line_id) + 1;
                                         orderLine = orderLine.toString();
-
-                                        const fulfillmentSearch = search.create({
-                                            type: search.Type.ITEM_FULFILLMENT,
-                                            filters: [
-                                                ['createdfrom.internalId', 'is', orderId],
-                                                'and',
-                                                ['mainline', 'is', true]
-
-                                            ],
-                                            columns: ['internalid']
-                                        });
                                         
-                                        
-                                        // Loop through each line item
-                                        for (var i = 0; i < lineCount; i++) {
-                                            // Get item ID
-                                            var itemLineId = TransferOrderRecord.getSublistValue({
-                                                sublistId: 'item',
-                                                fieldId: 'line',
-                                                line: i
-                                            });
-
-                                            log.debug("======itemLineId======" + itemLineId);
-                            
-                                        }
-
-                                        const searchResults = fulfillmentSearch.run().getRange({ start: 0, end: 1000 });                                        ;
-
-                                        for (let i = 0; i < searchResults.length; i++) {
-                                            let fulfillmentId = searchResults[i].getValue({ name: 'internalid' });
+                                        for (let i = 0; i < fuflillmentsResults.length; i++) {
+                                            let fulfillmentId = fuflillmentsResults[i].getValue({ name: 'internalid' });
+                                            
+                                            log.debug("===fulfillment Id:==" , fulfillmentId);
 
                                             let fulfillmentRec = record.load({
                                                 type: record.Type.ITEM_FULFILLMENT,
@@ -152,6 +144,8 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                                             });
 
                                             let lineCount = fulfillmentRec.getLineCount({ sublistId: 'item' });
+
+                                            log.debug("===total fuflillment line count== " , lineCount);
                                             for (let j = 0; j < lineCount; j++) {
                                                 let orderline = fulfillmentRec.getSublistValue({
                                                     sublistId: 'item',
@@ -163,6 +157,21 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                                                     log.debug('==Matching fulfillment found:==', fulfillmentId);
                                                     itemList[itemIndex].fulfillmentId = fulfillmentId;
 
+                                                    // Loop through each line item
+                                                    for (var k = 0; k < transferOrderlineCount; k++) {
+                                                        // Get item ID
+                                                        var itemLineId = TransferOrderRecord.getSublistValue({
+                                                            sublistId: 'item',
+                                                            fieldId: 'line',
+                                                            line: k
+                                                        });
+
+                                                        var receivedQuantity = 
+
+                                                        log.debug("=====transfer order itemLineId======" + itemLineId);
+                                        
+                                                    }
+
                                                     if (!itemFulfillment[fulfillmentId]) {
                                                         itemFulfillment[fulfillmentId] = [];
                                                     }
@@ -172,67 +181,69 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                                         }
 
                                     }
-                                    for (var fulfillmentId in itemFulfillment) {
-                                        var fulfillmentItems = itemFulfillment[fulfillmentId];
-                                        log.debug("===========fulfillmentId==" + fulfillmentId);
+                                    log.debug("=====scriptObj.getRemainingUsage()======" + scriptObj.getRemainingUsage());
+                                    
+                                    // for (var fulfillmentId in itemFulfillment) {
+                                    //     var fulfillmentItems = itemFulfillment[fulfillmentId];
+                                    //     log.debug("===========fulfillmentId==" + fulfillmentId);
 
-                                        // Initilize ItemReceipt Object from TransferOrder
-                                        var itemReceiptRecord = record.transform({
-                                            fromType: record.Type.TRANSFER_ORDER,
-                                            fromId: orderId,
-                                            toType: record.Type.ITEM_RECEIPT,
-                                            defaultValues: {
-                                                itemfulfillment: fulfillmentId
-                                            }
-                                        });
-                                        // set memo
-                                        itemReceiptRecord.setValue({
-                                            fieldId: 'memo',
-                                            value: 'Item Receipt created by HotWax'
-                                        });
+                                    //     // Initilize ItemReceipt Object from TransferOrder
+                                    //     var itemReceiptRecord = record.transform({
+                                    //         fromType: record.Type.TRANSFER_ORDER,
+                                    //         fromId: orderId,
+                                    //         toType: record.Type.ITEM_RECEIPT,
+                                    //         defaultValues: {
+                                    //             itemfulfillment: fulfillmentId
+                                    //         }
+                                    //     });
+                                    //     // set memo
+                                    //     itemReceiptRecord.setValue({
+                                    //         fieldId: 'memo',
+                                    //         value: 'Item Receipt created by HotWax'
+                                    //     });
 
-                                        for (var itemIndex = 0; itemIndex < fulfillmentItems.length; itemIndex++) {
-                                            var lineId = Number(fulfillmentItems[itemIndex].line_id) + 2;
-                                            lineId = lineId.toString();
+                                    //     for (var itemIndex = 0; itemIndex < fulfillmentItems.length; itemIndex++) {
+                                    //         var lineId = Number(fulfillmentItems[itemIndex].line_id) + 2;
+                                    //         lineId = lineId.toString();
 
-                                            var quantity = fulfillmentItems[itemIndex].quantity;
-                                            log.debug("====lineId====" + lineId );
-                                            log.debug("====quantity====" + quantity );
-                                            var lineCnt = itemReceiptRecord.getLineCount({ sublistId: 'item' });
-                                            for (var j = 0; j < lineCnt; j++) {
-                                                var orderline = itemReceiptRecord.getSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'orderline',
-                                                    line: j
-                                                });
-                                                if (orderline && orderline === lineId) {
-                                                    // set received qty
-                                                    if (quantity > 0) {
-                                                        itemReceiptRecord.setSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'quantity',
-                                                            line: j,
-                                                            value: quantity
-                                                        });
-                                                    } else {
-                                                        itemReceiptRecord.setSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'itemreceive',
-                                                            line: j,
-                                                            value: false
-                                                        });
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        // save the itemreceipt object
-                                        var itemId = itemReceiptRecord.save({
-                                            enableSourceing: true
-                                        });
+                                    //         var quantity = fulfillmentItems[itemIndex].quantity;
+                                    //         log.debug("====lineId====" + lineId );
+                                    //         log.debug("====quantity====" + quantity );
+                                    //         var lineCnt = itemReceiptRecord.getLineCount({ sublistId: 'item' });
+                                    //         for (var j = 0; j < lineCnt; j++) {
+                                    //             var orderline = itemReceiptRecord.getSublistValue({
+                                    //                 sublistId: 'item',
+                                    //                 fieldId: 'orderline',
+                                    //                 line: j
+                                    //             });
+                                    //             if (orderline && orderline === lineId) {
+                                    //                 // set received qty
+                                    //                 if (quantity > 0) {
+                                    //                     itemReceiptRecord.setSublistValue({
+                                    //                         sublistId: 'item',
+                                    //                         fieldId: 'quantity',
+                                    //                         line: j,
+                                    //                         value: quantity
+                                    //                     });
+                                    //                 } else {
+                                    //                     itemReceiptRecord.setSublistValue({
+                                    //                         sublistId: 'item',
+                                    //                         fieldId: 'itemreceive',
+                                    //                         line: j,
+                                    //                         value: false
+                                    //                     });
+                                    //                 }
+                                    //             }
+                                    //         }
+                                    //     }
+                                    //     // save the itemreceipt object
+                                    //     var itemId = itemReceiptRecord.save({
+                                    //         enableSourceing: true
+                                    //     });
 
-                                        log.debug("Item receipt is created for transfer order fulfillment with Item Id " + itemId);
+                                    //     log.debug("Item receipt is created for transfer order fulfillment with Item Id " + itemId);
 
-                                    }
+                                    // }
                                 }
                             } catch (e) {
                                 log.error({
