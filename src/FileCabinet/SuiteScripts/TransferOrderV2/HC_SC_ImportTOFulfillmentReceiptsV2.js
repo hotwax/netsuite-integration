@@ -86,7 +86,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                         filename: fileName
                     });
                     if (downloadedFile.size > 0) {
-                        log.debug("File downloaded successfully !" + fileName);
+                        log.debug("File downloaded successfully !" , fileName);
                         var contents = downloadedFile.getContents();
 
                         //Parse the Transfer ItemReceipt JSON file
@@ -100,8 +100,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
 
                             try {
                                 if (orderId) {
-                                    log.debug("===========orderId==" + orderId);
-
                                     var TransferOrderRecord = record.load({
                                         type: record.Type.TRANSFER_ORDER,
                                         id: orderId
@@ -111,8 +109,6 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                                     var transferOrderlineCount = TransferOrderRecord.getLineCount({
                                         sublistId: 'item'
                                     });
-
-                                    log.debug("===transferOrderlineCount: ==" , transferOrderlineCount);
                                     
                                     const fulfillmentSearch = search.create({
                                         type: search.Type.ITEM_FULFILLMENT,
@@ -127,17 +123,15 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
 
                                     const fuflillmentsResults = fulfillmentSearch.run().getRange({ start: 0, end: 1000 });                                       
 
-                                    log.debug("===total fulfillments:==" , fuflillmentsResults.length);
-
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
                                         var orderLine = Number(itemList[itemIndex].line_id) + 1;
                                         orderLine = orderLine.toString();
-                                        
-                                        for (let i = 0; i < fuflillmentsResults.length; i++) {
-                                            let fulfillmentId = fuflillmentsResults[i].getValue({ name: 'internalid' });
-                                            
-                                            log.debug("===fulfillment Id:==" , fulfillmentId);
 
+                                        var quantityToReceive = Number(itemList[itemIndex].quantity);                                        
+                                        
+                                        for (let i = 0; i < fuflillmentsResults.length  && quantityToReceive > 0; i++) {
+                                            let fulfillmentId = fuflillmentsResults[i].getValue({ name: 'internalid' });
+                                    
                                             let fulfillmentRec = record.load({
                                                 type: record.Type.ITEM_FULFILLMENT,
                                                 id: fulfillmentId
@@ -145,8 +139,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
 
                                             let lineCount = fulfillmentRec.getLineCount({ sublistId: 'item' });
 
-                                            log.debug("===total fuflillment line count== " , lineCount);
-                                            for (let j = 0; j < lineCount; j++) {
+                                            for (let j = 0; j < lineCount && quantityToReceive > 0; j++) {
                                                 let orderline = fulfillmentRec.getSublistValue({
                                                     sublistId: 'item',
                                                     fieldId: 'orderline',
@@ -154,100 +147,125 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                                                 });
 
                                                 if (orderline && orderline === orderLine) {
-                                                    log.debug('==Matching fulfillment found:==', fulfillmentId);
-                                                    itemList[itemIndex].fulfillmentId = fulfillmentId;
 
-                                                    // Loop through each line item
-                                                    for (var k = 0; k < transferOrderlineCount; k++) {
-                                                        // Get item ID
-                                                        var itemLineId = TransferOrderRecord.getSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'line',
-                                                            line: k
+                                                    let fulfilledQty = fulfillmentRec.getSublistValue({ sublistId: 'item', fieldId: 'quantity', line: j });
+                                                    let receivedQty = 0;
+                                                    for (let k = 0; k < transferOrderlineCount; k++) {
+
+                                                        let transferOrderLine = TransferOrderRecord.getSublistValue({ sublistId: 'item', fieldId: 'line', line: k });
+
+                                                        if (transferOrderLine.toString() === itemList[itemIndex].line_id) {
+                                                            
+                                                            receivedQty = TransferOrderRecord.getSublistValue({
+                                                                sublistId: 'item',
+                                                                fieldId: 'quantityreceived',
+                                                                line: k
+                                                            });
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    // Calculate already allocated quantity to this fulfillment
+                                                    let alreadyAllocated = 0;
+                                                    if (itemFulfillment[fulfillmentId]) {
+                                                        for (let m = 0; m < itemFulfillment[fulfillmentId].length; m++) {
+                                                            if (itemFulfillment[fulfillmentId][m].line_id === itemList[itemIndex].line_id) {
+                                                                alreadyAllocated += Number(itemFulfillment[fulfillmentId][m].quantity);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    let availableQty = fulfilledQty - receivedQty - alreadyAllocated;
+
+
+                                                    if (availableQty>0) {
+                                                        let receiveNow = Math.min(quantityToReceive, availableQty);
+
+                                                        if (!itemFulfillment[fulfillmentId]) {
+                                                            itemFulfillment[fulfillmentId] = [];
+                                                        }
+
+                                                        itemFulfillment[fulfillmentId].push({
+                                                            line_id: itemList[itemIndex].line_id,
+                                                            quantity: receiveNow
                                                         });
 
-                                                        var receivedQuantity = 
+                                                        quantityToReceive -= receiveNow;
 
-                                                        log.debug("=====transfer order itemLineId======" + itemLineId);
-                                        
+                                                        log.debug('==Matching fulfillment found & quantity assigned==', 'Fulfillment: ' + fulfillmentId + ', Qty: ' + receiveNow);
                                                     }
-
-                                                    if (!itemFulfillment[fulfillmentId]) {
-                                                        itemFulfillment[fulfillmentId] = [];
-                                                    }
-                                                    itemFulfillment[fulfillmentId].push(itemList[itemIndex]);
                                                 }
                                             }
                                         }
 
                                     }
-                                    log.debug("=====scriptObj.getRemainingUsage()======" + scriptObj.getRemainingUsage());
-                                    
-                                    // for (var fulfillmentId in itemFulfillment) {
-                                    //     var fulfillmentItems = itemFulfillment[fulfillmentId];
-                                    //     log.debug("===========fulfillmentId==" + fulfillmentId);
+                                    log.debug('==total item fulfillment prepared:==', itemFulfillment);
+                                    for (var fulfillmentId in itemFulfillment) {
+                                        var fulfillmentItems = itemFulfillment[fulfillmentId];
+                                        log.debug("===========fulfillmentId==" ,fulfillmentId);
 
-                                    //     // Initilize ItemReceipt Object from TransferOrder
-                                    //     var itemReceiptRecord = record.transform({
-                                    //         fromType: record.Type.TRANSFER_ORDER,
-                                    //         fromId: orderId,
-                                    //         toType: record.Type.ITEM_RECEIPT,
-                                    //         defaultValues: {
-                                    //             itemfulfillment: fulfillmentId
-                                    //         }
-                                    //     });
-                                    //     // set memo
-                                    //     itemReceiptRecord.setValue({
-                                    //         fieldId: 'memo',
-                                    //         value: 'Item Receipt created by HotWax'
-                                    //     });
+                                        // Initilize ItemReceipt Object from TransferOrder
+                                        var itemReceiptRecord = record.transform({
+                                            fromType: record.Type.TRANSFER_ORDER,
+                                            fromId: orderId,
+                                            toType: record.Type.ITEM_RECEIPT,
+                                            defaultValues: {
+                                                itemfulfillment: fulfillmentId
+                                            }
+                                        });
+                                        // set memo
+                                        itemReceiptRecord.setValue({
+                                            fieldId: 'memo',
+                                            value: 'Item Receipt created by HotWax'
+                                        });
 
-                                    //     for (var itemIndex = 0; itemIndex < fulfillmentItems.length; itemIndex++) {
-                                    //         var lineId = Number(fulfillmentItems[itemIndex].line_id) + 2;
-                                    //         lineId = lineId.toString();
+                                        for (var itemIndex = 0; itemIndex < fulfillmentItems.length; itemIndex++) {
+                                            var lineId = Number(fulfillmentItems[itemIndex].line_id) +2 ;
+                                            lineId = lineId.toString();
 
-                                    //         var quantity = fulfillmentItems[itemIndex].quantity;
-                                    //         log.debug("====lineId====" + lineId );
-                                    //         log.debug("====quantity====" + quantity );
-                                    //         var lineCnt = itemReceiptRecord.getLineCount({ sublistId: 'item' });
-                                    //         for (var j = 0; j < lineCnt; j++) {
-                                    //             var orderline = itemReceiptRecord.getSublistValue({
-                                    //                 sublistId: 'item',
-                                    //                 fieldId: 'orderline',
-                                    //                 line: j
-                                    //             });
-                                    //             if (orderline && orderline === lineId) {
-                                    //                 // set received qty
-                                    //                 if (quantity > 0) {
-                                    //                     itemReceiptRecord.setSublistValue({
-                                    //                         sublistId: 'item',
-                                    //                         fieldId: 'quantity',
-                                    //                         line: j,
-                                    //                         value: quantity
-                                    //                     });
-                                    //                 } else {
-                                    //                     itemReceiptRecord.setSublistValue({
-                                    //                         sublistId: 'item',
-                                    //                         fieldId: 'itemreceive',
-                                    //                         line: j,
-                                    //                         value: false
-                                    //                     });
-                                    //                 }
-                                    //             }
-                                    //         }
-                                    //     }
-                                    //     // save the itemreceipt object
-                                    //     var itemId = itemReceiptRecord.save({
-                                    //         enableSourceing: true
-                                    //     });
+                                            var quantity = fulfillmentItems[itemIndex].quantity;
+                                            log.debug("====lineId====" ,lineId );
+                                            log.debug("====quantity====" ,quantity );
+                                            var lineCnt = itemReceiptRecord.getLineCount({ sublistId: 'item' });
+                                            for (var j = 0; j < lineCnt; j++) {
+                                                var orderline = itemReceiptRecord.getSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'orderline',
+                                                    line: j
+                                                });
+                                                if (orderline && orderline === lineId) {
+                                                    // set received qty
+                                                    if (quantity > 0) {
+                                                        itemReceiptRecord.setSublistValue({
+                                                            sublistId: 'item',
+                                                            fieldId: 'quantity',
+                                                            line: j,
+                                                            value: quantity
+                                                        });
+                                                    } else {
+                                                        itemReceiptRecord.setSublistValue({
+                                                            sublistId: 'item',
+                                                            fieldId: 'itemreceive',
+                                                            line: j,
+                                                            value: false
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        // save the itemreceipt object
+                                        var itemId = itemReceiptRecord.save({
+                                            enableSourceing: true
+                                        });
 
-                                    //     log.debug("Item receipt is created for transfer order fulfillment with Item Id " + itemId);
+                                        log.debug("Item receipt is created for transfer order fulfillment with Item Id " ,itemId);
 
-                                    // }
+                                    }
+                                    log.debug("=====scriptObj.getRemainingUsage()======" ,scriptObj.getRemainingUsage());
                                 }
                             } catch (e) {
                                 log.error({
-                                    title: 'Error in processing transfer order fulfillment' + fulfillmentId,
+                                    title: 'Error in processing transfer order fulfillment' ,fulfillmentId,
                                     details: e,
                                 });
                                 var errorInfo = fulfillmentId + ',' + e.message + '\n';
