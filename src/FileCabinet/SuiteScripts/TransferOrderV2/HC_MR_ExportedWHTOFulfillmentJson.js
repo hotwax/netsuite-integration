@@ -79,7 +79,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 };
             
                 mapContext.write({
-                    key: fulfillmentInternalId
+                    key: fulfillmentInternalId,
                     value: transferFulfillmentData
                 });
             }
@@ -130,7 +130,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 log.debug("====totalRecordsExported=="+totalRecordsExported);
                 if (totalRecordsExported > 0) {
 
-                    fileName = 'ExportStoretoStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
                     fileName = 'ExportWarehouseToFulfillment-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
                     var fileObj = file.create({
                         name: fileName,
