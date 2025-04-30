@@ -96,7 +96,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 const item = JSON.parse(val);
 
                 if (!itemFulfillmentMap.externalId) {
-                    transferOrderMap = {
+                    itemFulfillmentMap = {
                         externalId: item.externalId,
                         shipmentType: item.shipmentType,
                         sourceFacilityId: item.sourceFacilityId,
