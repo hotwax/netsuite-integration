@@ -70,8 +70,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 var transferFulfillmentData = {
                     'externalId': fulfillmentInternalId,
                     'shipmentType': "OUT_TRANSFER",
-                    'sourceFacilityId': contextValues.values.location.value,
-                    'destinationFacilityId': contextValues.values.transferlocation.value,
                     'trackingNumber': trackingNumber,
                     'transferOrderId': contextValues.values.createdfrom.value,
                     'lineId': orderline,
@@ -99,8 +97,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     itemFulfillmentMap = {
                         externalId: item.externalId,
                         shipmentType: item.shipmentType,
-                        sourceFacilityId: item.sourceFacilityId,
-                        destinationFacilityId: item.destinationFacilityId,
                         trackingNumber: item.trackingNumber,
                         transferOrderId: item.transferOrderId,
                         items: []
@@ -270,7 +266,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     scriptTask.params = { "custscript_hc_mr_mark_false": folderInternalId }
 
                     var mapReduceTaskId = scriptTask.submit();
-                    log.debug("Map/reduce task submitted!");
+                    log.debug("Map/reduce task submitted!", mapReduceTaskId);
                 }
 
                 log.error({
