@@ -130,7 +130,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                         name: 'custrecord_ns_sftp_default_file_dir'
                     });
 
-                    sftpDirectory = sftpDirectory + 'transferorder';
+                    sftpDirectory = sftpDirectory + 'transferorderv2';
                     sftpPort = parseInt(sftpPort);
         
                     var connection = sftp.createConnection({
