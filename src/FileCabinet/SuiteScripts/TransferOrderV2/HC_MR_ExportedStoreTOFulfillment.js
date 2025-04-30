@@ -16,9 +16,9 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         }
 
         const getInputData = (inputContext) => {
-            // Get item receipt search query
-            var inventoryTransferSearch = search.load({ id: 'customsearch_hc_exp_store_to_fulfill_v2' });
-            return inventoryTransferSearch;
+            // Get store fulfilled transfer orders 
+            var storeTOFulfillmentSearch = search.load({ id: 'customsearch_hc_exp_store_to_fulfill_v2' });
+            return storeTOFulfillmentSearch;
         }        
 
         const map = (mapContext) => {
@@ -26,7 +26,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
 
             var fulfillmentInternalId = contextValues.values.internalid.value;
             var transferOrderId = contextValues.values.createdfrom.value;
-            
+                        
             if (fulfillmentInternalId) {
 
                 var checkId  = checkInternalId(fulfillmentInternalId);
@@ -42,22 +42,32 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             }
             var transferFulfillmentData = {
                 'fulfillmentId': fulfillmentInternalId,
-                'transferOrderId': transferOrderId
+                'transferOrderId': transferOrderId,
+                'shipmentId': contextValues.values.custbody_hc_shipment_id
+
             };
         
             mapContext.write({
-                key: fulfillmentInternalId + '-' + transferOrderId,
+                key: transferOrderId,
                 value: transferFulfillmentData
             });
         }
         
         const reduce = (reduceContext) => {
-            const values = reduceContext.values.map(JSON.parse);
-            values.forEach(val => {
-                reduceContext.write({
-                    key: val.fulfillmentId + '-' + val.transferOrderId,
-                    value: JSON.stringify(val)
-                });
+            const transferOrderId = reduceContext.key;
+            const fulfillmentArray = reduceContext.values.map(JSON.parse);
+        
+            const fulfillmentMap = {
+                transferOrderId: transferOrderId,
+                fulfillment: fulfillmentArray.map(val => ({
+                    fulfillmentId: val.fulfillmentId,
+                    shipmentId: val.shipmentId
+                }))
+            };
+        
+            reduceContext.write({
+                key: transferOrderId,
+                value: JSON.stringify(fulfillmentMap)
             });
         };
         
@@ -153,15 +163,14 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                         directory: '/fulfillment-store/',
                         file: fileObj
                     });
-                    log.debug("Transfer Order Store Fulfillment CSV Uploaded Successfully to SFTP server with file" + fileName);
+                    log.debug("Transfer Order Store Fulfillment jaon Uploaded Successfully to SFTP server with file" + fileName);
                 }
             } catch (e) {
                 //Generate error csv
                 var errorFileLine = 'orderId,Recordtype\n';
                 
                 summaryContext.output.iterator().each(function (key, value) {
-                    var index = key.split('-')
-                    var internalId = index[0];
+                    var internalId = value.fulfillment.fulfillmentId
                     var recordType = "ITEM_FULFILLMENT";
 
                     var valueContents = internalId + ',' + recordType + '\n';
@@ -214,15 +223,15 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     scriptTask.params = { "custscript_hc_mr_mark_false": folderInternalId }
 
                     var mapReduceTaskId = scriptTask.submit();
-                    log.debug("Map/reduce task submitted!");
+                    log.debug("Map/reduce task submitted!" + mapReduceTaskId);
                 }
 
                 log.error({
-                title: 'Error in exporting and uploading transfer order store fulfillment csv files',
+                title: 'Error in exporting and uploading transfer order store fulfillment json files',
                 details: e,
                 });
                 throw error.create({
-                name:"Error in exporting and uploading transfer order store fulfillment csv files",
+                name:"Error in exporting and uploading transfer order store fulfillment json files",
                 message: e
                 });
             }            
