@@ -41,33 +41,23 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 } 
             }
             var transferFulfillmentData = {
-                'fulfillmentId': fulfillmentInternalId,
-                'transferOrderId': transferOrderId,
+                'externalId': fulfillmentInternalId,
                 'shipmentId': contextValues.values.custbody_hc_shipment_id
 
             };
         
             mapContext.write({
-                key: transferOrderId,
+                key: fulfillmentInternalId,
                 value: transferFulfillmentData
             });
         }
         
         const reduce = (reduceContext) => {
-            const transferOrderId = reduceContext.key;
-            const fulfillmentArray = reduceContext.values.map(JSON.parse);
-        
-            const fulfillmentMap = {
-                transferOrderId: transferOrderId,
-                fulfillment: fulfillmentArray.map(val => ({
-                    fulfillmentId: val.fulfillmentId,
-                    shipmentId: val.shipmentId
-                }))
-            };
-        
-            reduceContext.write({
-                key: transferOrderId,
-                value: JSON.stringify(fulfillmentMap)
+            reduceContext.values.forEach(value => {
+                reduceContext.write({
+                    key: reduceContext.key,
+                    value: value 
+                });
             });
         };
         
@@ -145,7 +135,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         
                     var connection = sftp.createConnection({
                         username: sftpUserName,
-                        secret: sftpKeyId,
+                        keyId: sftpKeyId,
                         url: sftpUrl,
                         port: sftpPort,
                         directory: sftpDirectory,
@@ -170,7 +160,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 var errorFileLine = 'orderId,Recordtype\n';
                 
                 summaryContext.output.iterator().each(function (key, value) {
-                    var internalId = value.fulfillment.fulfillmentId
+                    var internalId = key
                     var recordType = "ITEM_FULFILLMENT";
 
                     var valueContents = internalId + ',' + recordType + '\n';
