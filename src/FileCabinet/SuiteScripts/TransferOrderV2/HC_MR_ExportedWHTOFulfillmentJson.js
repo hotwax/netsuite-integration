@@ -69,13 +69,12 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             if (orderline) {
                 var transferFulfillmentData = {
                     'externalId': fulfillmentInternalId,
-                    'shipmentType': "OUT_TRANSFER",
                     'trackingNumber': trackingNumber,
                     'transferOrderId': contextValues.values.createdfrom.value,
                     'lineId': orderline,
                     'productSku': contextValues.values.item.value,
                     'productIdType': "NETSUITE_PRODUCT_ID",
-                    'quantity': contextValues.values.quantity
+                    'quantity': parseInt(contextValues.values.quantity, 10)
                 };
             
                 mapContext.write({
@@ -96,7 +95,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 if (!itemFulfillmentMap.externalId) {
                     itemFulfillmentMap = {
                         externalId: item.externalId,
-                        shipmentType: item.shipmentType,
                         trackingNumber: item.trackingNumber,
                         transferOrderId: item.transferOrderId,
                         items: []
