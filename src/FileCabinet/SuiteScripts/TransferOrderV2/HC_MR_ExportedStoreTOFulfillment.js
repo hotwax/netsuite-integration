@@ -25,10 +25,33 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             var contextValues = JSON.parse(mapContext.value);
 
             var fulfillmentInternalId = contextValues.values.internalid.value;
-            var transferOrderId = contextValues.values.createdfrom.value;
-                        
-            if (fulfillmentInternalId) {
+            var lineId = contextValues.values.line;
 
+            var orderline = null;
+            if (fulfillmentInternalId) {
+                //Load item fulfillment object
+                var fulfillmentRecord = record.load({
+                    type: record.Type.ITEM_FULFILLMENT, 
+                    id: fulfillmentInternalId,
+                    isDynamic: false
+                });
+                var lineCnt = fulfillmentRecord.getLineCount({sublistId: 'item'});
+                for (var i = 0; i < lineCnt; i++) {
+                    /* This is done to get the orderline which will serve as external ID for Shipment Item in OMS */
+                    var fulfillmentLineId = fulfillmentRecord.getSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'line',
+                        line: i
+                    });
+                    if (fulfillmentLineId === lineId) {
+                        orderline = fulfillmentRecord.getSublistValue({
+                            sublistId: 'item',
+                            fieldId: 'orderline',
+                            line: i
+                        });
+                    }
+                }
+                        
                 var checkId  = checkInternalId(fulfillmentInternalId);
                 if (checkId) {
                     var id = record.submitFields({
@@ -40,12 +63,17 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     });
                 } 
             }
-            var transferFulfillmentData = {
-                'externalId': fulfillmentInternalId,
-                'shipmentId': contextValues.values.custbody_hc_shipment_id
+            log.debug("====orderline=="+orderline);
+            if (orderline) {
+                var transferFulfillmentData = {
+                    'externalId': fulfillmentInternalId,
+                    'shipmentId': contextValues.values.custbody_hc_shipment_id,
+                    'lineId': orderline,
+                    'productSku': contextValues.values.item.value,
+                    'productIdType': "NETSUITE_PRODUCT_ID"
+                };
+            }
 
-            };
-        
             mapContext.write({
                 key: fulfillmentInternalId,
                 value: transferFulfillmentData
@@ -53,14 +81,35 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         }
         
         const reduce = (reduceContext) => {
-            reduceContext.values.forEach(value => {
-                reduceContext.write({
-                    key: reduceContext.key,
-                    value: value 
+            let itemFulfillmentMap = {
+                items: []
+            };
+
+            reduceContext.values.forEach((val) => {
+                const item = JSON.parse(val);
+
+                if (!itemFulfillmentMap.externalId) {
+                    itemFulfillmentMap = {
+                        externalId: item.externalId,
+                        shipmentId: item.shipmentId,
+                        items: []
+                    };
+                }
+
+                itemFulfillmentMap.items.push({
+                    externalId: item.lineId,
+                    productIdType: item.productIdType,
+                    productIdValue: item.productSku,
+                    quantity: item.quantity
                 });
             });
-        };
-        
+
+            reduceContext.write({
+                key: reduceContext.key,
+                value: JSON.stringify(itemFulfillmentMap)
+            });
+        }
+
         const summarize = (summaryContext) => {
             try {
                 let result = [];
