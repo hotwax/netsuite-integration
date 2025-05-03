@@ -99,8 +99,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 itemFulfillmentMap.items.push({
                     externalId: item.lineId,
                     productIdType: item.productIdType,
-                    productIdValue: item.productSku,
-                    quantity: item.quantity
+                    productIdValue: item.productSku
                 });
             });
 
