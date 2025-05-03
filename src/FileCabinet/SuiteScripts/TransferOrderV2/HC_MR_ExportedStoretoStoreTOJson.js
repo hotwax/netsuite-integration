@@ -109,8 +109,8 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     productIdValue: item.productIdValue,
                     quantity: parseInt(item.quantity),
                     itemStatusId: item.itemStatusId,
-                    unitListPrice: parseFloat(item.unitListPrice),
-                    unitPrice: parseFloat(item.unitPrice),
+                    unitListPrice: parseInt(item.unitListPrice),
+                    unitPrice: parseInt(item.unitPrice),
                     
                 });
             });
