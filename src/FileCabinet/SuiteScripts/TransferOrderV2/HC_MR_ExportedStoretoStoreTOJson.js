@@ -89,6 +89,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         orderTypeId: item.orderTypeId,
                         orderDate: item.orderDate,
                         statusFlowId: item.statusFlowId,
+                        grandTotal: parseInt(item.grandTotal),
                         shipGroups: [
                             {
                                 shipmentMethodTypeId: item.shipmentMethodTypeId,
@@ -106,8 +107,11 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     orderItemTypeId: item.orderItemTypeId,
                     productIdType: item.productIdType,
                     productIdValue: item.productIdValue,
-                    quantity: item.quantity,
-                    itemStatusId: item.itemStatusId
+                    quantity: parseInt(item.quantity),
+                    itemStatusId: item.itemStatusId,
+                    unitListPrice: parseFloat(item.unitListPrice),
+                    unitPrice: parseFloat(item.unitPrice),
+                    
                 });
             });
         
