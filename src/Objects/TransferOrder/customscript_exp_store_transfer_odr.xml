@@ -29,7 +29,7 @@
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
-      <title>HC_MR_ExportedStoreTOFulfillmentCSV</title>
+      <title>HC_MR_ExportedStoreTransferOrderCSV</title>
       <recurrence>
         <single>
           <repeat></repeat>
