@@ -18,7 +18,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_to_store_tov2' });
+            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_to_store_to_v2' });
             return StoreTransferOrderSearch
         }
 
