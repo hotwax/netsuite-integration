@@ -170,7 +170,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                         name: 'custrecord_ns_sftp_host_key'
                     });
                     
-                    var sftpKeyId = sftpSearchResult.getValue({
+                    var sftpSecret = sftpSearchResult.getValue({
                         name: 'custrecord_ns_sftp_guid'
                     });
 
@@ -183,7 +183,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         
                     var connection = sftp.createConnection({
                         username: sftpUserName,
-                        keyId: sftpKeyId,
+                        secret: sftpSecret,
                         url: sftpUrl,
                         port: sftpPort,
                         directory: sftpDirectory,

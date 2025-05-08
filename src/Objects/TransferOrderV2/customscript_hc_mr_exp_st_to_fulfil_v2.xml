@@ -1,0 +1,30 @@
+<mapreducescript scriptid="customscript_hc_mr_exp_st_to_fulfil_v2">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_ExportedStoreTOFulfillment_V2</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/transferOrderV2/HC_MR_ExportedStoreTOFulfillment.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_mr_exp_st_to_fulfil_v2">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>SCHEDULED</status>
+      <title>HC_MR_ExportedStoreTOFulfillment_V2</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT30M</repeat>
+          <startdate>2025-04-30</startdate>
+          <starttime>22:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
