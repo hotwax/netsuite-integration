@@ -18,7 +18,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_to_store_tov2' });
+            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_to_store_to_v2' });
             return StoreTransferOrderSearch
         }
 
@@ -110,7 +110,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     quantity: parseInt(item.quantity),
                     itemStatusId: item.itemStatusId,
                     unitListPrice: parseInt(item.unitListPrice),
-                    unitPrice: parseInt(item.unitPrice),
+                    unitPrice: parseInt(item.unitPrice)
                     
                 });
             });
@@ -183,7 +183,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         name: 'custrecord_ns_sftp_host_key'
                     });
                     
-                    var sftpKeyId = sftpSearchResult.getValue({
+                    var sftpSecret = sftpSearchResult.getValue({
                         name: 'custrecord_ns_sftp_guid'
                     });
 
@@ -196,7 +196,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         
                     var connection = sftp.createConnection({
                         username: sftpUserName,
-                        keyId: sftpKeyId,
+                        secret: sftpSecret,
                         url: sftpUrl,
                         port: sftpPort,
                         directory: sftpDirectory,

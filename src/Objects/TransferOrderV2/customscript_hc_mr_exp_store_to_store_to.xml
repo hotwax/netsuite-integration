@@ -1,0 +1,30 @@
+<mapreducescript scriptid="customscript_hc_mr_exp_store_to_store_to">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_Exported_Store_to_StoreTO_Json</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/transferOrderV2/HC_MR_ExportedStoretoStoreTOJson.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_mr_exp_store_to_store_to">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>SCHEDULED</status>
+      <title>HC_MR_Exported_Store_to_StoreTO_Json</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT30M</repeat>
+          <startdate>2025-04-23</startdate>
+          <starttime>22:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
