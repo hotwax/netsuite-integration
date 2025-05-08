@@ -1,0 +1,30 @@
+<mapreducescript scriptid="customscript_exportedwhtofulfillment_v2">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_ExportedWHTOFulfillment_v2</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/TransferOrderV2/HC_MR_ExportedWHTOFulfillmentJson.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_exportedwhtofulfillment_v2">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>SCHEDULED</status>
+      <title>HC_MR_ExportedWHTOFulfillment_v2</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT15M</repeat>
+          <startdate>2025-05-01</startdate>
+          <starttime>01:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
