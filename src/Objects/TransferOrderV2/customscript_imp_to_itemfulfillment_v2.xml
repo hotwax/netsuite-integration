@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_imp_to_itemfulfillment_v2">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_ImportTOItemFulfillment_v2</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/transferOrderV2/HC_SC_ImportTOItemFulfillment.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_imp_to_itemfulfillment_v2">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>SCHEDULED</status>
+      <title>HC_SC_ImportTOItemFulfillment_v2</title>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT15M</repeat>
+          <startdate>2025-04-30</startdate>
+          <starttime>22:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
