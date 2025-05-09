@@ -108,7 +108,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     productIdType: item.productIdType,
                     productIdValue: item.productIdValue,
                     quantity: parseInt(item.quantity),
-                    itemStatusId: item.itemStatusId,
+                    statusId: item.itemStatusId,
                     unitListPrice: parseInt(item.unitListPrice),
                     unitPrice: parseInt(item.unitPrice)
                     
