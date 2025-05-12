@@ -94,9 +94,9 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
                           var errorList = [];
                           
                           for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
-                              var orderId = orderDataList[dataIndex].order_id;
-                              var trackingNumber = orderDataList[dataIndex].tracking_number;
-                              var shipmentId = orderDataList[dataIndex].shipment_id;
+                              var orderId = orderDataList[dataIndex].orderId;
+                              var trackingNumber = orderDataList[dataIndex].trackingNumber;
+                              var shipmentId = orderDataList[dataIndex].shipmentId;
 
                               var itemList = orderDataList[dataIndex].items;
                               
