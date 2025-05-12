@@ -102,7 +102,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
                               
                               try {
                                 if (orderId) {
-                                    // Initilize ItemFulfillment Object from SalesOrder
+                                    // Initilize ItemFulfillment Object from TransferOrder
                                     var itemFulfillmentRecord = record.transform({
                                         fromType: record.Type.TRANSFER_ORDER,
                                         fromId: orderId,
