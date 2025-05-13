@@ -454,6 +454,40 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'transferorder/export/required_fields_missing'
         });
+
+        connection.makeDirectory({
+            path: 'transferorderv2'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/receipt'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/receipt/archive'
+        });
+         connection.makeDirectory({
+            path: 'transferorderv2/receipt/error'
+        });
+         connection.makeDirectory({
+            path: 'transferorderv2/receipt/failed'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/fulfillment-wh'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/fulfillment-wh/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/export/'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/export/archive'
+        });        
         
       } catch (e) {
         log.error({
