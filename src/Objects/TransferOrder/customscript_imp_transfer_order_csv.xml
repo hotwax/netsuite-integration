@@ -1,0 +1,38 @@
+<scheduledscript scriptid="customscript_imp_transfer_order_csv">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_ImportTransferOrderCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderCSV.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_imp_transfer_order_csv">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>SCHEDULED</status>
+      <title>HC_SC_ImportTransferOrderCSV</title>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT15M</repeat>
+          <startdate>2023-08-22</startdate>
+          <starttime>05:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_imp_transfer_ord_csv_rest">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_SC_ImportTransferOrderCSV</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>

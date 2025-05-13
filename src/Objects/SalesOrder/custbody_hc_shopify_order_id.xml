@@ -4,6 +4,7 @@
   <bodyitemfulfillment>T</bodyitemfulfillment>
   <bodyjournal>T</bodyjournal>
   <bodysale>T</bodysale>
+  <bodytransferorder>T</bodytransferorder>
   <displaytype>NORMAL</displaytype>
   <encryptatrest>F</encryptatrest>
   <fieldtype>TEXT</fieldtype>
