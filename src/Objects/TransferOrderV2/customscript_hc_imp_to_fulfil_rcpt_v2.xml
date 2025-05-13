@@ -1,4 +1,4 @@
-<scheduledscript scriptid="customscript_hc_imp_to_fulfil_receipt_v2">
+<scheduledscript scriptid="customscript_hc_imp_to_fulfil_rcpt_v2">
   <description></description>
   <isinactive>F</isinactive>
   <name>HC_SC_ImportTOFulfillmentReceipts_v2</name>
@@ -7,7 +7,7 @@
   <notifyowner>T</notifyowner>
   <scriptfile>[/SuiteScripts/transferOrderV2/HC_SC_ImportTOFulfillmentReceipts.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_hc_imp_to_fulfil_receipt_v2">
+    <scriptdeployment scriptid="customdeploy_hc_imp_to_fulfil_rcpt_v2">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>SCHEDULED</status>
@@ -21,7 +21,7 @@
         </daily>
       </recurrence>
     </scriptdeployment>
-    <scriptdeployment scriptid="customdeploy_hc_imp_to_fulf_rcpt_rest">
+    <scriptdeployment scriptid="customdeploy_hc_imp_to_ful_rcpt_v2_rest">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
