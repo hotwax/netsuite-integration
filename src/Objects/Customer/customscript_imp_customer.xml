@@ -21,5 +21,18 @@
         </daily>
       </recurrence>
     </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_imp_customer_rest">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_SC_ImportCustomer</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
   </scriptdeployments>
 </scheduledscript>
