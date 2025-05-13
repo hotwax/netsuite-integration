@@ -1,4 +1,4 @@
-<mapreducescript scriptid="customscript_hc_mr_exp_wh_to_store_to">
+<mapreducescript scriptid="customscript_hc_mr_exp_wh_store_to_v2">
   <description></description>
   <isinactive>F</isinactive>
   <name>HC_MR_Exported_Wh_to_Store_TO_Json_v2</name>
@@ -7,7 +7,7 @@
   <notifyowner>T</notifyowner>
   <scriptfile>[/SuiteScripts/transferOrderV2/HC_MR_ExportedWhtoStoreTOJson.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_hc_mr_exp_wh_to_store_to">
+    <scriptdeployment scriptid="customdeploy_hc_mr_exp_wh_store_to_v2">
       <buffersize>1</buffersize>
       <concurrencylimit>1</concurrencylimit>
       <isdeployed>T</isdeployed>
@@ -26,7 +26,7 @@
         </daily>
       </recurrence>
     </scriptdeployment>
-    <scriptdeployment scriptid="customdeploy_hc_mr_exp_wh_str_rest">
+    <scriptdeployment scriptid="customdeploy_hc_mr_exp_wh_to_v2_rest">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
