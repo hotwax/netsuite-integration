@@ -2,6 +2,7 @@
   <accesslevel>2</accesslevel>
   <colitemfulfillment>T</colitemfulfillment>
   <colsale>T</colsale>
+  <coltransferorder>T</coltransferorder>
   <displaytype>NORMAL</displaytype>
   <fieldtype>TEXT</fieldtype>
   <ismandatory>F</ismandatory>
