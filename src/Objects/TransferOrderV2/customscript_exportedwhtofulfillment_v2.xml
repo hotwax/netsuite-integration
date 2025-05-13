@@ -26,5 +26,18 @@
         </daily>
       </recurrence>
     </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_expwhttofulfill_v2_rest">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_MR_ExportedWHTOFulfillment_v2</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
   </scriptdeployments>
 </mapreducescript>

@@ -74,7 +74,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     'lineId': orderline,
                     'productSku': contextValues.values.item.value,
                     'productIdType': "NETSUITE_PRODUCT_ID",
-                    'quantity': parseInt(contextValues.values.quantity, 10)
+                    'quantity': parseInt(contextValues.values.quantity)
                 };
             
                 mapContext.write({
