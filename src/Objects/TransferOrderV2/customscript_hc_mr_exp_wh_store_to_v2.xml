@@ -1,0 +1,43 @@
+<mapreducescript scriptid="customscript_hc_mr_exp_wh_store_to_v2">
+  <description></description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_Exported_Wh_to_Store_TO_Json_v2</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/transferOrderV2/HC_MR_ExportedWhtoStoreTOJson.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_mr_exp_wh_store_to_v2">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <runasrole>ADMINISTRATOR</runasrole>
+      <status>SCHEDULED</status>
+      <title>HC_MR_Exported_Wh_to_Store_TO_Json_v2</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <repeat>PT30M</repeat>
+          <startdate>2025-04-23</startdate>
+          <starttime>22:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_hc_mr_exp_wh_to_v2_rest">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_MR_Exported_Wh_to_Store_TO_Json_v2</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
