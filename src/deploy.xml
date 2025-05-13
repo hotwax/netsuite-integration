@@ -53,6 +53,8 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTOFulfillmentReceipts.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTOItemFulfillment.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedStoreTOFulfillmentCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderIdCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderItemCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerRefund.js</path>
         <path>~/FileCabinet/SuiteScripts/SFTP/HC_MR_MarkFalesToFailedRecords.js</path>
@@ -173,6 +175,8 @@
         <path>~/Objects/TransferOrder/customscript_imp_to_fulfilment_receipt.xml</path>
         <path>~/Objects/TransferOrder/customscript_imp_to_itemfulfillment.xml</path>
         <path>~/Objects/TransferOrder/customscript_exp_store_to_fulfillment.xml</path>
+        <path>~/Objects/TransferOrder/customscript_exp_transfer_ord_id.xml</path>
+        <path>~/Objects/TransferOrder/customscript_exp_transfer_ord_item.xml</path>
 
         <path>~/Objects/SalesOrder/customscript_so_customer_refund.xml</path>
 
@@ -201,25 +205,35 @@
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
+        
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
+        
         <path>~/Objects/DiscountItem/customsearch_hc_export_discount_items.xml</path>
         <path>~/Objects/DiscountItem/customsearch_hc_export_inactive_discount.xml</path>
+        
         <path>~/Objects/PurchaseOrder/customsearch_open_purchaserorder.xml</path>
+        
         <path>~/Objects/SalesOrder/customsearch_export_so_for_invoice.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_salesorder_item.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_export_so_fulfillment.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_exp_rejected_items.xml</path>
-        <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
-        <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
-
         <path>~/Objects/SalesOrder/customsearch_hc_exp_so_audit.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_hc_exp_customer_deposit.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_hc_exp_oms_shipped_orders.xml</path>
+
+        <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
+        
+        <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
+        <path>~/Objects/Product/customsearch_hc_exp_kit_component.xml</path>
+
+
         <path>~/Objects/TransferOrder/customsearch_hc_exp_store_transfer_order.xml</path>
         <path>~/Objects/TransferOrder/customsearch_hc_exp_wh_to_fulfillment.xml</path>
         <path>~/Objects/TransferOrder/customsearch_hc_exp_store_to_fulfillment.xml</path>
-        <path>~/Objects/Product/customsearch_hc_exp_kit_component.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_customer_deposit.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_oms_shipped_orders.xml</path>
+        <path>~/Objects/TransferOrder/customsearch_hc_export_transfer_order_id.xml</path>
+        <path>~/Objects/TransferOrder/customsearch_hc_export_transfeorder_item.xml</path>
+        
         <path>~/Objects/POSReturn/customsearch_hc_exp_pos_return.xml</path>
 
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_wh_to_fulfillment_v2.xml</path>
