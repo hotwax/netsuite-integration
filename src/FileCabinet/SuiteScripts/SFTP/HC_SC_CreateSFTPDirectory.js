@@ -456,6 +456,23 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
+            path: 'transferorder/import'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorder/import/orderidentification'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/import/orderidentification/archive'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/import/orderitemattribute'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/import/orderitemattribute/archive'
+        });
+
+        connection.makeDirectory({
             path: 'transferorderv2'
         });
         
