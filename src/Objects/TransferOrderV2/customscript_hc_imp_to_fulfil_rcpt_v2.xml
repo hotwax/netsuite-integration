@@ -5,7 +5,7 @@
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/transferOrderV2/HC_SC_ImportTOFulfillmentReceipts.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/TransferOrderV2/HC_SC_ImportTOFulfillmentReceipts_v2.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_hc_imp_to_fulfil_rcpt_v2">
       <isdeployed>T</isdeployed>
