@@ -73,9 +73,9 @@
         <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_GetSuiteScriptCronExpression.js</path>
         <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_StoreSFTPConfiguration.js</path>
 
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOFulfillmentReceipts.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWHTOFulfillmentJson.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOFulfillmentReceipts_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWHTOFulfillmentJson_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson_v2.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -109,6 +109,7 @@
         <path>~/Objects/POSReturn/custbody_hc_pos_return_id.xml</path>
         <path>~/Objects/Customer/custentity_hc_customer_id.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_order_id.xml</path>
+        <path>~/Objects/TransferOrderV2/custbody_hc_shipment_id.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -194,9 +195,9 @@
         <path>~/Objects/Restlet/customscript_restlet_getscript_cronexp.xml</path>
         <path>~/Objects/Restlet/customscript_restlet_store_sftpconf.xml</path>
 
-        <path>~/Objects/TransferOrderV2/customscript_hc_imp_to_fulfil_receipt_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_exportedwhtofulfillment_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_to_store_to.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_imp_to_fulfil_rcpt_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_store_to_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_to_ful_v2.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
