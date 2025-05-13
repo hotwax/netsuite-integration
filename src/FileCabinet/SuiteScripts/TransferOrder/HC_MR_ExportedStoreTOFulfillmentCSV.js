@@ -106,7 +106,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'external-shipment-id,product-sku,id-type,quantity,origin-facility-id,destination-facility-id,item-external-id,tracking-number,shipment-attribute,shipment-type\n';
+                var fileLines = 'external-shipment-id,product-sku,id-type,quantity,origin-external-facility-id,destination-external-facility-id,item-external-id,tracking-number,shipment-attribute,shipment-type\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
