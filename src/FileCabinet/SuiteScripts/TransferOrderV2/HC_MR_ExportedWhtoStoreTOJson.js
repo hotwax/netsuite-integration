@@ -18,8 +18,8 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
-            var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_wh_to_store_to_v2' });
-            return StoreTransferOrderSearch
+            var WhToStoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_wh_to_store_to_v2' });
+            return WhToStoreTransferOrderSearch
         }
 
         const map = (mapContext) => {
@@ -39,7 +39,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 } 
             } 
 
-            var storetransferorderdata = {
+            var whToStoreTransferOrderData = {
                 'externalId': internalid,
                 'productStoreId': 'STORE',
                 'statusId': 'ORDER_CREATED',
@@ -55,7 +55,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'quantity': contextValues.values.quantity,
                 'unitListPrice': 0,
                 'unitPrice': 0,
-                'itemTotalDiscount': 0,
                 'grandTotal': 0,
                 'shipmentMethodTypeId': "STANDARD",
                 'carrierPartyId': "_NA_",
@@ -65,7 +64,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
             
             mapContext.write({
                 key: internalid,
-                value: storetransferorderdata
+                value: whToStoreTransferOrderData
             });
             
         }
@@ -138,7 +137,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 
                 if (totalRecordsExported > 0) {
 
-                    fileName = 'ExportStoretoStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
+                    fileName = 'ExportWhToStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
                     var fileObj = file.create({
                         name: fileName,
                         fileType: file.Type.JSON,
@@ -228,7 +227,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     return true;
                 });
 
-                var fileName = summaryContext.dateCreated + '-FailedStoreTransferOrderExport.csv';
+                var fileName = summaryContext.dateCreated + '-FailedWhToStoreTransferOrderExport.csv';
                 var failExportCSV = file.create({
                     name: fileName,
                     fileType: file.Type.CSV,
