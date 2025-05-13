@@ -55,6 +55,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedStoreTOFulfillmentCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderIdCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderItemCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderCSV.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerRefund.js</path>
         <path>~/FileCabinet/SuiteScripts/SFTP/HC_MR_MarkFalesToFailedRecords.js</path>
@@ -123,6 +124,7 @@
         <path>~/Objects/SalesOrder/custimport_add_salesorders_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_update_salesorders_hc.xml</path>
         <path>~/Objects/InventoryTransfer/custimport_inventory_transfer_hc.xml</path>
+        <path>~/Objects/TransferOrder/custimport_add_transferorders_hc.xml</path>
 
         <!--Custom Scripts-->
         <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
@@ -177,6 +179,7 @@
         <path>~/Objects/TransferOrder/customscript_exp_store_to_fulfillment.xml</path>
         <path>~/Objects/TransferOrder/customscript_exp_transfer_ord_id.xml</path>
         <path>~/Objects/TransferOrder/customscript_exp_transfer_ord_item.xml</path>
+        <path>~/Objects/TransferOrder/customscript_imp_transfer_order_csv.xml</path>
 
         <path>~/Objects/SalesOrder/customscript_so_customer_refund.xml</path>
 
