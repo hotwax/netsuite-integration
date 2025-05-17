@@ -79,7 +79,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOFulfillmentReceipts_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWHTOFulfillmentJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson_v2.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoWhTOjson_v2.js</path>
 
     </files>
     <objects>
