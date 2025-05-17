@@ -79,6 +79,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOFulfillmentReceipts_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWHTOFulfillmentJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOItemFulfillment_v2.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -205,6 +206,7 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_imp_to_fulfil_rcpt_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_store_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_to_ful_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_imp_to_itemfulfillment_v2.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
