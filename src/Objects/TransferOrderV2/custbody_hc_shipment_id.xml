@@ -1,14 +1,10 @@
-<transactionbodycustomfield scriptid="custbody_hc_sales_channel">
+<transactionbodycustomfield scriptid="custbody_hc_shipment_id">
   <accesslevel>2</accesslevel>
   <bodyitemfulfillment>T</bodyitemfulfillment>
-  <bodysale>T</bodysale>
-  <bodytransferorder>T</bodytransferorder>
   <displaytype>NORMAL</displaytype>
   <fieldtype>TEXT</fieldtype>
-  <ismandatory>F</ismandatory>
-  <isparent>F</isparent>
-  <label>HC Sales Channel</label>
-  <linktext></linktext>
+  <globalsearch>T</globalsearch>
+  <label>HC Shipment Id</label>
   <searchlevel>2</searchlevel>
   <storevalue>T</storevalue>
   <subtab>[scriptid=custtab_hc_tab]</subtab>
