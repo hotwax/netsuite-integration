@@ -5,7 +5,7 @@
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/transferOrderV2/HC_SC_ImportTOItemFulfillment.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/transferOrderV2/HC_SC_ImportTOItemFulfillment_v2.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_imp_to_itemfulfillment_v2">
       <isdeployed>T</isdeployed>
@@ -19,6 +19,19 @@
           <startdate>2025-04-30</startdate>
           <starttime>22:00:00Z</starttime>
         </daily>
+      </recurrence>
+    </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_imp_to_itemFulfil_v2_rest">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_SC_ImportTOItemFulfillment_v2</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
       </recurrence>
     </scriptdeployment>
   </scriptdeployments>
