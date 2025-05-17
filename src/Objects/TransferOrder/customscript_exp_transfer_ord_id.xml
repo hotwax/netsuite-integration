@@ -1,20 +1,20 @@
-<mapreducescript scriptid="customscript_export_cashsale">
+<mapreducescript scriptid="customscript_exp_transfer_ord_id">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_MR_ExportedCashSaleCSV</name>
+  <name>HC_MR_ExportedTransferOrderIdCSV</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderIdCSV.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_export_cashsale">
+    <scriptdeployment scriptid="customdeploy_exp_transfer_ord_id">
       <buffersize>1</buffersize>
       <concurrencylimit>1</concurrencylimit>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <status>SCHEDULED</status>
-      <title>HC_MR_ExportedCashSaleCSV</title>
+      <title>HC_MR_ExportedTransferOrderIdCSV</title>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>
         <daily>
@@ -25,11 +25,11 @@
         </daily>
       </recurrence>
     </scriptdeployment>
-    <scriptdeployment scriptid="customdeploy_export_cashsale_rest">
+    <scriptdeployment scriptid="customdeploy_exp_transfer_ord_id_rest">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
-      <title>HC_MR_ExportedCashSaleCSV</title>
+      <title>HC_MR_ExportedTransferOrderIdCSV</title>
       <recurrence>
         <single>
           <repeat></repeat>

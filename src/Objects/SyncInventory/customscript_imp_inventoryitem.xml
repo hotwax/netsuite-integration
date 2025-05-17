@@ -21,5 +21,18 @@
         </daily>
       </recurrence>
     </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_upload_inv_rest">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_uploadCSV_InventoryItems</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
   </scriptdeployments>
 </scheduledscript>

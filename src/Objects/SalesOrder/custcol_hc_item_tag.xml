@@ -5,6 +5,7 @@
   <colpurchase>T</colpurchase>
   <colsale>T</colsale>
   <colstore>T</colstore>
+  <coltransferorder>T</coltransferorder>
   <displaytype>NORMAL</displaytype>
   <fieldtype>TEXT</fieldtype>
   <isformula>F</isformula>
