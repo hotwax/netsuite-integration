@@ -1,21 +1,17 @@
-<mapreducescript scriptid="customscript_export_cashsale">
+<scheduledscript scriptid="customscript_imp_transfer_order_csv">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_MR_ExportedCashSaleCSV</name>
+  <name>HC_SC_ImportTransferOrderCSV</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderCSV.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_export_cashsale">
-      <buffersize>1</buffersize>
-      <concurrencylimit>1</concurrencylimit>
+    <scriptdeployment scriptid="customdeploy_imp_transfer_order_csv">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
-      <queueallstagesatonce>T</queueallstagesatonce>
       <status>SCHEDULED</status>
-      <title>HC_MR_ExportedCashSaleCSV</title>
-      <yieldaftermins>60</yieldaftermins>
+      <title>HC_SC_ImportTransferOrderCSV</title>
       <recurrence>
         <daily>
           <everyxdays>1</everyxdays>
@@ -25,11 +21,11 @@
         </daily>
       </recurrence>
     </scriptdeployment>
-    <scriptdeployment scriptid="customdeploy_export_cashsale_rest">
+    <scriptdeployment scriptid="customdeploy_imp_transfer_ord_csv_rest">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
-      <title>HC_MR_ExportedCashSaleCSV</title>
+      <title>HC_SC_ImportTransferOrderCSV</title>
       <recurrence>
         <single>
           <repeat></repeat>
@@ -39,4 +35,4 @@
       </recurrence>
     </scriptdeployment>
   </scriptdeployments>
-</mapreducescript>
+</scheduledscript>

@@ -1,6 +1,7 @@
 <transactioncolumncustomfield scriptid="custcol_hc_order_item_rejected">
   <accesslevel>2</accesslevel>
   <colsale>T</colsale>
+  <coltransferorder>T</coltransferorder>
   <displaytype>NORMAL</displaytype>
   <fieldtype>CHECKBOX</fieldtype>
   <isformula>F</isformula>
