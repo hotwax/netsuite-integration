@@ -68,7 +68,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
 
             var hcOrderId = contextValues.values.custbody_hc_order_id;
             var externalOrderLineId = contextValues.values.custcol_hc_order_line_id;
-            var lineId = contextValues.values.line;
+            var lineId = contextValues.values.transferorderitemline;
             var externalOrderLineTypeId = contextValues.values.custcol_hc_orderline_type_id;
             var attrName = null;
             if (externalOrderLineTypeId && externalOrderLineTypeId.includes('HC_DISCOUNT_') ) {
