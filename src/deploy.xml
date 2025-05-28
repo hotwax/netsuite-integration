@@ -80,6 +80,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWHTOFulfillmentJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoWhTOjson_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoStoreTOJson_v2.js</path>
 
     </files>
     <objects>
@@ -208,6 +209,7 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_store_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_to_ful_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_store_wh_to_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_str_str_to_v2.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -244,7 +246,9 @@
 
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_wh_to_fulfillment_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_wh_to_store_to_v2.xml</path>
+
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_wh_to_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
         
     </objects>
     <translationimports>
