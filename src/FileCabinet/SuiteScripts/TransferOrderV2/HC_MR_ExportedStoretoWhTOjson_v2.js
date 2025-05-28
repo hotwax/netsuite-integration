@@ -81,8 +81,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         
                 if (!transferOrderMap.externalId) {
                     transferOrderMap = {
-                        externalId: item.externalId,
-                        orderName: item.orderName,
                         productStoreId: item.productStoreId,
                         statusId: item.statusId,
                         originFacilityExternalId: item.originFacilityExternalId,
@@ -98,6 +96,16 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                                 orderFacilityExternalId: item.destinationLocationId,
                                 items: [] 
                             }
+                        ],
+                        identifications: [
+                            {
+                                orderIdentificationTypeId: 'NETSUITE_ORDER_ID',
+                                idValue: item.externalId
+                            },
+                            {
+                                orderIdentificationTypeId: 'NETSUITE_ORDER_NAME',
+                                idValue: item.orderName
+                            }   
                         ]
                     };
                 }
