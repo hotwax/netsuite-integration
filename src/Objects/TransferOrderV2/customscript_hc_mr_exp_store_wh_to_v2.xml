@@ -5,7 +5,7 @@
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/transferOrderV2/HC_MR_ExportedStoretoWhTOjson_v2.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoWhTOjson_v2.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_hc_mr_exp_store_wh_to_v2">
       <buffersize>1</buffersize>
