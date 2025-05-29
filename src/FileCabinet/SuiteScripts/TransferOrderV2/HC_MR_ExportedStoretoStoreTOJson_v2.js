@@ -111,15 +111,19 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 }
         
                 transferOrderMap.shipGroups[0].items.push({
-                    externalId: item.lineId,
                     orderItemTypeId: item.orderItemTypeId,
                     productIdType: item.productIdType,
                     productIdValue: item.productIdValue,
                     quantity: parseInt(item.quantity),
                     statusId: item.itemStatusId,
                     unitListPrice: parseInt(item.unitListPrice),
-                    unitPrice: parseInt(item.unitPrice)
-                    
+                    unitPrice: parseInt(item.unitPrice),
+                    attributes: [
+                        {
+                            attrName: 'NetsuiteItemLineId',
+                            attrValue: item.lineId
+                        }
+                    ]
                 });
             });
         
