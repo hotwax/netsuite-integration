@@ -104,7 +104,7 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         connection.makeDirectory({
             path: 'transferorder/receipt/error'
-        });
+        });        
 
         connection.makeDirectory({
             path: 'salesorder'
@@ -438,6 +438,73 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'pos-return/import/returnidentification/archive'
         });
+
+        connection.makeDirectory({
+            path: 'transferorder/export'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/export/archive'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/export/error'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/export/failed'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/export/required_fields_missing'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorder/import'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorder/import/orderidentification'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/import/orderidentification/archive'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/import/orderitemattribute'
+        });
+        connection.makeDirectory({
+            path: 'transferorder/import/orderitemattribute/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/receipt'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/receipt/archive'
+        });
+         connection.makeDirectory({
+            path: 'transferorderv2/receipt/error'
+        });
+         connection.makeDirectory({
+            path: 'transferorderv2/receipt/failed'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/fulfillment-wh'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/fulfillment-wh/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/export/'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/export/archive'
+        });        
         
       } catch (e) {
         log.error({
