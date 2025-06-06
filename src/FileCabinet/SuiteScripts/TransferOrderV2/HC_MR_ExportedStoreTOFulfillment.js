@@ -63,7 +63,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     });
                 } 
             }
-            log.debug("====orderline=="+orderline);
             if (orderline) {
                 var transferFulfillmentData = {
                     'externalId': fulfillmentInternalId,

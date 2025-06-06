@@ -26,5 +26,20 @@
         </daily>
       </recurrence>
     </scriptdeployment>
+    <scriptdeployment scriptid="customdeploy_hc_mr_ep_st_to_ful_v2_rest">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_MR_ExportedStoreTOFulfillment_V2</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2025-02-05</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
   </scriptdeployments>
 </mapreducescript>
