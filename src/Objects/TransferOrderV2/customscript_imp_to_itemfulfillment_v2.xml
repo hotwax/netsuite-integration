@@ -21,7 +21,7 @@
         </daily>
       </recurrence>
     </scriptdeployment>
-    <scriptdeployment scriptid="customdeploy_imp_to_itemFulfil_v2_rest">
+    <scriptdeployment scriptid="customdeploy_imp_to_itemfulfil_v2_rest">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>

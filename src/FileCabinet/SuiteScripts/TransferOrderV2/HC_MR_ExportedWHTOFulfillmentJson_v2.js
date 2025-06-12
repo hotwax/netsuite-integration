@@ -200,7 +200,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                         });
                     }
                     connection.upload({
-                        directory: '/fulfillment-wh/',
+                        directory: '/import/fulfillment-wh/',
                         file: fileObj
                     });
                     log.debug("Transfer Order WH Fulfillment JSON Uploaded Successfully to SFTP server with file" + fileName);

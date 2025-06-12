@@ -197,7 +197,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                         });
                     }
                     connection.upload({
-                        directory: '/fulfillment-store/',
+                        directory: '/import/fulfillment-store/',
                         file: fileObj
                     });
                     log.debug("Transfer Order Store Fulfillment jaon Uploaded Successfully to SFTP server with file" + fileName);

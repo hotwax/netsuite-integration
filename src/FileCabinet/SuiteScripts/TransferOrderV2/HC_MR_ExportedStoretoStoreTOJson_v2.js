@@ -223,7 +223,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         });
                     }
                     connection.upload({
-                        directory: '/export/',
+                        directory: '/import/transfer-order',
                         file: fileObj
                     });
                     log.debug("Store to Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
