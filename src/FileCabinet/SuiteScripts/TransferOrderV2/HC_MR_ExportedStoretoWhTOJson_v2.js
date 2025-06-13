@@ -154,7 +154,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 
                 if (totalRecordsExported > 0) {
 
-                    fileName = 'ExportStoretoStoreTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
+                    fileName = 'ExportStoretoWhTransferOrder-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
                     var fileObj = file.create({
                         name: fileName,
                         fileType: file.Type.JSON,
