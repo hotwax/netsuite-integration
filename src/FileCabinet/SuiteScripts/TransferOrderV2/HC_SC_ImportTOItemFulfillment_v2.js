@@ -66,7 +66,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
           log.debug("Connection established successfully with SFTP server!");
 
           var list = connection.list({
-              path: '/oms-fulfillment/',
+              path: '/export/oms-fulfillment/',
               sort: sftp.Sort.DATE
           });
 
