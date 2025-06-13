@@ -80,6 +80,8 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         
                 if (!transferOrderMap.externalId) {
                     transferOrderMap = {
+                        externalId: item.externalId,
+                        orderName: item.orderName,
                         productStoreId: item.productStoreId,
                         statusId: item.statusId,
                         originFacilityExternalId: item.originFacilityExternalId,
@@ -110,6 +112,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 }
         
                 transferOrderMap.shipGroups[0].items.push({
+                    externalId: item.lineId,
                     orderItemTypeId: item.orderItemTypeId,
                     productIdType: item.productIdType,
                     productIdValue: item.productIdValue,
