@@ -145,7 +145,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
 
 
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
-                                        var lineId = Number(itemList[itemIndex].line_id) + 1;
+                                        var lineId = Number(itemList[itemIndex].lineId) + 1;
                                         lineId = lineId.toString();
                                         var quantity = itemList[itemIndex].quantity;
                                         var tags = itemList[itemIndex].tags; 
