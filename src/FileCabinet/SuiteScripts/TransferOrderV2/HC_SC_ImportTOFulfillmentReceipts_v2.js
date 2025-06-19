@@ -89,18 +89,33 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
               log.debug("File downloaded successfully !" + fileName);
               var contents = downloadedFile.getContents();
               
-              //Parse the PurchaseOrder ItemReceipt JSON file
+              //Parse the Transfer Order Shipment Receipt JSON file
               var transferOrderDataList = JSON.parse(contents);
               var errorList = [];              
               
               for (var dataIndex = 0; dataIndex < transferOrderDataList.length; dataIndex++) {
                 var orderId = transferOrderDataList[dataIndex].orderId;
-                var fulfillmentId = transferOrderDataList[dataIndex].fulfillmentId; 
+                var fulfillmentId = transferOrderDataList[dataIndex].fulfillmentId;
+                var shipmentId = transferOrderDataList[dataIndex].shipmentId;
                 var itemList = transferOrderDataList[dataIndex].items;
 
                 try {
                   if (orderId) {
-                    // Initilize ItemReceipt Object from TransferOrder
+                    if (!fulfillmentId && shipmentId) {
+                        // Search for the Item Fulfillment by Custom Field HC Shipment ID and get the fulfillment Id
+                         var fulfillmentId = search.create({
+                            type: search.Type.ITEM_FULFILLMENT,
+                            filters: [['custbody_hc_shipment_id', 'is', shipmentId]],
+                            columns: ['internalid']
+                        })
+                        .run()
+                        .getRange({ start: 0, end: 1 })
+                        .map(function (result) {
+                            return result.getValue('internalid');
+                        })[0];
+                    }
+
+                    // Initialize ItemReceipt Object from TransferOrder
                     var itemReceiptRecord = record.transform({
                         fromType: record.Type.TRANSFER_ORDER,
                         fromId: orderId,
