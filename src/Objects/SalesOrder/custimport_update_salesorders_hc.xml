@@ -33,9 +33,9 @@
       <record>SALESORDER</record>
       <fieldmappings>
         <fieldmapping>
-          <field>EXTERNALID</field>
+          <field>INTERNALID</field>
           <columnreference>
-            <column>External Id</column>
+            <column>internalId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -48,7 +48,7 @@
         <fieldmapping>
           <field>[scriptid=custcol_hc_order_item_rejected]</field>
           <columnreference>
-            <column>Rejected</column>
+            <column>rejected</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -56,7 +56,7 @@
         <fieldmapping>
           <field>ISCLOSED</field>
           <columnreference>
-            <column>Closed</column>
+            <column>closed</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -64,7 +64,7 @@
         <fieldmapping>
           <field>ITEM</field>
           <columnreference>
-            <column>Item</column>
+            <column>item</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -72,7 +72,7 @@
         <fieldmapping>
           <field>LINE</field>
           <columnreference>
-            <column>Line Id</column>
+            <column>lineId</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
@@ -80,7 +80,7 @@
         <fieldmapping>
           <field>LOCATION</field>
           <columnreference>
-            <column>Location</column>
+            <column>location</column>
             <file>SALESORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
@@ -88,7 +88,7 @@
         <fieldmapping>
           <field>QUANTITY</field>
           <columnreference>
-            <column>Quantity</column>
+            <column>quantity</column>
             <file>SALESORDER</file>
             <type>NAME</type>
           </columnreference>
