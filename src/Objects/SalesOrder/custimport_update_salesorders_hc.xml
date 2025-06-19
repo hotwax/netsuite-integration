@@ -33,7 +33,7 @@
       <record>SALESORDER</record>
       <fieldmappings>
         <fieldmapping>
-          <field>INTERNALID</field>
+          <field>ID</field>
           <columnreference>
             <column>internalId</column>
             <file>SALESORDER</file>
