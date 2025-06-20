@@ -105,6 +105,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>LOCATION</field>
+          <columnreference>
+            <column>location</column>
+            <file>SALESORDER</file>
+            <type>INTERNAL_ID</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>MEMO</field>
           <columnreference>
             <column>orderNote</column>
@@ -219,6 +227,14 @@
             <column>priceLevel</column>
             <file>SALESORDER</file>
             <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>LOCATION</field>
+          <columnreference>
+            <column>itemLocation</column>
+            <file>SALESORDER</file>
+            <type>INTERNAL_ID</type>
           </columnreference>
         </fieldmapping>
         <fieldmapping>
