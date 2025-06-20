@@ -27,7 +27,6 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderFulfillmentCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerDeposit.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateItemFulfillment.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateSalesOrderInvoice.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedRejectedSalesOrderItemCSV.js</path>
@@ -151,7 +150,6 @@
         <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
         <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
                 
-        <path>~/Objects/SalesOrder/customscript_create_customerdeposit.xml</path>
         <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
         <path>~/Objects/SalesOrder/customscript_update_salesorder.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_salesorders.xml</path>
