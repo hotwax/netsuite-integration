@@ -477,41 +477,57 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
         
         connection.makeDirectory({
-            path: 'transferorderv2/receipt'
+            path: 'transferorderv2/export'
         });
         
         connection.makeDirectory({
-            path: 'transferorderv2/receipt/archive'
+            path: 'transferorderv2/export/oms-fulfillment'
         });
          connection.makeDirectory({
-            path: 'transferorderv2/receipt/error'
+            path: 'transferorderv2/export/oms-fulfillment/archive'
         });
          connection.makeDirectory({
-            path: 'transferorderv2/receipt/failed'
+            path: 'transferorderv2/export/oms-fulfillment/error'
         });
         
         connection.makeDirectory({
-            path: 'transferorderv2/fulfillment-wh'
+            path: 'transferorderv2/export/receipt'
         });
         
+        connection.makeDirectory({
+            path: 'transferorderv2/export/receipt/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/export/receipt/error'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/import'
+        });        
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/import/fulfillment-store'
+        });
+        
+        connection.makeDirectory({
+            path: 'transferorderv2/import/fulfillment-store/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/import/fulfillment-wh'
+        });
+
         connection.makeDirectory({
             path: 'transferorderv2/fulfillment-wh/archive'
         });
 
         connection.makeDirectory({
-            path: 'transferorderv2/export/'
+            path: 'transferorderv2/import/transfer-order'
         });
         
         connection.makeDirectory({
-            path: 'transferorderv2/export/archive'
-        });        
-        
-        connection.makeDirectory({
-            path: 'transferorderv2/fulfillment-store/'
-        });
-        
-        connection.makeDirectory({
-            path: 'transferorderv2/fulfillment-store//archive'
+            path: 'transferorderv2/transfer-order/archive'
         });
         
       } catch (e) {

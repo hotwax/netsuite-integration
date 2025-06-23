@@ -52,7 +52,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
               name: 'custrecord_ns_sftp_default_file_dir'
           });
 
-          sftpDirectory = sftpDirectory + 'transferorderv2';
+          sftpDirectory = sftpDirectory + 'transferorderv2/export/';
           sftpPort = parseInt(sftpPort);
 
           var connection = sftp.createConnection({
@@ -66,7 +66,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
           log.debug("Connection established successfully with SFTP server!");
 
           var list = connection.list({
-              path: '/export/oms-fulfillment/',
+              path: '/oms-fulfillment/',
               sort: sftp.Sort.DATE
           });
 
