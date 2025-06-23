@@ -54,7 +54,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
             name: 'custrecord_ns_sftp_default_file_dir'
         });
 
-        sftpDirectory = sftpDirectory + 'transferorderv2';
+        sftpDirectory = sftpDirectory + 'transferorderv2/export/';
         sftpPort = parseInt(sftpPort);
 
         var connection = sftp.createConnection({
@@ -68,7 +68,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
         log.debug("Connection established successfully with SFTP server!");
 
         var list = connection.list({
-          path: '/export/receipt',
+          path: '/receipt',
           sort: sftp.Sort.DATE
         });
 
@@ -82,7 +82,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
 
             // Download the file from the remote server
             var downloadedFile = connection.download({
-              directory: '/',
+              directory: '/receipt',
               filename: fileName
             });
             if (downloadedFile.size > 0) {
@@ -200,15 +200,15 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                   });
 
                   connection.upload({
-                    directory: '/error/',
+                    directory: '/receipt/error/',
                     file: fileObj
                   });
               }
 
               // Archive the file
               connection.move({
-                from: '/' + fileName,
-                to: '/archive/' + fileName
+                from: '/receipt/' + fileName,
+                to: '/receipt/archive/' + fileName
               })
               log.debug('File moved!');
             }
