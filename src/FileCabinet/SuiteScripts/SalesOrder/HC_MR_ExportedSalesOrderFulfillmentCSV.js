@@ -89,8 +89,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 });
                 log.debug("====totalRecordsExported=="+totalRecordsExported);
                 if (totalRecordsExported > 0) {
-
-                    var fileName =  summaryContext.dateCreated + '-SalesOrderFulfillment.csv';
+                    var fileName =  summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '-SalesOrderFulfillment.csv';
                     var fileObj = file.create({
                         name: fileName,
                         fileType: file.Type.CSV,
@@ -126,7 +125,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     var sftpUrl = sftpSearchResult.getValue({
                         name: 'custrecord_ns_sftp_server'
                     });
-
                     var sftpUserName = sftpSearchResult.getValue({
                         name: 'custrecord_ns_sftp_userid'
                     });
