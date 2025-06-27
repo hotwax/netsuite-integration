@@ -1,7 +1,7 @@
 <mapreducescript scriptid="customscript_hc_mr_exp_st_to_fulfil_v2">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_MR_ExportedStoreTOFulfillment_V2</name>
+  <name>HC_MR_ExportedStoreTOFulfillmentJson_V2</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
@@ -15,7 +15,7 @@
       <queueallstagesatonce>T</queueallstagesatonce>
       <runasrole>ADMINISTRATOR</runasrole>
       <status>SCHEDULED</status>
-      <title>HC_MR_ExportedStoreTOFulfillment_V2</title>
+      <title>HC_MR_ExportedStoreTOFulfillmentJson_V2</title>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>
         <daily>
@@ -32,7 +32,7 @@
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
-      <title>HC_MR_ExportedStoreTOFulfillment_V2</title>
+      <title>HC_MR_ExportedStoreTOFulfillmentJson_V2</title>
       <recurrence>
         <single>
           <repeat></repeat>
