@@ -147,6 +147,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
                                     for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
                                         var lineId = Number(itemList[itemIndex].lineId) + 1;
                                         lineId = lineId.toString();
+                                        var shipmentItemSeqId = itemList[itemIndex].shipmentItemSeqId;
                                         var quantity = itemList[itemIndex].quantity;
                                         var tags = itemList[itemIndex].tags; 
 
@@ -164,6 +165,13 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
                                                     fieldId: 'quantity',
                                                     line: j,
                                                     value: quantity
+                                                });
+
+                                                itemFulfillmentRecord.setSublistValue({
+                                                    sublistId: 'item',
+                                                    fieldId: 'custcol_hc_shipment_item_seq_id',
+                                                    line: j,
+                                                    value: shipmentItemSeqId
                                                 });
 
                                                 itemFulfillmentRecord.setSublistValue({

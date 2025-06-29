@@ -68,8 +68,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     'externalId': fulfillmentInternalId,
                     'shipmentId': contextValues.values.custbody_hc_shipment_id,
                     'lineId': orderline,
-                    'productSku': contextValues.values.item.value,
-                    'productIdType': "NETSUITE_PRODUCT_ID"
+                    'shipmentItemSeqId': contextValues.values.custcol_hc_shipment_item_seq_id
                 };
             }
 
@@ -97,8 +96,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
 
                 itemFulfillmentMap.items.push({
                     externalId: item.lineId,
-                    productIdType: item.productIdType,
-                    productIdValue: item.productSku
+                    shipmentItemSeqId: item.shipmentItemSeqId
                 });
             });
 
