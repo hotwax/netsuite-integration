@@ -117,6 +117,7 @@
         <path>~/Objects/Customer/custentity_hc_customer_id.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_order_id.xml</path>
         <path>~/Objects/TransferOrderV2/custbody_hc_shipment_id.xml</path>
+        <path>~/Objects/TransferOrderV2/custcol_hc_shipment_item_seq_id.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -251,7 +252,7 @@
 
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path> 
 
     </objects>
     <translationimports>
