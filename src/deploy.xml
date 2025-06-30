@@ -252,7 +252,7 @@
 
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path> 
+        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
 
     </objects>
     <translationimports>
