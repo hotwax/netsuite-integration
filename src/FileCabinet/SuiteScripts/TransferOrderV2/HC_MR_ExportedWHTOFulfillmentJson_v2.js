@@ -103,6 +103,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
 
                 itemFulfillmentMap.items.push({
                     externalId: item.lineId,
+                    itemExternalId: (parseInt(item.lineId) - 1).toString(),
                     productIdType: item.productIdType,
                     productIdValue: item.productSku,
                     quantity: item.quantity
