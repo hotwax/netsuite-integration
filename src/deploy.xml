@@ -234,6 +234,7 @@
         <path>~/Objects/SalesOrder/customsearch_hc_exp_customer_deposit.xml</path>
         <path>~/Objects/SalesOrder/customsearch_hc_exp_oms_shipped_orders.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
+        <path>~/Objects/SalesOrder/customsearch_hc_create_hotwax_fulfilled.xml</path>
 
         <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
         
