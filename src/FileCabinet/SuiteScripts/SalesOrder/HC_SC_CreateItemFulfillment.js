@@ -5,304 +5,206 @@
 define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], function (search, record, error, sftp, file, runtime) {
     function execute(context) {
       try {
-          var usageThreshold = 500; // Set a threshold for remaining usage units
-          var scriptObj = runtime.getCurrentScript();
+            var usageThreshold = 500; // Set a threshold for remaining usage units
+            var scriptObj = runtime.getCurrentScript();
 
-          //Get Custom Record Type SFTP details
-          var customRecordSFTPSearch = search.create({
-            type: 'customrecord_ns_sftp_configuration',
-            columns: [
-                'custrecord_ns_sftp_server',
-                'custrecord_ns_sftp_userid',
-                'custrecord_ns_sftp_port_no',
-                'custrecord_ns_sftp_host_key',
-                'custrecord_ns_sftp_guid',
-                'custrecord_ns_sftp_default_file_dir'
-            ]
-            
-          });
-          var sftpSearchResults = customRecordSFTPSearch.run().getRange({
-              start: 0,
-              end: 1
-          });
- 
-          var sftpSearchResult = sftpSearchResults[0];
-        
-          var sftpUrl = sftpSearchResult.getValue({
-              name: 'custrecord_ns_sftp_server'
-          });
+            var searchId = 'customsearch_hc_create_hotwax_fulfilled';
+            var savedSearch = search.load({ id: searchId });
+            var searchResults = savedSearch.run().getRange({ start: 0, end: 150 });
 
-          var sftpUserName = sftpSearchResult.getValue({
-              name: 'custrecord_ns_sftp_userid'
-          });
-
-          var sftpPort = sftpSearchResult.getValue({
-              name: 'custrecord_ns_sftp_port_no'
-          });
-
-          var hostKey = sftpSearchResult.getValue({
-              name: 'custrecord_ns_sftp_host_key'
-          });
-          
-          var sftpKeyId = sftpSearchResult.getValue({
-              name: 'custrecord_ns_sftp_guid'
-          });
-
-          var sftpDirectory = sftpSearchResult.getValue({
-              name: 'custrecord_ns_sftp_default_file_dir'
-          });
-
-          sftpDirectory = sftpDirectory + 'fulfilledsalesorder';
-          sftpPort = parseInt(sftpPort);
-
-          var connection = sftp.createConnection({
-              username: sftpUserName,
-              secret: sftpKeyId,
-              url: sftpUrl,
-              port: sftpPort,
-              directory: sftpDirectory,
-              hostKey: hostKey
-          });
-          log.debug("Connection established successfully with SFTP server!");
-
-          var list = connection.list({
-              path: '/export/',
-              sort: sftp.Sort.DATE
-          });
-
-          for (var i=0; i<list.length; i++) {
-              if (scriptObj.getRemainingUsage() < usageThreshold) {
-                log.debug('Scheduled script has exceeded the usage unit threshold.');
+            if (!searchResults.length) {
+                log.debug('No results found. Skipping Create Item Fulfillment');
                 return;
-              }
-              
-              if (!list[i].directory) {
-                  try {
-                      var fileName = list[i].name;
-      
-                      // Download the file from the remote server
-                      var downloadedFile = connection.download({
-                          directory: '/export',
-                          filename: fileName
-                      });
-                      
-                      if (downloadedFile.size > 0) {
-                          log.debug("File downloaded successfully !" + fileName);
-                          var contents = downloadedFile.getContents();
-          
-                          //Parse the JSON file
-                          var orderDataList = JSON.parse(contents);
-                          var errorList = [];
-                          
-                          for (var dataIndex = 0; dataIndex < orderDataList.length; dataIndex++) {
-                              var orderId = orderDataList[dataIndex].order_id;
-                              var itemList = orderDataList[dataIndex].items;
-                              var isAllowSplit = orderDataList[dataIndex].maySplit;
-                              
-                              try {
-                                if (orderId) {
-                                    //Load sales order object
-                                    var salesOrderRecord = record.load({
-                                        type: record.Type.SALES_ORDER, 
-                                        id: orderId,
-                                        isDynamic: false
-                                    });
+            }
+            var errorList = [];
+
+            var itemFulfillmentMap = {};
+            for (let i = 0; i < searchResults.length; i++) {
+                var result = searchResults[i];
+
+                var orderId = result.getValue({ name: 'internalid' }); 
+                var locationInternalId = result.getValue({ name: 'location' });
+                var itemLineId = result.getValue({ name: 'line' });
+                var quantity = result.getValue({ name: 'quantity' });
+
+                var groupKey = `${orderId}_${locationInternalId}`;
+
+                if (!itemFulfillmentMap[groupKey]) {
+                    itemFulfillmentMap[groupKey] = {
+                        orderId: orderId,
+                        locationId: locationInternalId,
+                        items: []
+                    };
+                }
+
+                itemFulfillmentMap[groupKey].items.push({
+                    itemLineId: itemLineId,
+                    locationInternalId: locationInternalId,
+                    quantity: quantity
+                });
+            }
+            // Convert map to array
+            var itemFulfillmentList = Object.values(itemFulfillmentMap);
+           
+            for (let index = 0; index < itemFulfillmentList.length; index++) {
+                try {
+                    if (scriptObj.getRemainingUsage() < usageThreshold) {
+                        log.debug('Scheduled script has exceeded the usage unit threshold.');
+                        return;
+                   }
+                    var itemFulfillment = itemFulfillmentList[index];
+                    var orderId = itemFulfillment.orderId;
+                    var itemList = itemFulfillment.items;
+                    var itemFulfillmentRecord = record.transform({
+                        fromType: record.Type.SALES_ORDER,
+                        fromId: orderId,
+                        toType: record.Type.ITEM_FULFILLMENT,
+                        isDynamic: false
+                    });
+                    itemFulfillmentRecord.setValue({
+                        fieldId: 'shipstatus',
+                        value: 'C'
+                    });
+                    
+                    itemFulfillmentRecord.setValue({
+                        fieldId: 'memo',
+                        value: 'Item Fulfillment created by HotWax'
+                    });
+
+                    for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
+                        var lineId = itemList[itemIndex].itemLineId;
+                        var locationId = itemList[itemIndex].locationInternalId;
+                        var quantity = itemList[itemIndex].quantity;
+
+                        // get line count from itemfulfillmet record object
+                        var lineCnt = itemFulfillmentRecord.getLineCount({sublistId: 'item'});
+                        for (var j = 0; j < lineCnt; j++) {
+                            var orderline = itemFulfillmentRecord.getSublistValue({
+                                sublistId: 'item',
+                                fieldId: 'orderline',
+                                line: j
+                            });
+                            if (orderline === lineId) {
+                                itemFulfillmentRecord.setSublistValue({
+                                    sublistId: 'item',
+                                    fieldId: 'quantity',
+                                    line: j,
+                                    value: quantity
+                                });
+
+                                itemFulfillmentRecord.setSublistValue({
+                                    sublistId: 'item',
+                                    fieldId: 'location',
+                                    line: j,
+                                    value: locationId
+                                });
+
+                                itemFulfillmentRecord.setSublistValue({
+                                    sublistId: 'item',
+                                    fieldId: 'itemreceive',
+                                    line: j,
+                                    value: true
+                                });
+                            }
+                        }
+                    }
+                    // save the itemfulfillment object
+                    var itemFulfillmentId = itemFulfillmentRecord.save({
+                        enableSourceing: true
+                    });
+                    log.debug("Item fulfillment is created with id " , itemFulfillmentId);
+                } catch (e) {
+                    log.error({
+                        title: 'Error in Item fulfillment is created with id ' + orderId,
+                        details: e,
+                    });
+                    var errorInfo = orderId + ',' + e.message + '\n';
+                    errorList.push(errorInfo);
+                }
+            }
+            if (errorList.length !== 0) {
+                try {
+                    var fileLines = 'orderId,errorMessage\n';
+                    fileLines = fileLines + errorList;
                 
-                                    for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
-                                        var lineId = itemList[itemIndex].line_id;
-                                        var locationId = itemList[itemIndex].location_id;
-                                        var tags = itemList[itemIndex].tags;
-                                        var shipmentMethodTypeId = itemList[itemIndex].shipment_method_type_id;
- 
-                                        if (isAllowSplit && isAllowSplit === 'N') {
-                                            //add order location
-                                            salesOrderRecord.setValue ({
-                                                fieldId: 'location',
-                                                value: locationId
-                                            });
-                                            // get line count from sales order object
-                                            var salesOrderLineCnt = salesOrderRecord.getLineCount({sublistId: 'item'});
-                                            for (var lineCountIndex = 0; lineCountIndex < salesOrderLineCnt; lineCountIndex++) {
-                                                var salesOrderline = salesOrderRecord.getSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'line',
-                                                    line: lineCountIndex
-                                                });
+                    var date = new Date();
+                    var errorFileName = date + '-ErrorCreateSalesOrderItemFulfillment.csv';
+                    var fileObj = file.create({
+                        name: errorFileName,
+                        fileType: file.Type.CSV,
+                        contents: fileLines
+                    });
 
-                                                // update sales order record with tags
-                                                if (salesOrderline === lineId) {    
-                                                    if (tags) {
-                                                        salesOrderRecord.setSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'custcol_hc_item_tag',
-                                                            line: lineCountIndex,
-                                                            value: tags
-                                                        });
-                                                    }
-                                                    if (shipmentMethodTypeId && shipmentMethodTypeId === "STOREPICKUP") {
-                                                        salesOrderRecord.setSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'custcolisbopis',
-                                                            line: lineCountIndex,
-                                                            value: true
-                                                        });
-                                                    }
-                                                } 
-                                            }
-                                        } else { 
-                                            // get line count from sales order object
-                                            var salesOrderLineCnt = salesOrderRecord.getLineCount({sublistId: 'item'});
-                                            for (var lineCountIndex = 0; lineCountIndex < salesOrderLineCnt; lineCountIndex++) {
-                                                var salesOrderline = salesOrderRecord.getSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'line',
-                                                    line: lineCountIndex
-                                                });
+                    // Establish a connection to a remote FTP server
+                    var customRecordSFTPSearch = search.create({
+                        type: 'customrecord_ns_sftp_configuration',
+                        columns: [
+                        'custrecord_ns_sftp_server',
+                        'custrecord_ns_sftp_userid',
+                        'custrecord_ns_sftp_port_no',
+                        'custrecord_ns_sftp_host_key',
+                        'custrecord_ns_sftp_guid',
+                        'custrecord_ns_sftp_default_file_dir'
+                        ]
+                    
+                    });
+                    var sftpSearchResults = customRecordSFTPSearch.run().getRange({
+                        start: 0,
+                        end: 1
+                    });
 
-                                                // update sales order record with item level location
-                                                if (salesOrderline === lineId) {    
-                                                    salesOrderRecord.setSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'location',
-                                                        line: lineCountIndex,
-                                                        value: locationId
-                                                    });
+                    var sftpSearchResult = sftpSearchResults[0];
+                    
+                    var sftpUrl = sftpSearchResult.getValue({
+                        name: 'custrecord_ns_sftp_server'
+                    });
 
-                                                    if (tags) {
-                                                        salesOrderRecord.setSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'custcol_hc_item_tag',
-                                                            line: lineCountIndex,
-                                                            value: tags
-                                                        });
-                                                    }
-                                                    if (shipmentMethodTypeId && shipmentMethodTypeId === "STOREPICKUP") {
-                                                        salesOrderRecord.setSublistValue({
-                                                            sublistId: 'item',
-                                                            fieldId: 'custcolisbopis',
-                                                            line: lineCountIndex,
-                                                            value: true
-                                                        });
-                                                    }
-                                                } 
-                                            }
-                                        }   
-                                    }
-                                    
-                                    //save sales order record
-                                    var salesOrderId = salesOrderRecord.save();
+                    var sftpUserName = sftpSearchResult.getValue({
+                        name: 'custrecord_ns_sftp_userid'
+                    });
 
-                                    if (salesOrderId) { 
-                                        // Initilize ItemFulfillment Object from SalesOrder
-                                        var itemFulfillmentRecord = record.transform({
-                                            fromType: record.Type.SALES_ORDER,
-                                            fromId: orderId,
-                                            toType: record.Type.ITEM_FULFILLMENT,
-                                            isDynamic: false
-                                        });
-                                        itemFulfillmentRecord.setValue({
-                                            fieldId: 'shipstatus',
-                                            value: 'C'//Shipped
-                                        });
-                                        
-                                        // set memo
-                                        itemFulfillmentRecord.setValue({
-                                            fieldId: 'memo',
-                                            value: 'Item Fulfillment created by HotWax'
-                                        });
+                    var sftpPort = sftpSearchResult.getValue({
+                        name: 'custrecord_ns_sftp_port_no'
+                    });
 
-                                        for (var itemIndex = 0; itemIndex < itemList.length; itemIndex++) {
-                                            var lineId = itemList[itemIndex].line_id;
-                                            var locationId = itemList[itemIndex].location_id;
-                                            var quantity = itemList[itemIndex].quantity;
-    
-                                            // get line count from itemfulfillmet record object
-                                            var lineCnt = itemFulfillmentRecord.getLineCount({sublistId: 'item'});
-                                            for (var j = 0; j < lineCnt; j++) {
-                                                var orderline = itemFulfillmentRecord.getSublistValue({
-                                                    sublistId: 'item',
-                                                    fieldId: 'orderline',
-                                                    line: j
-                                                });
-                                                if (orderline === lineId) {
-                                                    itemFulfillmentRecord.setSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'quantity',
-                                                        line: j,
-                                                        value: quantity
-                                                    });
-    
-                                                    itemFulfillmentRecord.setSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'location',
-                                                        line: j,
-                                                        value: locationId
-                                                    });
-    
-                                                    itemFulfillmentRecord.setSublistValue({
-                                                        sublistId: 'item',
-                                                        fieldId: 'itemreceive',
-                                                        line: j,
-                                                        value: true
-                                                    });
-                                                }
-                                            }
-                                            
-                                        }
+                    var hostKey = sftpSearchResult.getValue({
+                        name: 'custrecord_ns_sftp_host_key'
+                    });
+                    
+                    var sftpKeyId = sftpSearchResult.getValue({
+                        name: 'custrecord_ns_sftp_guid'
+                    });
 
-                                        // save the itemfulfillment object
-                                        var itemFulfillmentId = itemFulfillmentRecord.save({
-                                            enableSourceing: true
-                                        });
-                                        log.debug("Item fulfillment is created with id " + itemFulfillmentId);
-                                    }
-                                }
-                
-                              } catch (e) {
-                                  log.error({
-                                      title: 'Error in creating item fulfillment records for sales order ' + orderId,
-                                      details: e,
-                                  });
-                                  var errorInfo = orderId + ',' + e.message + '\n';
-                                  errorList.push(errorInfo);
+                    var sftpDirectory = sftpSearchResult.getValue({
+                        name: 'custrecord_ns_sftp_default_file_dir'
+                    });
 
-                              }
-                          }
-                          if (errorList.length !== 0) {
-                              var fileLines = 'orderId,errorMessage\n';
-                              fileLines = fileLines + errorList;
-                              
-                              var date = new Date();
-                              var errorFileName = date + '-ErrorFulfilledOrders.csv';
-                              var fileObj = file.create({
-                                  name: errorFileName,
-                                  fileType: file.Type.CSV,
-                                  contents: fileLines
-                              });
+                    sftpDirectory = sftpDirectory + 'salesorder/update';
+                    sftpPort = parseInt(sftpPort);
 
-                              connection.upload({
-                                directory: '/export/error/',
-                                file: fileObj
-                              });
-                          }
-                          
-                          // Archive the file
-                          connection.move({
-                                from: '/export/' + fileName,
-                                to: '/export/archive/' + fileName
-                          })
-                          log.debug('File moved!'); 
-                      }
-                  } catch (e) {
-                      log.error({
-                      title: 'Error in processing item fulfillment csv files',
-                      details: e,
-                      });
-                  }
-              }
-          }         
-        
-      } catch (e) {
+                    var connection = sftp.createConnection({
+                        username: sftpUserName,
+                        secret: sftpKeyId,
+                        url: sftpUrl,
+                        port: sftpPort,
+                        directory: sftpDirectory,
+                        hostKey: hostKey
+                    });
+                    log.debug("Connection established successfully with SFTP server!");
+
+                    connection.upload({
+                        directory: '/error/',
+                        file: fileObj
+                    });
+                } catch (e) {
+                    log.error({
+                        title: 'Error in creating Create Sales Order Item Fulfillment csv file',
+                        details: e,
+                    });
+                }
+            }
+        }
+       catch (e) {
         log.error({
           title: 'Error in creating item fulfillment for sales orders',
           details: e,
@@ -313,6 +215,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file', 'N/runtime'], fun
         });
       }
     }
+    
     return {
       execute: execute
     };
