@@ -28,7 +28,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             var lineId = contextValues.values.line;
             var trackingNumber = contextValues.values.trackingnumbers;
             if (trackingNumber && trackingNumber.includes("<BR>")) {
-                trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
+                /* trackingNumber = trackingNumber.replaceAll('<BR>', ' | '); */
+                trackingNumber = trackingNumber.split('<BR>')[0].trim();
             }
 
             var orderline = null;
