@@ -1,0 +1,25 @@
+<scheduledscript scriptid="customscript_hc_uploadalcauditlogreport">
+	<description></description>
+	<isinactive>F</isinactive>
+	<name>HC_UploadALCAuditLogReport</name>
+	<notifyadmins>F</notifyadmins>
+	<notifyemails></notifyemails>
+	<notifyowner>T</notifyowner>
+	<scriptfile>[/SuiteScripts/HC ALC Audit Log Reconciliation/HC_UploadALCAuditLogReport.js]</scriptfile>
+	<scriptdeployments>
+		<scriptdeployment scriptid="customdeploy_hc_uploadalcauditlogreport">
+			<isdeployed>T</isdeployed>
+			<loglevel>DEBUG</loglevel>
+			<status>SCHEDULED</status>
+			<title>HC_UploadALCAuditLogReport</title>
+			<recurrence>
+				<daily>
+					<everyxdays>1</everyxdays>
+					<repeat></repeat>
+					<startdate>2025-05-21</startdate>
+					<starttime>11:30:00Z</starttime>
+				</daily>
+			</recurrence>
+		</scriptdeployment>
+	</scriptdeployments>
+</scheduledscript>
