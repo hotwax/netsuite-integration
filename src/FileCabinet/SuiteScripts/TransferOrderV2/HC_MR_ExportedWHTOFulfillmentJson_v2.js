@@ -95,7 +95,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             const trackingNumberList = values[0].trackingNumberList || [];
             const transferOrderId = values[0].transferOrderId;
 
-            const shipmentItems = values.map((line) => ({
+            const items = values.map((line) => ({
                 externalId: line.lineId,
                 itemExternalId: line.lineId,
                 productIdType: line.productIdType,
@@ -108,12 +108,12 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             if (trackingNumberList.length > 0) {
                 packages = trackingNumberList.map((trackingNumber, index) => ({
                     trackingNumber: trackingNumber || null,
-                    shipmentItems: index === 0 ? shipmentItems : []
+                    items: index === 0 ? items : []
                 }));
             } else {
                 packages = [{
                     trackingNumber: null,
-                    shipmentItems: shipmentItems
+                    items: items
                 }];
             }
 
