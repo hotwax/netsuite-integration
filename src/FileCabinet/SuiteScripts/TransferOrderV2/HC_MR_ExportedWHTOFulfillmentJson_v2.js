@@ -27,8 +27,10 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             var fulfillmentInternalId = contextValues.values.internalid.value;
             var lineId = contextValues.values.line;
             var trackingNumber = contextValues.values.trackingnumbers;
-            if (trackingNumber && trackingNumber.includes("<BR>")) {
-                trackingNumber = trackingNumber.replaceAll('<BR>', ' | ');
+            
+            var trackingNumberList = [];
+            if (trackingNumber) {
+                trackingNumberList = trackingNumber.split('<BR>').map(s => s.trim()).filter(Boolean);
             }
 
             var orderline = null;
@@ -69,7 +71,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             if (orderline) {
                 var transferFulfillmentData = {
                     'externalId': fulfillmentInternalId,
-                    'trackingNumber': trackingNumber,
+                    'trackingNumberList': trackingNumberList,
                     'transferOrderId': contextValues.values.createdfrom.value,
                     'lineId': orderline,
                     'productSku': contextValues.values.item.value,
@@ -83,38 +85,49 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 });
             }
         }
-        
+
         const reduce = (reduceContext) => {
-            let itemFulfillmentMap = {
-                items: []
+            const fulfillmentId = reduceContext.key;
+            const values = reduceContext.values.map(JSON.parse);
+
+            if (!values || values.length === 0) return;
+
+            const trackingNumberList = values[0].trackingNumberList || [];
+            const transferOrderId = values[0].transferOrderId;
+
+            const shipmentItems = values.map((line) => ({
+                externalId: line.lineId,
+                itemExternalId: line.lineId,
+                productIdType: line.productIdType,
+                productIdValue: line.productSku,
+                quantity: line.quantity
+            }));
+
+            let packages = [];
+
+            if (trackingNumberList.length > 0) {
+                packages = trackingNumberList.map((trackingNumber, index) => ({
+                    trackingNumber: trackingNumber || null,
+                    shipmentItems: index === 0 ? shipmentItems : []
+                }));
+            } else {
+                packages = [{
+                    trackingNumber: null,
+                    shipmentItems: shipmentItems
+                }];
+            }
+
+            const fulfillmentJson = {
+                externalId: fulfillmentId,
+                transferOrderId: transferOrderId,
+                packages: packages
             };
 
-            reduceContext.values.forEach((val) => {
-                const item = JSON.parse(val);
-
-                if (!itemFulfillmentMap.externalId) {
-                    itemFulfillmentMap = {
-                        externalId: item.externalId,
-                        trackingNumber: item.trackingNumber,
-                        transferOrderId: item.transferOrderId,
-                        items: []
-                    };
-                }
-
-                itemFulfillmentMap.items.push({
-                    externalId: item.lineId,
-                    itemExternalId: (parseInt(item.lineId) - 1).toString(),
-                    productIdType: item.productIdType,
-                    productIdValue: item.productSku,
-                    quantity: item.quantity
-                });
-            });
-
             reduceContext.write({
-                key: reduceContext.key,
-                value: JSON.stringify(itemFulfillmentMap)
+                key: fulfillmentId,
+                value: JSON.stringify(fulfillmentJson)
             });
-        }
+        };
         
         const summarize = (summaryContext) => {
             try {
