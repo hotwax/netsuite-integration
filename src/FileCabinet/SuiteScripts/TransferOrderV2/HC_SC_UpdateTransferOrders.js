@@ -116,7 +116,7 @@ define(['N/sftp', 'N/task', 'N/error', 'N/search', 'N/file', 'N/runtime'], funct
             }
           } catch (e) {
               log.error({
-                title: 'Error in processing update sales order csv files',
+                title: 'Error in processing update transfer order csv files',
                 details: e,
               });
               var errorInfo = fileName + ',' + e.message + '\n';
