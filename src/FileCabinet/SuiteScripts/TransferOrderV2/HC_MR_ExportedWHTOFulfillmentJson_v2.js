@@ -87,42 +87,55 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         }
 
         const reduce = (reduceContext) => {
+            // Get the current fulfillment ID (grouped key)
             const fulfillmentId = reduceContext.key;
+
+            // Parse all mapped line-level values for this fulfillment
             const values = reduceContext.values.map(JSON.parse);
 
+            // If no values found, return
             if (!values || values.length === 0) return;
 
+            // Extract tracking number list from the first value (common for the fulfillment)
             const trackingNumberList = values[0].trackingNumberList || [];
+
+            // Extract transferOrderId (same for all lines in this fulfillment)
             const transferOrderId = values[0].transferOrderId;
 
+            // Build list of items for the first package
             const items = values.map((line) => ({
-                externalId: line.lineId,
-                itemExternalId: line.lineId,
+                externalId: line.lineId,         
+                itemExternalId: line.lineId,    
                 productIdType: line.productIdType,
-                productIdValue: line.productSku,
-                quantity: line.quantity
+                productIdValue: line.productSku,  
+                quantity: line.quantity          
             }));
 
             let packages = [];
 
             if (trackingNumberList.length > 0) {
+                // Create one package per tracking number
+                // Only the first package will contain all shipment items
                 packages = trackingNumberList.map((trackingNumber, index) => ({
                     trackingNumber: trackingNumber || null,
-                    items: index === 0 ? items : []
+                    items: index === 0 ? items : [] // Only first package gets the items
                 }));
             } else {
+                // No tracking numbers available — still create a single package with items
                 packages = [{
                     trackingNumber: null,
                     items: items
                 }];
             }
 
+            // Final JSON structure for the fulfillment
             const fulfillmentJson = {
                 externalId: fulfillmentId,
                 transferOrderId: transferOrderId,
                 packages: packages
             };
 
+            // Write the final output keyed by fulfillment ID
             reduceContext.write({
                 key: fulfillmentId,
                 value: JSON.stringify(fulfillmentJson)
