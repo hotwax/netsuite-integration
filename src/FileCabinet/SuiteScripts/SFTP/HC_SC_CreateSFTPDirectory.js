@@ -529,6 +529,22 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'transferorderv2/transfer-order/archive'
         });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/update'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/update/archive'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/update/failed'
+        });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/update/error'
+        });
         
       } catch (e) {
         log.error({

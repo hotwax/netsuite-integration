@@ -83,6 +83,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoWhTOJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoStoreTOJson_v2.js</path> 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoreTOFulfillmentJson_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_UpdateTransferOrders.js</path>
 
     </files>
     <objects>
@@ -132,6 +133,7 @@
         <path>~/Objects/SalesOrder/custimport_update_salesorders_hc.xml</path>
         <path>~/Objects/InventoryTransfer/custimport_inventory_transfer_hc.xml</path>
         <path>~/Objects/TransferOrder/custimport_add_transferorders_hc.xml</path>
+        <path>~/Objects/TransferOrderV2/custimport_hc_transfer_order_update_csv.xml</path>
 
         <!--Custom Scripts-->
         <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
@@ -215,6 +217,7 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_store_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_str_str_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_st_to_fulfil_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_sc_updatetransferorders.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
 
         <!--Saved Search-->
