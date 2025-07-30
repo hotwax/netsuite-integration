@@ -21,7 +21,7 @@
         </daily>
       </recurrence>
     </scriptdeployment>
-    <scriptdeployment scriptid="customdeploy_hc_sc_updateTO_rest">
+    <scriptdeployment scriptid="customdeploy_hc_sc_update_to_rest">
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <status>NOTSCHEDULED</status>
