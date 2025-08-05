@@ -85,7 +85,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoreTOFulfillmentJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_UpdateTransferOrders.js</path>
 
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_HC_Ord_Exp_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -221,7 +221,7 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_sc_updatetransferorders.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
 
-        <path>~/Objects/TransferOrderV2/customscript_to_copy_reset_hc_ord_exp_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_cs_to_cpy_rst_cstm_field.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>

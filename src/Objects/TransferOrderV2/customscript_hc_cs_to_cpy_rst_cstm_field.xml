@@ -1,14 +1,14 @@
-<clientscript scriptid="customscript_to_copy_reset_hc_ord_exp_v2">
+<clientscript scriptid="customscript_hc_cs_to_cpy_rst_cstm_field">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_CS_TO_Copy_Reset_HC_Ord_Exp_v2</name>
+  <name>HC_CS_TO_Copy_Reset_Custom_Fields_v2</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
   <notifyuser>F</notifyuser>
-  <scriptfile>[/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_HC_Ord_Exp_v2.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js]</scriptfile>
   <scriptdeployments>
-    <scriptdeployment scriptid="customdeploy_to_copy_reset_hc_ord_exp_v2">
+    <scriptdeployment scriptid="customdeploy_hc_cs_to_cpy_rst_cstm_field">
       <allemployees>F</allemployees>
       <alllocalizationcontexts>T</alllocalizationcontexts>
       <allpartners>F</allpartners>
