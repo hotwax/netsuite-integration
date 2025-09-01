@@ -3,7 +3,6 @@
   <isinactive>F</isinactive>
   <name>HC_CS_TO_Copy_Reset_Custom_Fields_v2</name>
   <notifyadmins>F</notifyadmins>
-  <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
   <notifyuser>F</notifyuser>
   <scriptfile>[/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js]</scriptfile>
@@ -13,13 +12,12 @@
       <alllocalizationcontexts>T</alllocalizationcontexts>
       <allpartners>F</allpartners>
       <allroles>F</allroles>
-      <audslctrole></audslctrole>
       <eventtype>COPY</eventtype>
       <executioncontext>ACTION|ADVANCEDREVREC|BANKCONNECTIVITY|BANKSTATEMENTPARSER|BUNDLEINSTALLATION|CLIENT|CONSOLRATEADJUSTOR|CSVIMPORT|CUSTOMGLLINES|CUSTOMMASSUPDATE|DATASETBUILDER|DEBUGGER|EMAILCAPTURE|FICONNECTIVITY|FIPARSER|MAPREDUCE|OCRPLUGIN|OTHER|PAYMENTGATEWAY|PAYMENTPOSTBACK|PLATFORMEXTENSION|PORTLET|PROMOTIONS|RECORDACTION|RESTLET|RESTWEBSERVICES|SCHEDULED|SDFINSTALLATION|SHIPPINGPARTNERS|SUITELET|TAXCALCULATION|USEREVENT|USERINTERFACE|WEBSERVICES|WORKBOOKBUILDER|WORKFLOW</executioncontext>
       <isdeployed>T</isdeployed>
       <loglevel>DEBUG</loglevel>
       <recordtype>TRANSFERORDER</recordtype>
-      <status>SCHEDULED</status>
+      <status>RELEASED</status>
     </scriptdeployment>
   </scriptdeployments>
 </clientscript>
