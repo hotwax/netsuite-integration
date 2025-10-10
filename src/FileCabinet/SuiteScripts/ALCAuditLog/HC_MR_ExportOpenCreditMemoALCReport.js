@@ -12,7 +12,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
 
         const map = (mapContext) => {
             var contextValues = JSON.parse(mapContext.value);
-            log.debug("contextValues", contextValues);
 
             var creditMemoInternalId = contextValues.values.internalid.value;
             var shopifyOrderName = contextValues.values.otherrefnum;
