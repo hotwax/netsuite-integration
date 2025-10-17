@@ -74,6 +74,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     'trackingNumberList': trackingNumberList,
                     'transferOrderId': contextValues.values.createdfrom.value,
                     'lineId': orderline,
+                    'shipmentDate': contextValues.values.formulatext,
                     'productSku': contextValues.values.item.value,
                     'productIdType': "NETSUITE_PRODUCT_ID",
                     'quantity': parseInt(contextValues.values.quantity)
@@ -101,11 +102,12 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
 
             // Extract transferOrderId (same for all lines in this fulfillment)
             const transferOrderId = values[0].transferOrderId;
+            const shipmentDate = values[0].shipmentDate;
 
             // Build list of items for the first package
             const items = values.map((line) => ({
-                externalId: line.lineId,         
-                itemExternalId: line.lineId,    
+                externalId: line.lineId,   
+                itemExternalId: (parseInt(line.lineId) - 1).toString(),
                 productIdType: line.productIdType,
                 productIdValue: line.productSku,  
                 quantity: line.quantity          
@@ -132,6 +134,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             const fulfillmentJson = {
                 externalId: fulfillmentId,
                 transferOrderId: transferOrderId,
+                shipmentDate: shipmentDate,
                 packages: packages
             };
 
