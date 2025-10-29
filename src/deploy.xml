@@ -226,6 +226,8 @@
         <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
 
         <path>~/Objects/TransferOrderV2/customscript_hc_cs_to_cpy_rst_cstm_field.xml</path>
+        <path>~/Objects/ALCAuditLog/customscript_hc_mr_expopeninvoicereport.xml</path>
+        <path>~/Objects/ALCAuditLog/customscript_hc_mr_exportopencreditmemo.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -268,9 +270,6 @@
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
 
-        <!-- ALC Audit log Report -->
-        <path>~/Objects/ALCAuditLog/customscript_hc_mr_expopeninvoicereport.xml</path>
-        <path>~/Objects/ALCAuditLog/customscript_hc_mr_exportopencreditmemo.xml</path>
         <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>
         <path>~/Objects/ALCAuditLog/customsearch_hc_open_credit_memo_report.xml</path>
     </objects>
