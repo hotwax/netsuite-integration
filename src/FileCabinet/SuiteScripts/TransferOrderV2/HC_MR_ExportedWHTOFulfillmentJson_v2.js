@@ -104,8 +104,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
 
             // Build list of items for the first package
             const items = values.map((line) => ({
-                externalId: line.lineId,         
-                itemExternalId: line.lineId,    
+                externalId: line.lineId,   
+                itemExternalId: (parseInt(line.lineId) - 1).toString(),
                 productIdType: line.productIdType,
                 productIdValue: line.productSku,  
                 quantity: line.quantity          
