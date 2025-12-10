@@ -84,6 +84,8 @@
         <!-- ALC Audit Log Report -->
         <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenCreditMemoALCReport.js</path>
         <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenInvoiceALCReport.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_CreateTOReceiptAndAdjustment.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -216,6 +218,8 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_cs_to_cpy_rst_cstm_field.xml</path>
         <path>~/Objects/ALCAuditLog/customscript_hc_mr_expopeninvoicereport.xml</path>
         <path>~/Objects/ALCAuditLog/customscript_hc_mr_exportopencreditmemo.xml</path>
+
+        <path>~/Objects/TransferOrderV2/customscript_hc_toreceiptandadjustment.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
