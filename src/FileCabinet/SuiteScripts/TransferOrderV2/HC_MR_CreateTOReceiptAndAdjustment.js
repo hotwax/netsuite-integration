@@ -184,7 +184,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             });
             itemReceiptRecord.setValue({
               fieldId: 'memo',
-              value: 'Item Receipt created by HotWax for partially received items :- ' + orderName
+              value: 'Item Receipt created by HotWax for under received items :- ' + orderName
             });
 
             for (var j = 0; j < items.length; j++) {
@@ -245,7 +245,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
 
           transferOrderAdjustmentRecord.setValue({
             fieldId: 'memo',
-            value: 'Transfer Order Adjustment created by HotWax for unreconciled items :- ' + orderName
+            value: 'Adjustment created by HotWax for Transfer Order unreconciled items :- ' + orderName
           });
 
           transferOrderAdjustmentRecord.setValue({
