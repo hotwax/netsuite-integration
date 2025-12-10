@@ -69,7 +69,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
       log.debug("Connection established successfully with SFTP server!");
 
       var list = connection.list({
-        path: '/unreconciledtransferorder/',
+        path: '/receipt-reconciliation/',
         sort: sftp.Sort.DATE
       });
 
@@ -79,7 +79,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
 
           // Download the file from the remote server
           var downloadedFile = connection.download({
-            directory: '/unreconciledtransferorder',
+            directory: '/receipt-reconciliation',
             filename: fileName
           });
           if (downloadedFile.size > 0) {
@@ -89,8 +89,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             unreconciledTransferOrder = JSON.parse(contents);
 
             connection.move({
-                from: '/unreconciledtransferorder/' + fileName,
-                to: '/unreconciledtransferorder/archive/' + fileName
+                from: '/receipt-reconciliation/' + fileName,
+                to: '/receipt-reconciliation/archive/' + fileName
             })
             log.debug('File moved!');
             break;
@@ -106,8 +106,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
       var hcOrderId = contextValues.hcOrderId;
       var orderName = contextValues.orderName;
       var receivedLocationId = contextValues.destinationFacilityId;
-      var facilityName = contextValues.facilityName;
-      var overReceivedShipments = contextValues.overReceivedShipments;
+      var overReceivedItems = contextValues.overReceivedItems;
       var underReceivedShipments = contextValues.underReceivedShipments;
 
       try {
@@ -126,14 +125,14 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             for (var j = 0; j < items.length; j++) {
               var lineId = items[j].lineId;
               var itemId = items[j].itemId;
-              var underReceiveQty = items[j].underReceiveQty;
+              var underReceivedQty = items[j].underReceivedQty;
 
               var lineCount = itemFulfillmentRecord.getLineCount({
                 sublistId: 'item',
               });
 
               for (var k = 0; k < lineCount; k++) {
-                var currentOrderlineId = itemFulfillmentRecord.getSublistValue({
+                var currentOrderLineId = itemFulfillmentRecord.getSublistValue({
                   sublistId: 'item',
                   fieldId: 'orderline',
                   line: k,
@@ -144,12 +143,12 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
                   line: k,
                 });
 
-                if (currentOrderlineId == lineId && currentItemId == itemId) {
+                if (currentOrderLineId == lineId && currentItemId == itemId) {
                   itemFulfillmentRecord.setSublistValue({
                     sublistId: 'item',
                     fieldId: 'custcol_hc_discrepancy_qty',
                     line: k,
-                    value: underReceiveQty,
+                    value: underReceivedQty,
                   });
                   itemFulfillmentRecord.setSublistValue({
                     sublistId: 'item',
@@ -190,27 +189,27 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
 
             for (var j = 0; j < items.length; j++) {
               var lineId = (Number(items[j].lineId) + 1).toString();
-              var underReceiveQty = items[j].underReceiveQty;
+              var underReceivedQty = items[j].underReceivedQty;
 
               var lineCount = itemReceiptRecord.getLineCount({
                 sublistId: 'item',
               });
 
               for (var k = 0; k < lineCount; k++) {
-                var currentOrderlineId = itemReceiptRecord.getSublistValue({
+                var currentOrderLineId = itemReceiptRecord.getSublistValue({
                   sublistId: 'item',
                   fieldId: 'orderline',
                   line: k,
                 });
-                if (currentOrderlineId == lineId) {
-                  log.debug('currentOrderlineId', currentOrderlineId);
+                if (currentOrderLineId == lineId) {
+                  log.debug('currentOrderLineId', currentOrderLineId);
                   log.debug('lineId', lineId);
-                  log.debug('underReceiveQty', underReceiveQty);
+                  log.debug('underReceivedQty', underReceivedQty);
                   itemReceiptRecord.setSublistValue({
                     sublistId: 'item',
                     fieldId: 'quantity',
                     line: k,
-                    value: Math.abs(underReceiveQty),
+                    value: Math.abs(underReceivedQty),
                   });
                   itemReceiptRecord.setSublistValue({
                     sublistId: 'item',
@@ -237,7 +236,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
         }
 
         // CREATE INVENTORY ADJUSTMENT FOR OVER + UNDER RECEIVED
-        if ((overReceivedShipments && overReceivedShipments.length > 0) || (underReceivedShipments && underReceivedShipments.length > 0)) {
+        if ((overReceivedItems && overReceivedItems.length > 0) || (underReceivedShipments && underReceivedShipments.length > 0)) {
 
           var transferOrderAdjustmentRecord = record.create({
             type: record.Type.INVENTORY_ADJUSTMENT,
@@ -264,16 +263,11 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             value: hcOrderId
           });
 
-          transferOrderAdjustmentRecord.setValue({
-            fieldId: 'custbody_hc_origin_facility_name',
-            value: facilityName
-          });
-
           // 1) OVER RECEIVED = Increase Qty (Positive Adjustment)
-          if (overReceivedShipments && overReceivedShipments.length > 0) {
-            for (var i = 0; i < overReceivedShipments.length; i++) {
-              var itemId = overReceivedShipments[i].itemId;
-              var qty = overReceivedShipments[i].overReceiveQty; // always positive
+          if (overReceivedItems && overReceivedItems.length > 0) {
+            for (var i = 0; i < overReceivedItems.length; i++) {
+              var itemId = overReceivedItems[i].itemId;
+              var qty = overReceivedItems[i].overReceivedQty; // always positive
 
               transferOrderAdjustmentRecord.selectNewLine({ sublistId: 'inventory' });
               transferOrderAdjustmentRecord.setCurrentSublistValue({
@@ -303,7 +297,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
 
               for (var k = 0; k < items.length; k++) {
                 var itemId = items[k].itemId;
-                var qty = items[k].underReceiveQty;
+                var qty = items[k].underReceivedQty;
 
                 transferOrderAdjustmentRecord.selectNewLine({ sublistId: 'inventory' });
                 transferOrderAdjustmentRecord.setCurrentSublistValue({
@@ -332,35 +326,35 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
         }
 
         // UPDATE TRANSFER ORDER
-        if ((overReceivedShipments && overReceivedShipments.length > 0) || (underReceivedShipments && underReceivedShipments.length > 0)) {
+        if ((overReceivedItems && overReceivedItems.length > 0) || (underReceivedShipments && underReceivedShipments.length > 0)) {
 
           // Build discrepancy map from JSON
-          // key = "orderlineId_itemId"
+          // key = "orderLineId_itemId"
           var discrepancyMap = {};
 
           // Over received → positive qty
-          if (overReceivedShipments && overReceivedShipments.length > 0) {
-            for (var o = 0; o < overReceivedShipments.length; o++) {
-              var ovOrderlineId = overReceivedShipments[o].orderlineId;
-              var ovItemId = overReceivedShipments[o].itemId;
-              var ovQty = Number(overReceivedShipments[o].overReceiveQty) || 0;
+          if (overReceivedItems && overReceivedItems.length > 0) {
+            for (var o = 0; o < overReceivedItems.length; o++) {
+              var ovorderLineId = overReceivedItems[o].orderLineId; 
+              var ovItemId = overReceivedItems[o].itemId;
+              var ovQty = Number(overReceivedItems[o].overReceivedQty) || 0;
 
-              var ovKey = ovOrderlineId + '_' + ovItemId;
+              var ovKey = ovorderLineId + '_' + ovItemId;
               discrepancyMap[ovKey] = (discrepancyMap[ovKey] || 0) + ovQty;
             }
           }
 
-          // Under received → negative qty (underReceiveQty already negative)
+          // Under received → negative qty (underReceivedQty already negative)
           if (underReceivedShipments && underReceivedShipments.length > 0) {
             for (var u = 0; u < underReceivedShipments.length; u++) {
               var urItems = underReceivedShipments[u].items || [];
 
               for (var ui = 0; ui < urItems.length; ui++) {
-                var urOrderlineId = urItems[ui].orderlineId;
+                var urOrderLineId = urItems[ui].orderLineId;
                 var urItemId = urItems[ui].itemId;
-                var urQty = Number(urItems[ui].underReceiveQty) || 0;
+                var urQty = Number(urItems[ui].underReceivedQty) || 0;
 
-                var urKey = urOrderlineId + '_' + urItemId;
+                var urKey = urOrderLineId + '_' + urItemId;
                 discrepancyMap[urKey] = (discrepancyMap[urKey] || 0) + urQty;
               }
             }
@@ -503,7 +497,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
           connection = setupSftpConnection();
           log.debug("Connection established successfully with SFTP server!");
 
-          var errorFileName = summaryContext.dateCreated + '-ErrorUnreconciledTransferOrder.csv';
+          var errorFileName = summaryContext.dateCreated + 'errorReceiptReconciliation.csv';
           var fileObj = file.create({
             name: errorFileName,
             fileType: file.Type.CSV,
@@ -511,7 +505,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
           });
 
           connection.upload({
-            directory: '/unreconciledtransferorder/error',
+            directory: '/receipt-reconciliation/error',
             file: fileObj
           });
 
