@@ -202,9 +202,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
                   line: k,
                 });
                 if (currentOrderLineId == lineId) {
-                  log.debug('currentOrderLineId', currentOrderLineId);
-                  log.debug('lineId', lineId);
-                  log.debug('underReceivedQty', underReceivedQty);
                   itemReceiptRecord.setSublistValue({
                     sublistId: 'item',
                     fieldId: 'quantity',
@@ -359,7 +356,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
               }
             }
           }
-          log.debug('Discrepancy Map Built', discrepancyMap);
 
           // 2) Load Transfer Order once
           var transferOrderRecord = record.load({
@@ -393,12 +389,6 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             if (discrepancyMap.hasOwnProperty(key)) {
               var netDiscQty = discrepancyMap[key];
 
-              log.debug('Setting discrepancy on TO line', {
-                line: currentLineId,
-                item: currentItemIdTO,
-                netDiscQty: netDiscQty
-              });
-
               transferOrderRecord.setSublistValue({
                 sublistId: 'item',
                 fieldId: 'custcol_hc_discrepancy_qty',
@@ -407,47 +397,16 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
               });
             }
 
-
-            // On Transfer Order, generally 'transferorderquantityshipped' shows fulfilled quantity
-            var fulfilledQty = transferOrderRecord.getSublistValue({
+            // System line close
+            transferOrderRecord.setSublistValue({
               sublistId: 'item',
-              fieldId: 'quantityfulfilled',
-              line: n
+              fieldId: 'custcol_hc_closed',
+              line: n,
+              value: true
             });
-
-            // order line quantity
-            var orderedQty = transferOrderRecord.getSublistValue({
-              sublistId: 'item',
-              fieldId: 'quantity',
-              line: n
-            });
-            log.debug('Checking close condition on TO line', {
-              line: currentLineId,
-              item: currentItemIdTO,
-              orderedQty: orderedQty,
-              fulfilledQty: fulfilledQty
-            });
-
-            if (fulfilledQty < orderedQty && orderedQty > 0) {
-              log.debug('Closing TO line', {
-                line: currentLineId,
-                item: currentItemIdTO,
-                orderedQty: orderedQty,
-                fulfilledQty: fulfilledQty
-              });
-
-              // System line close
-              transferOrderRecord.setSublistValue({
-                sublistId: 'item',
-                fieldId: 'isclosed',
-                line: n,
-                value: true
-              });
-            }
-          }
-
+          }       
           var transferOrderRecordId = transferOrderRecord.save();
-          log.debug('Transfer Order Record Updated (over + under + close logic)', transferOrderRecordId);
+          log.debug('Transfer Order Record Updated ', transferOrderRecordId);
         }
 
       } catch (e) {
