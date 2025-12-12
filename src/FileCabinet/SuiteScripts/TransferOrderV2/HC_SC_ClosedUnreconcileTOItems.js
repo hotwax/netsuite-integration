@@ -24,7 +24,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                 name: 'internalId'
             });
             
-            var lineId = searchResult[index].getValue({ name: 'transferorderitemline' });
+            var lineId = searchResult[index].getValue({ name: 'line' });
              
             try {
                 if (internalId) {
@@ -36,6 +36,7 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                      
                     // Close the item line
                     var lineCount = transferOrderRecord.getLineCount({ sublistId: 'item' });
+                    
                     for (var n = 0; n < lineCount; n++) {
                       var lineItemId = transferOrderRecord.getSublistValue({
                           sublistId: 'item',
@@ -49,9 +50,9 @@ define(['N/search', 'N/record', 'N/error', 'N/sftp', 'N/file'], function (search
                           line: n,
                           value: true
                         });
+                        break
                       }
                     }
-
                     var transferOrderId = transferOrderRecord.save();
                     log.debug("Transfer Order updated with id " + transferOrderId);
                 }
