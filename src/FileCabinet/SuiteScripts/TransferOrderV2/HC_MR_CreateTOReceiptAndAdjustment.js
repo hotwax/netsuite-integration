@@ -395,15 +395,15 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
                 line: n,
                 value: netDiscQty
               });
+              // System line close
+              transferOrderRecord.setSublistValue({
+                sublistId: 'item',
+                fieldId: 'custcol_hc_closed',
+                line: n,
+                value: true
+              });
             }
 
-            // System line close
-            transferOrderRecord.setSublistValue({
-              sublistId: 'item',
-              fieldId: 'custcol_hc_closed',
-              line: n,
-              value: true
-            });
           }       
           var transferOrderRecordId = transferOrderRecord.save();
           log.debug('Transfer Order Record Updated ', transferOrderRecordId);
