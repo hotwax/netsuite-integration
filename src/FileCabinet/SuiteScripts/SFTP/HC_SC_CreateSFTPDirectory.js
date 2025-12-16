@@ -547,15 +547,15 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
-            path: 'transferorderv2/export/receipt-reconciliation'
+            path: 'transferorderv2/export/reconciliation'
         });
 
         connection.makeDirectory({
-            path: 'transferorderv2/export/receipt-reconciliation/archive'
+            path: 'transferorderv2/export/reconciliation/archive'
         });
 
         connection.makeDirectory({
-            path: 'transferorderv2/export/receipt-reconciliation/error'
+            path: 'transferorderv2/export/reconciliation/error'
         });
         
       } catch (e) {

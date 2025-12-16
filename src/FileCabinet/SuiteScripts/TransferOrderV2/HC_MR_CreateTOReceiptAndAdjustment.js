@@ -69,7 +69,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
       log.debug("Connection established successfully with SFTP server!");
 
       var list = connection.list({
-        path: '/receipt-reconciliation/',
+        path: '/reconciliation/',
         sort: sftp.Sort.DATE
       });
 
@@ -79,7 +79,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
 
           // Download the file from the remote server
           var downloadedFile = connection.download({
-            directory: '/receipt-reconciliation',
+            directory: '/reconciliation',
             filename: fileName
           });
           if (downloadedFile.size > 0) {
@@ -89,8 +89,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             unreconciledTransferOrder = JSON.parse(contents);
 
             connection.move({
-                from: '/receipt-reconciliation/' + fileName,
-                to: '/receipt-reconciliation/archive/' + fileName
+                from: '/reconciliation/' + fileName,
+                to: '/reconciliation/archive/' + fileName
             })
             log.debug('File moved!');
             break;
@@ -464,7 +464,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
           });
 
           connection.upload({
-            directory: '/receipt-reconciliation/error',
+            directory: '/reconciliation/error',
             file: fileObj
           });
 
