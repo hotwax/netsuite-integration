@@ -1,0 +1,11 @@
+<transactioncolumncustomfield scriptid="custcol_hc_closed">
+  <accesslevel>2</accesslevel>
+  <colitemfulfillment>T</colitemfulfillment>
+  <colitemreceipt>T</colitemreceipt>
+  <coltransferorder>T</coltransferorder>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>CHECKBOX</fieldtype>
+  <label>HC Closed</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactioncolumncustomfield>

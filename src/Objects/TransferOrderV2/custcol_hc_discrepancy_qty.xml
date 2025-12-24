@@ -1,0 +1,12 @@
+<transactioncolumncustomfield scriptid="custcol_hc_discrepancy_qty">
+  <accesslevel>2</accesslevel>
+  <applyformatting>T</applyformatting>
+  <colitemfulfillment>T</colitemfulfillment>
+  <colitemreceipt>T</colitemreceipt>
+  <coltransferorder>T</coltransferorder>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>INTEGER</fieldtype>
+  <label>HC Discrepancy Qty</label>
+  <searchlevel>2</searchlevel>
+  <storevalue>T</storevalue>
+</transactioncolumncustomfield>

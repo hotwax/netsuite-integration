@@ -84,6 +84,9 @@
         <!-- ALC Audit Log Report -->
         <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenCreditMemoALCReport.js</path>
         <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenInvoiceALCReport.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_CreateTOReceiptAndAdjustment.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ClosedUnreconcileTOItems.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -120,6 +123,8 @@
         <path>~/Objects/TransferOrderV2/custbody_hc_shipment_id.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_shipment_item_seq_id.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
+        <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
+        <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -217,6 +222,9 @@
         <path>~/Objects/ALCAuditLog/customscript_hc_mr_expopeninvoicereport.xml</path>
         <path>~/Objects/ALCAuditLog/customscript_hc_mr_exportopencreditmemo.xml</path>
 
+        <path>~/Objects/TransferOrderV2/customscript_hc_toreceiptandadjustment.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_closedunreconciletoitems.xml</path>
+
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
         
@@ -257,6 +265,7 @@
 
         <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>
         <path>~/Objects/ALCAuditLog/customsearch_hc_open_credit_memo_report.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_closed_unreconcile_to.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
