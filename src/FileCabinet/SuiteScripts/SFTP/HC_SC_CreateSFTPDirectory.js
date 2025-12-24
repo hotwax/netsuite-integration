@@ -519,7 +519,7 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         });
 
         connection.makeDirectory({
-            path: 'transferorderv2/fulfillment-wh/archive'
+            path: 'transferorderv2/import/fulfillment-wh/archive'
         });
 
         connection.makeDirectory({
