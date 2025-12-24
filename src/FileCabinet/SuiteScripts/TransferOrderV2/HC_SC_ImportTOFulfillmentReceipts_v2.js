@@ -183,12 +183,16 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                     title: 'Error in processing transfer order fulfillment' + fulfillmentId,
                     details: e,
                   });
-                  var errorInfo = fulfillmentId + ',' + e.message + '\n';
+                  var errorText = e.message;
+                  if (errorText && errorText.includes("You can not initialize itemreceipt:")) {
+                    errorText = "You can not create item receipt as transfer order fulfillment already received";
+                  }
+                  var errorInfo = orderId + ',' + fulfillmentId + ',' + errorText + '\n';
                   errorList.push(errorInfo);
                 }
               }
               if (errorList.length !== 0) {
-                  var fileLines = 'fulfillmentId,errorMessage\n';
+                  var fileLines = 'trasnferOrderId,fulfillmentId,errorMessage\n';
                   fileLines = fileLines + errorList;
               
                   var date = new Date();
