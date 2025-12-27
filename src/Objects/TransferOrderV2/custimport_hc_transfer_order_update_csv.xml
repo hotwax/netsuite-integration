@@ -30,6 +30,27 @@
   </filemappings>
   <recordmappings>
     <recordmapping>
+      <record>TRANSFERORDER:ITEM</record>
+      <fieldmappings>
+        <fieldmapping>
+          <field>ISCLOSED</field>
+          <columnreference>
+            <column>closed</column>
+            <file>TRANSFERORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
+          <field>LINE</field>
+          <columnreference>
+            <column>lineId</column>
+            <file>TRANSFERORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+      </fieldmappings>
+    </recordmapping>
+    <recordmapping>
       <record>TRANSFERORDER</record>
       <fieldmappings>
         <fieldmapping>
