@@ -132,7 +132,7 @@
         <fieldmapping>
           <field>LOCATION</field>
           <columnreference>
-            <column>formLocation</column>
+            <column>fromLocation</column>
             <file>TRANSFERORDER</file>
             <type>INTERNAL_ID</type>
           </columnreference>
