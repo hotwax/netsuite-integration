@@ -33,9 +33,9 @@
       <record>TRANSFERORDER:ITEM</record>
       <fieldmappings>
         <fieldmapping>
-          <field>ISCLOSED</field>
+          <field>[scriptid=custcol_hc_closed]</field>
           <columnreference>
-            <column>closed</column>
+            <column>hcClosed</column>
             <file>TRANSFERORDER</file>
             <type>NAME</type>
           </columnreference>
