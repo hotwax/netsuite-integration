@@ -1,11 +1,1 @@
-<transactionbodycustomfield scriptid="custbody_hc_inventory_adj_number">
-  <accesslevel>2</accesslevel>
-  <bodyinventoryadjustment>T</bodyinventoryadjustment>
-  <displaytype>NORMAL</displaytype>
-  <fieldtype>TEXT</fieldtype>
-  <globalsearch>T</globalsearch>
-  <label>HC Inventory Adjustment Number</label>
-  <searchlevel>2</searchlevel>
-  <storevalue>T</storevalue>
-  <subtab>[scriptid=custtab_hc_tab]</subtab>
-</transactionbodycustomfield>
+PHRyYW5zYWN0aW9uYm9keWN1c3RvbWZpZWxkIHNjcmlwdGlkPSJjdXN0Ym9keV9oY19vcmRlcl9pZCI+CiAgPGFjY2Vzc3BsZXZlbD4yPC9hY2Nlc3NwbGV2ZWw+CiAgPGJvZHlpbnZlbnRvcnlhZGp1c3RtZW50PlQ8L2JvZHlpbnZlbnRvcnlhZGp1c3RtZW50PgogIDxkaXNwbGF5dHlwZT5OT1JtQUw8L2Rpc3BsYXl0eXBlPgogIDxmaWVsZHR5cGU+VEVYVDwvZmllbGR0eXBlPgogIDxnbG9iYWxzZWFyY2g+VDwvZ2xvYmFsc2VhcmNoPgogIDxsYWJlbD5IQyBPcmRlciBJRDwvbGFiZWw+CiAgPHNlYXJjaGxldmVsPjI8L3NlYXJjaGxldmVsPgogIDxzdG9yZXZhbHVlPlQ8L3N0b3JldmFsdWU+CiAgPHN1YnRhYj5bc2NyaXB0aWQ9Y3VzdGFiX2hjX3RhYl1bL3N1YnRhYj4KPC90cmFuc2FjdGlvbmJvZHljdXN0b21maWVsZD4=
