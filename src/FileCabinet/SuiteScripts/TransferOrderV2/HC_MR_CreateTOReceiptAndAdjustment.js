@@ -89,8 +89,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             unreconciledTransferOrder = JSON.parse(contents);
 
             connection.move({
-                from: '/reconciliation/' + fileName,
-                to: '/reconciliation/archive/' + fileName
+              from: '/reconciliation/' + fileName,
+              to: '/reconciliation/archive/' + fileName
             })
             log.debug('File moved!');
             break;
@@ -257,7 +257,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
 
           transferOrderAdjustmentRecord.setValue({
             fieldId: 'custbody_hc_inventory_adj_number',
-            value: hcOrderId
+            value: orderName
           });
 
           // 1) OVER RECEIVED = Increase Qty (Positive Adjustment)
