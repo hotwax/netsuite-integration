@@ -256,8 +256,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
           });
 
           transferOrderAdjustmentRecord.setValue({
-            fieldId: 'custbody_hc_order_id',
-            value: hcOrderId
+            fieldId: 'custbody_hc_inventory_adj_number',
+            value: orderName
           });
 
           // 1) OVER RECEIVED = Increase Qty (Positive Adjustment)
