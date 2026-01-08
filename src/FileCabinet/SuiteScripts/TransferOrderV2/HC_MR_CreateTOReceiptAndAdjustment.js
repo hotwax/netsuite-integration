@@ -86,7 +86,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             log.debug("File downloaded successfully !" + fileName);
             var contents = downloadedFile.getContents();
 
-            unreconciledTransferOrder = JSON.parse(contents);
+            var unreconciledTransferOrder = JSON.parse(contents);
 
             connection.move({
               from: '/reconciliation/' + fileName,
