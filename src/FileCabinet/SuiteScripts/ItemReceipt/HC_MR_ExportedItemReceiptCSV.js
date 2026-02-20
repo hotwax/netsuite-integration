@@ -22,53 +22,67 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
         }        
 
         const map = (mapContext) => {
-            var contextValues = JSON.parse(mapContext.value);
+            try {
+                var contextValues = JSON.parse(mapContext.value);
+                log.debug("contextValues", contextValues);
 
-            var internalid = contextValues.values.internalid.value;
-            var productSku = contextValues.values.item.value;
-            var lineId = contextValues.values.line;
-            var quantity = contextValues.values.quantity;
-            var locationInternalId = contextValues.values.location.value;
-            var comments = "Inventory Adjusted from ItemReceipt # " + internalid + " in NetSuite ";
-            
-            if (internalid) {
-                var checkId  = checkInternalId(internalid);
-                if (checkId) {
-                    var id = record.submitFields({
-                        type: record.Type.ITEM_RECEIPT,
-                        id: internalid,
-                        values: {
-                            custbody_hc_receipt_exported: true
-                        }
-                    });
+                var internalid = contextValues.id;
+                var itemId = contextValues.values.item.value;
+                var productSku = contextValues.values.item.text;
+                var lineId = contextValues.values.line;
+                var quantity = contextValues.values.formulanumeric;
+                var locationInternalId = contextValues.values.location.value;
+                
+                if (internalid) {
+                    var checkId  = checkInternalId(internalid);
+                    if (checkId) {
+                        var id = record.submitFields({
+                            type: record.Type.ITEM_RECEIPT,
+                            id: internalid,
+                            values: {
+                                custbody_hc_receipt_exported: true
+                            }
+                        });
+                    } 
                 } 
-            } 
 
-            var itemReceiptData = {
-                'externalFacilityId': locationInternalId,
-                'idValue': productSku,
-                'idType': "NETSUITE_PRODUCT_ID",
-                'availableDelta': quantity,
-                'comments': comments
-            };
-            
-            mapContext.write({
-                key: contextValues.id + '-' + lineId,
-                value: itemReceiptData
-            });
+                var inventoryData = {
+                    'Item': productSku,
+                    'externalFacilityId': locationInternalId,
+                    'idValue': itemId,
+                    'availableQty': quantity,
+                };
+                
+                mapContext.write({
+                    key: contextValues.id + '-' + lineId,
+                    value: inventoryData
+                });
+            } catch (e) {
+                log.error({
+                    title: 'Error in map function',
+                    details: e
+                });
+            }
         }
         
         const reduce = (reduceContext) => {
-            var contextValues = JSON.parse(reduceContext.values);
-            var keyId = reduceContext.key; 
+            try {
+                var contextValues = JSON.parse(reduceContext.values);
+                var keyId = reduceContext.key; 
 
-            var content = contextValues.externalFacilityId + ',' + contextValues.idValue + ',' + contextValues.idType + ',' + contextValues.availableDelta + ',' + contextValues.comments + '\n';
-                reduceContext.write(keyId, content);
+                var content = contextValues.Item + ',' + contextValues.externalFacilityId + ',' + contextValues.idValue + ',' + contextValues.availableQty + '\n';
+                    reduceContext.write(keyId, content);
+            } catch (e) {
+                log.error({
+                    title: 'Error in reduce function',
+                    details: e
+                });
+            }
         }
         
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'externalFacilityId,idValue,idType,availableDelta,comments\n';
+                var fileLines = 'Item,externalFacilityId,idValue,availableQty\n';
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
@@ -130,7 +144,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                         name: 'custrecord_ns_sftp_default_file_dir'
                     });
 
-                    sftpDirectory = sftpDirectory + 'itemreceipt';
+                    sftpDirectory = sftpDirectory + 'inventoryitem';
                     sftpPort = parseInt(sftpPort);
         
                     var connection = sftp.createConnection({
