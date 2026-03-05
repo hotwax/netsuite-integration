@@ -22,6 +22,26 @@ define([], () => {
             fieldId: 'custbody_hc_order_id',
             value: ''
          });
+
+         var lineCount = currentRecord.getLineCount({ sublistId: 'item' });
+
+         for (var i = 0; i < lineCount; i++) {
+
+            currentRecord.selectLine({
+               sublistId: 'item',
+               line: i
+            });
+
+            currentRecord.setCurrentSublistValue({
+               sublistId: 'item',
+               fieldId: 'custcol_hc_closed',
+               value: false
+            });
+
+            currentRecord.commitLine({
+               sublistId: 'item'
+            });
+         }
       }
    }
 
