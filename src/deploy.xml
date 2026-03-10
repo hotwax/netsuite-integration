@@ -87,6 +87,8 @@
 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_CreateTOReceiptAndAdjustment.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ClosedUnreconcileTOItems.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedCycleCountCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -224,6 +226,7 @@
 
         <path>~/Objects/TransferOrderV2/customscript_hc_toreceiptandadjustment.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_closedunreconciletoitems.xml</path>
+        <path>~/Objects/InventoryAdjustment/customscript_exp_cycle_count.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -266,6 +269,7 @@
         <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>
         <path>~/Objects/ALCAuditLog/customsearch_hc_open_credit_memo_report.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_closed_unreconcile_to.xml</path>
+        <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_cycle_count.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
