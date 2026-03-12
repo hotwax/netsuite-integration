@@ -20,7 +20,7 @@
  * }
  *
  * Always creates: Customer (if no internalId) → Sales Order → Item Fulfillment (all lines)
- * Returns: { success, customerId, salesOrderId, itemFulfillmentId }
+ * Returns: { success, customerId, salesOrderId, itemFulfillmentId, salesOrderLines[] }
  */
 define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
 
@@ -60,16 +60,16 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
             soRec.setValue({ fieldId: 'custbody_hc_shopify_order_id', value: so.HCShopifySalesOrderId });
             soRec.setValue({ fieldId: 'custbody_hc_order_id', value: so.HCOrderId });
 
-            so.items.forEach(line => {
+            for (const line of so.items) {
                 soRec.selectNewLine({ sublistId: 'item' });
                 soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item', value: line.item });
                 soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'quantity', value: line.quantity });
                 soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'rate', value: line.rate });
-                if (line.location) soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'location', value: line.location });
-                if (line.taxCode) soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'taxcode', value: line.taxCode });
-                if (line.orderLineId) soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id',  value: line.orderLineId });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'location', value: line.location });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'taxcode', value: line.taxCode });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', value: line.orderLineId });
                 soRec.commitLine({ sublistId: 'item' });
-            });
+            }
 
             const salesOrderId = soRec.save({ enableSourcing: true, ignoreMandatoryFields: true });
 
@@ -79,8 +79,7 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
             const salesOrderLines = [];
             for (let i = 0; i < soLineCount; i++) {
                 salesOrderLines.push({
-                    lineId:      savedSO.getSublistValue({ sublistId: 'item', fieldId: 'id',                       line: i }),
-                    orderLineId: savedSO.getSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', line: i })
+                    lineId: savedSO.getSublistValue({ sublistId: 'item', fieldId: 'id', line: i })
                 });
             }
 
