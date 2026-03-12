@@ -62,11 +62,11 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
 
             for (const line of so.items) {
                 soRec.selectNewLine({ sublistId: 'item' });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item', value: line.item });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'quantity', value: line.quantity });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'rate', value: line.rate });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'location', value: line.location });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'taxcode', value: line.taxCode });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item', value: Number(line.item) });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'quantity', value: Number(line.quantity) });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'rate', value: Number(line.rate) });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'location', value: so.location });
+                soRec.setCurrentSublistText({ sublistId: 'item', fieldId: 'taxcode', text: line.taxCode });
                 soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', value: line.orderLineId });
                 soRec.commitLine({ sublistId: 'item' });
             }
@@ -79,7 +79,7 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
             const salesOrderLines = [];
             for (let i = 0; i < soLineCount; i++) {
                 salesOrderLines.push({
-                    lineId: savedSO.getSublistValue({ sublistId: 'item', fieldId: 'id', line: i })
+                    lineId: savedSO.getSublistValue({ sublistId: 'item', fieldId: 'line', line: i })
                 });
             }
 
@@ -96,6 +96,7 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
                 ifRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'itemreceive', value: true });
                 ifRec.commitLine({ sublistId: 'item' });
             }
+            ifRec.setValue({ fieldId: 'shipstatus', value: 'C' });
             const itemFulfillmentId = ifRec.save({ enableSourcing: true, ignoreMandatoryFields: true });
 
             return {
