@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_restlet_create_pos_completed_so">
+  <description>Creates a Sales Order and Item Fulfillment for a POS completed order. Customer is resolved by internalId or created from provided data.</description>
+  <isinactive>F</isinactive>
+  <name>HC_RL_CreatesPOSCompletedSO</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/Restlet/HC_RL_CreatesPOSCompletedSO.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_restlet_create_pos_completed_so">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>HC_RL_CreatesPOSCompletedSO</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>

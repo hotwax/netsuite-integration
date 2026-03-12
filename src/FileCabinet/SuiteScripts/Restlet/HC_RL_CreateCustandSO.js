@@ -21,7 +21,7 @@ define(['N/record', 'N/runtime'], (record, runtime) => {
         'department', 'email', 'GiftWraperText', 'quantity', 'address2', 'address1',
         'externalId', 'HCOrderTotal', 'finalSale', 'packingCategory', 'etailOrderId',
         'orderPaymentTotal', 'closed', 'location', 'HCOrderId', 'billingCity',
-        'billingPhone', 'customer', 'createItemFulfillment'
+        'billingPhone', 'customer'
     ];
 
     const SUPPORTED_CUSTOMER_COLUMNS = new Set([
@@ -42,7 +42,7 @@ define(['N/record', 'N/runtime'], (record, runtime) => {
         'closed', 'location', 'HCOrderId', 'billingCity', 'billingPhone', 'billingEmail',
         'customer', 'rate',
         'items', 'orderLines', 'rows', 'customBodyFields', 'customLineFields', 'memo',
-        'internalId', 'createItemFulfillment'
+        'internalId'
     ]);
 
     function post(requestBody) {
@@ -76,27 +76,12 @@ define(['N/record', 'N/runtime'], (record, runtime) => {
                 throw new Error(`[Sales Order Creation] ${soErr.message || String(soErr)}`);
             }
 
-            // Create an Item Fulfillment (IF) from the newly created SO by default.
-            // Pass createItemFulfillment: false in the order header to skip this step.
-            let itemFulfillmentId = null;
-            const shouldCreateIF = parseBoolean(
-                firstPresent(payload.salesOrder.header, ['createItemFulfillment'])
-            ) !== false;  // null (not provided) and true both result in creation
-            if (shouldCreateIF) {
-                try {
-                    itemFulfillmentId = createItemFulfillment(salesOrderId, warnings);
-                } catch (ifErr) {
-                    throw new Error(`[Item Fulfillment Creation] ${ifErr.message || String(ifErr)}`);
-                }
-            }
-
             return {
                 success: true,
                 requestId: requestId,
                 customerCreated: customerCreated,
                 customerId: customerId,
                 salesOrderId: salesOrderId,
-                itemFulfillmentId: itemFulfillmentId,
                 ignoredCustomerColumns: ignoredCustomerColumns,
                 ignoredOrderColumns: ignoredOrderColumns,
                 elapsedMs: Date.now() - startedAt,
@@ -118,7 +103,7 @@ define(['N/record', 'N/runtime'], (record, runtime) => {
     function get(requestParams) {
         return {
             success: true,
-            message: 'Create customer + sales order RESTlet. Pass createItemFulfillment:true in the order header to also create an Item Fulfillment (IF) from the new SO.',
+            message: 'Create customer + sales order RESTlet',
             supportedCustomerFeedColumns: CUSTOMER_FEED_COLUMNS,
             supportedOrderFeedColumns: ORDER_FEED_COLUMNS
         };
@@ -317,41 +302,6 @@ define(['N/record', 'N/runtime'], (record, runtime) => {
         });
 
         return rec.save({
-            enableSourcing: true,
-            ignoreMandatoryFields: true
-        });
-    }
-
-    /**
-     * Transforms a Sales Order into an Item Fulfillment.
-     * All lines that are fulfillable are marked for receipt and the record is saved.
-     *
-     * @param {number} salesOrderId - Internal ID of the Sales Order to fulfil.
-     * @param {Array}  warnings     - Warnings array shared with the caller.
-     * @returns {number} Internal ID of the created Item Fulfillment.
-     */
-    function createItemFulfillment(salesOrderId, warnings) {
-        const ifRec = record.transform({
-            fromType: record.Type.SALES_ORDER,
-            fromId: salesOrderId,
-            toType: record.Type.ITEM_FULFILLMENT,
-            isDynamic: true
-        });
-
-        // Force every SO line into the fulfillment — NetSuite defaults itemreceive
-        // to false on the transformed record, so we explicitly flip each line to true.
-        const lineCount = ifRec.getLineCount({ sublistId: 'item' });
-        for (let i = 0; i < lineCount; i++) {
-            ifRec.selectLine({ sublistId: 'item', line: i });
-            ifRec.setCurrentSublistValue({
-                sublistId: 'item',
-                fieldId: 'itemreceive',
-                value: true
-            });
-            ifRec.commitLine({ sublistId: 'item' });
-        }
-
-        return ifRec.save({
             enableSourcing: true,
             ignoreMandatoryFields: true
         });
