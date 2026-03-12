@@ -73,6 +73,18 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
 
             const salesOrderId = soRec.save({ enableSourcing: true, ignoreMandatoryFields: true });
 
+            // --- SO Line IDs ---
+            const savedSO = record.load({ type: record.Type.SALES_ORDER, id: salesOrderId });
+            const soLineCount = savedSO.getLineCount({ sublistId: 'item' });
+            const salesOrderLines = [];
+            for (let i = 0; i < soLineCount; i++) {
+                salesOrderLines.push({
+                    lineUniqueKey:  savedSO.getSublistValue({ sublistId: 'item', fieldId: 'lineuniquekey',            line: i }),
+                    orderLineId:    savedSO.getSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', line: i }),
+                    item:           savedSO.getSublistValue({ sublistId: 'item', fieldId: 'item',                     line: i })
+                });
+            }
+
             // --- Item Fulfillment ---
             const ifRec = record.transform({
                 fromType: record.Type.SALES_ORDER,
@@ -92,6 +104,7 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
                 success: true,
                 customerId,
                 salesOrderId,
+                salesOrderLines,
                 itemFulfillmentId,
                 elapsedMs: Date.now() - startedAt,
                 remainingUsage: script.getRemainingUsage()
