@@ -79,9 +79,8 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
             const salesOrderLines = [];
             for (let i = 0; i < soLineCount; i++) {
                 salesOrderLines.push({
-                    lineUniqueKey:  savedSO.getSublistValue({ sublistId: 'item', fieldId: 'lineuniquekey',            line: i }),
-                    orderLineId:    savedSO.getSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', line: i }),
-                    item:           savedSO.getSublistValue({ sublistId: 'item', fieldId: 'item',                     line: i })
+                    lineId:      savedSO.getSublistValue({ sublistId: 'item', fieldId: 'id',                       line: i }),
+                    orderLineId: savedSO.getSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', line: i })
                 });
             }
 
