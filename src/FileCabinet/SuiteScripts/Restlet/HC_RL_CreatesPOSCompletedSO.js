@@ -35,11 +35,11 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
             let customerId = c.internalId;
             if (!customerId) {
                 const custRec = record.create({ type: record.Type.CUSTOMER, isDynamic: true });
-                custRec.setValue({ fieldId: 'isperson',   value: 'T' });
-                custRec.setValue({ fieldId: 'firstname',  value: c.firstName });
-                custRec.setValue({ fieldId: 'lastname',   value: c.lastName });
-                custRec.setValue({ fieldId: 'email',      value: c.email });
-                custRec.setValue({ fieldId: 'phone',      value: c.phone });
+                custRec.setValue({ fieldId: 'isperson', value: 'T' });
+                custRec.setValue({ fieldId: 'firstname', value: c.firstName });
+                custRec.setValue({ fieldId: 'lastname', value: c.lastName });
+                custRec.setValue({ fieldId: 'email', value: c.email });
+                custRec.setValue({ fieldId: 'phone', value: c.phone });
                 custRec.setValue({ fieldId: 'subsidiary', value: c.subsidiary });
                 custRec.setValue({ fieldId: 'externalid', value: c.externalId });
                 customerId = custRec.save({ enableSourcing: true, ignoreMandatoryFields: true });
@@ -47,26 +47,26 @@ define(['N/record', 'N/runtime', 'N/log'], (record, runtime, log) => {
 
             // --- Sales Order ---
             const soRec = record.create({ type: record.Type.SALES_ORDER, isDynamic: true });
-            soRec.setValue({ fieldId: 'entity',                       value: customerId });
-            soRec.setValue({ fieldId: 'externalid',                   value: so.externalId });
-            soRec.setValue({ fieldId: 'subsidiary',                   value: so.subsidiary });
-            soRec.setValue({ fieldId: 'location',                     value: so.location });
-            soRec.setValue({ fieldId: 'department',                   value: so.department });
-            if (so.date) soRec.setValue({ fieldId: 'trandate',        value: new Date(so.date) });
-            soRec.setValue({ fieldId: 'otherrefnum',                  value: so.orderId });
-            soRec.setValue({ fieldId: 'memo',                         value: so.memo });
-            soRec.setValue({ fieldId: 'email',                        value: so.email });
-            soRec.setValue({ fieldId: 'custbody_hc_sales_channel',    value: so.salesChannel });
+            soRec.setValue({ fieldId: 'entity', value: customerId });
+            soRec.setValue({ fieldId: 'externalid', value: so.externalId });
+            soRec.setValue({ fieldId: 'subsidiary', value: so.subsidiary });
+            soRec.setValue({ fieldId: 'location', value: so.location });
+            soRec.setValue({ fieldId: 'department', value: so.department });
+            if (so.date) soRec.setValue({ fieldId: 'trandate', value: new Date(so.date) });
+            soRec.setValue({ fieldId: 'otherrefnum', value: so.orderId });
+            soRec.setValue({ fieldId: 'memo', value: so.memo });
+            soRec.setValue({ fieldId: 'email', value: so.email });
+            soRec.setValue({ fieldId: 'custbody_hc_sales_channel', value: so.salesChannel });
             soRec.setValue({ fieldId: 'custbody_hc_shopify_order_id', value: so.HCShopifySalesOrderId });
-            soRec.setValue({ fieldId: 'custbody_hc_order_id',         value: so.HCOrderId });
+            soRec.setValue({ fieldId: 'custbody_hc_order_id', value: so.HCOrderId });
 
             so.items.forEach(line => {
                 soRec.selectNewLine({ sublistId: 'item' });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item',                       value: line.item });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'quantity',                   value: line.quantity });
-                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'rate',                       value: line.rate });
-                if (line.location)    soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'location',                  value: line.location });
-                if (line.taxCode)     soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'taxcode',                   value: line.taxCode });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item', value: line.item });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'quantity', value: line.quantity });
+                soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'rate', value: line.rate });
+                if (line.location) soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'location', value: line.location });
+                if (line.taxCode) soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'taxcode', value: line.taxCode });
                 if (line.orderLineId) soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id',  value: line.orderLineId });
                 soRec.commitLine({ sublistId: 'item' });
             });
