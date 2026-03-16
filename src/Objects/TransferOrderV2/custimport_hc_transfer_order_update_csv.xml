@@ -41,6 +41,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>[scriptid=custcol_hc_order_line_id]</field>
+          <columnreference>
+            <column>externalId</column>
+            <file>TRANSFERORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>LINE</field>
           <columnreference>
             <column>lineId</column>
