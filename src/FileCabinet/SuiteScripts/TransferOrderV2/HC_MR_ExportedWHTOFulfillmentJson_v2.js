@@ -33,30 +33,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 trackingNumberList = trackingNumber.split('<BR>').map(s => s.trim()).filter(Boolean);
             }
 
-            var orderline = null;
             if (fulfillmentInternalId) {
-                //Load item fulfillment object
-                var fulfillmentRecord = record.load({
-                    type: record.Type.ITEM_FULFILLMENT, 
-                    id: fulfillmentInternalId,
-                    isDynamic: false
-                });
-                var lineCnt = fulfillmentRecord.getLineCount({sublistId: 'item'});
-                for (var i = 0; i < lineCnt; i++) {
-                    /* This is done to get the orderline which will serve as external ID for Shipment Item in OMS */
-                    var fulfillmentLineId = fulfillmentRecord.getSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'line',
-                        line: i
-                    });
-                    if (fulfillmentLineId === lineId) {
-                        orderline = fulfillmentRecord.getSublistValue({
-                            sublistId: 'item',
-                            fieldId: 'orderline',
-                            line: i
-                        });
-                    }
-                }
                 var checkId  = checkInternalId(fulfillmentInternalId);
                 if (checkId) {
                     var id = record.submitFields({
@@ -68,12 +45,11 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     });
                 } 
             }
-            if (orderline) {
                 var transferFulfillmentData = {
                     'externalId': fulfillmentInternalId,
                     'trackingNumberList': trackingNumberList,
                     'transferOrderId': contextValues.values.createdfrom.value,
-                    'lineId': orderline,
+                    'lineId': lineId,
                     'shippedDate': contextValues.values.formulatext,
                     'productSku': contextValues.values.item.value,
                     'productIdType': "NETSUITE_PRODUCT_ID",
@@ -84,7 +60,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     key: fulfillmentInternalId,
                     value: transferFulfillmentData
                 });
-            }
+            
         }
 
         const reduce = (reduceContext) => {
