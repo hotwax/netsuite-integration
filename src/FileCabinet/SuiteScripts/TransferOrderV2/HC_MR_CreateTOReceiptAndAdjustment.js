@@ -86,11 +86,11 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             log.debug("File downloaded successfully !" + fileName);
             var contents = downloadedFile.getContents();
 
-            var unreconciledTransferOrder = JSON.parse(contents);
+            unreconciledTransferOrder = JSON.parse(contents);
 
             connection.move({
-              from: '/reconciliation/' + fileName,
-              to: '/reconciliation/archive/' + fileName
+                from: '/reconciliation/' + fileName,
+                to: '/reconciliation/archive/' + fileName
             })
             log.debug('File moved!');
             break;
@@ -188,7 +188,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
             });
 
             for (var j = 0; j < items.length; j++) {
-              var lineId = (Number(items[j].lineId) + 1).toString();
+              var lineId = (Number(items[j].lineId) + 2).toString();
               var underReceivedQty = items[j].underReceivedQty;
 
               var lineCount = itemReceiptRecord.getLineCount({
@@ -369,7 +369,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
           connection = setupSftpConnection();
           log.debug("Connection established successfully with SFTP server!");
 
-          var errorFileName = summaryContext.dateCreated + 'errorReceiptReconciliation.csv';
+          var errorFileName = summaryContext.dateCreated + 'errorTransferOrderReconciliation.csv';
           var fileObj = file.create({
             name: errorFileName,
             fileType: file.Type.CSV,
