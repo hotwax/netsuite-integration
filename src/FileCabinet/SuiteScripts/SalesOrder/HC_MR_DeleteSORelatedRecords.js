@@ -35,7 +35,7 @@ define(['N/record', 'N/search', 'N/log'],
          */
         const map = (mapContext) => {
             const salesOrderId = mapContext.value;
-            log.debug('Processing Sales Order', salesOrderId);
+            let hasError = false;
 
             try {
                 let invoiceIds = [];
@@ -55,7 +55,6 @@ define(['N/record', 'N/search', 'N/log'],
                     invoiceIds.push(result.id);
                     return true;
                 });
-                log.debug('Found Invoices', invoiceIds);
 
                 // 2. Find Customer Deposits
                 search.create({
@@ -70,7 +69,6 @@ define(['N/record', 'N/search', 'N/log'],
                     depositIds.push(result.id);
                     return true;
                 });
-                log.debug('Found Customer Deposits', depositIds);
 
                 // 3. Find Item Fulfillments
                 search.create({
@@ -85,7 +83,6 @@ define(['N/record', 'N/search', 'N/log'],
                     fulfillmentIds.push(result.id);
                     return true;
                 });
-                log.debug('Found Item Fulfillments', fulfillmentIds);
 
                 // --- Deletion Phase ---
                 // Order: Deposit Application -> Invoice -> Customer Deposit -> Item Fulfillment
@@ -116,10 +113,6 @@ define(['N/record', 'N/search', 'N/log'],
                                     fieldId: 'id',
                                     line: i
                                 });
-                                log.debug({
-                                    title: "depositAppId",
-                                    details: depositAppId
-                                });
 
                                 try {
                                     record.delete({
@@ -128,11 +121,13 @@ define(['N/record', 'N/search', 'N/log'],
                                     });
                                     log.audit('Deleted Deposit Application', depositAppId);
                                 } catch (e) {
+                                    hasError = true;
                                     log.error('Error deleting Deposit Application ' + depositAppId, e.message);
                                 }
                             }
                         }
                     } catch (e) {
+                        hasError = true;
                         log.error('Error loading invoice to delete Deposit Applications ' + invoiceId, e.message);
                     }
                 });
@@ -143,6 +138,7 @@ define(['N/record', 'N/search', 'N/log'],
                         record.delete({ type: record.Type.INVOICE, id: id });
                         log.audit('Deleted Invoice', id);
                     } catch (e) {
+                        hasError = true;
                         log.error('Error deleting Invoice ' + id, e.message);
                     }
                 });
@@ -153,6 +149,7 @@ define(['N/record', 'N/search', 'N/log'],
                         record.delete({ type: record.Type.CUSTOMER_DEPOSIT, id: id });
                         log.audit('Deleted Customer Deposit', id);
                     } catch (e) {
+                        hasError = true;
                         log.error('Error deleting Customer Deposit ' + id, e.message);
                     }
                 });
@@ -163,6 +160,7 @@ define(['N/record', 'N/search', 'N/log'],
                         record.delete({ type: record.Type.ITEM_FULFILLMENT, id: id });
                         log.audit('Deleted Item Fulfillment', id);
                     } catch (e) {
+                        hasError = true;
                         log.error('Error deleting Item Fulfillment ' + id, e.message);
                     }
                 });
@@ -172,11 +170,19 @@ define(['N/record', 'N/search', 'N/log'],
                     record.delete({ type: record.Type.SALES_ORDER, id: salesOrderId });
                     log.audit('Deleted Sales Order', salesOrderId);
                 } catch (e) {
+                    hasError = true;
                     log.error('Error deleting Sales Order ' + salesOrderId, e.message);
                 }
 
+                if (hasError) {
+                    mapContext.write({
+                        key: 'Failed_Sales_Orders',
+                        value: salesOrderId
+                    });
+                }
+
             } catch (e) {
-                log.error('Error processing Sales Order ' + salesOrderId, e.message);
+                log.error('Unexpected error processing Sales Order ' + salesOrderId, e.message);
             }
         };
 
@@ -201,6 +207,17 @@ define(['N/record', 'N/search', 'N/log'],
                 log.error(`Map Error for key: ${key}`, error);
                 return true;
             });
+
+            // Log the final list of Sales Order internal IDs that had errors
+            let failedSalesOrders = [];
+            summaryContext.output.iterator().each((key, value) => {
+                failedSalesOrders.push(value);
+                return true;
+            });
+
+            if (failedSalesOrders.length > 0) {
+                log.error('Final List of Sales Orders with Errors', JSON.stringify(failedSalesOrders));
+            }
         };
 
         return {
