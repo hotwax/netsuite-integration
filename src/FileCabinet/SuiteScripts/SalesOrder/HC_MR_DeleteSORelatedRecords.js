@@ -22,7 +22,7 @@ define(['N/record', 'N/search', 'N/log'],
          */
         const getInputData = (inputContext) => {
             // Hardcoded array of Sales Order Internal IDs to process
-            const salesOrderIds = [70299655, 70299150];
+            const salesOrderIds = [70294829, 70293629];
             log.audit('Input Data', 'Processing Sales Orders: ' + JSON.stringify(salesOrderIds));
             return salesOrderIds;
         };
