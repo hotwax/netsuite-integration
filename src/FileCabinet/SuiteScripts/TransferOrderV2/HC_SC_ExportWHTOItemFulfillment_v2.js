@@ -94,7 +94,7 @@ define(['N/record', 'N/search', 'N/file', 'N/sftp', 'N/error', 'N/runtime'],
                         });
 
                         // Calculate external IDs based on MR logic
-                        const itemExtId = orderline ? orderline.toString() : lineId.toString();
+                        const itemExtId = (Number(orderline) - 1).toString();
 
                         fulfillmentData.items.push({
                             externalId: lineId,
@@ -137,7 +137,7 @@ define(['N/record', 'N/search', 'N/file', 'N/sftp', 'N/error', 'N/runtime'],
                 });
             }
 
-            log.debug("Final JSON Data", JSON.stringify(finalJsonData, null, 2));
+            log.debug("Number of Fulfillments Exported", finalJsonData.length);
 
             // At this point, finalJsonData contains exactly the JSON structure you need.
             if (finalJsonData.length > 0) {
