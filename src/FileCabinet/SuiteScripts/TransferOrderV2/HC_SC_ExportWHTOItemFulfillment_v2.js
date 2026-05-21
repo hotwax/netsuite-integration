@@ -7,14 +7,17 @@ define(['N/record', 'N/search', 'N/file', 'N/sftp', 'N/error', 'N/runtime'],
     
     const execute = (context) => {
         try {
+            var usageThreshold = 1000; // Set a threshold for remaining usage units
+            var scriptObj = runtime.getCurrentScript();
+
             // 1. Get the eligible item fulfillments (e.g., via saved search)
-          const warehouseFulfillmentSearch = search.load({ id: 'customsearch_hc_wh_to_fulfillment_v2_new' });
+            const warehouseFulfillmentSearch = search.load({ id: 'customsearch_hc_sc_wh_to_fulfillment_v2' });
             
             const fulfillmentsDataMap = {};
             const internalIdList = new Set();
             
             // Loop through the search results to get header-level information
-            const searchResults = warehouseFulfillmentSearch.run().getRange({ start: 0, end: 150 });
+            const searchResults = warehouseFulfillmentSearch.run().getRange({ start: 0, end: 50 });
             
             searchResults.forEach(result => {
                 const fulfillmentId = result.getValue({ name: 'internalid' });
@@ -40,11 +43,13 @@ define(['N/record', 'N/search', 'N/file', 'N/sftp', 'N/error', 'N/runtime'],
             });
 
             const finalJsonData = [];
-            log.debug("Fulfillments Data Map", fulfillmentsDataMap);
-            log.debug("Internal ID List", internalIdList);
 
             // 2. Load each Fulfillment Record to get the exact Item Details
             for (const fulfillmentId of internalIdList) {
+                if (scriptObj.getRemainingUsage() < usageThreshold) {
+                    log.debug('Scheduled script has exceeded the usage unit threshold.');
+                    break;
+                }
                 const fulfillmentData = fulfillmentsDataMap[fulfillmentId];
                 
                 const fulfillmentRecord = record.load({

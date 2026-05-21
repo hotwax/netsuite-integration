@@ -141,8 +141,7 @@ define(['N/sftp', 'N/record', 'N/error', 'N/search', 'N/file', 'N/runtime'], fun
                            For first Item 1 for transfer order, 2 for ItemFulfillment, 3 for ItemReceipt
                            For second Item, 4 for transfer order, 5 for ItemFulfillment, 6 for ItemReceipt.
                         */
-                        var lineId = Number(itemList[itemIndex].lineId) + 1;
-                        lineId = lineId.toString();
+                        var lineId = Number(itemList[itemIndex].lineId) + 2;                        lineId = lineId.toString();
   
                         var quantity = itemList[itemIndex].quantity;
                         var lineCnt = itemReceiptRecord.getLineCount({sublistId: 'item'});
