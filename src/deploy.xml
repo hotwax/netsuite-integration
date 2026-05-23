@@ -89,6 +89,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ClosedUnreconcileTOItems.js</path>
 
         <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedCycleCountCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Location/HC_MR_ExportLocationCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -127,6 +128,7 @@
         <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
+        <path>~/Objects/Location/custrecord_hc_export_location.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -227,6 +229,7 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_toreceiptandadjustment.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_closedunreconciletoitems.xml</path>
         <path>~/Objects/InventoryAdjustment/customscript_exp_cycle_count.xml</path>
+        <path>~/Objects/Location/customscript_hc_mr_exportlocationcsv.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -273,6 +276,7 @@
         <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
         <path>~/Objects/InventoryTransfer/customsearch_hc_exp_wh_inv_transfer.xml</path>
         <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_inventory_adjustment.xml</path>
+        <path>~/Objects/Location/customsearch_hc_export_location.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>

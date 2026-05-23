@@ -1,0 +1,10 @@
+<othercustomfield scriptid="custrecord_hc_export_location">
+  <accesslevel>2</accesslevel>
+  <displaytype>NORMAL</displaytype>
+  <fieldtype>CHECKBOX</fieldtype>
+  <label>HotWax Location Sync</label>
+  <rectype>-103</rectype>
+  <searchlevel>2</searchlevel>
+  <showinlist>T</showinlist>
+  <storevalue>T</storevalue>
+</othercustomfield>
