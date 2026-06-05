@@ -114,7 +114,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp'],
                     var fieldLookUp = search.lookupFields({
                         type: search.Type.SALES_ORDER,
                         id: orderId,
-                        columns: ['lastmodifieddate']
+                        columns: ['trandate']
                     });
                     var date = fieldLookUp.lastmodifieddate;
 
