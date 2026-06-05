@@ -22,7 +22,7 @@ define(['N/record', 'N/search', 'N/log'],
          */
         const getInputData = (inputContext) => {
             // Hardcoded array of Sales Order Internal IDs to process
-            const salesOrderIds = [70294829, 70293629];
+            const salesOrderIds = [];
             log.audit('Input Data', 'Processing Sales Orders: ' + JSON.stringify(salesOrderIds));
             return salesOrderIds;
         };
@@ -146,8 +146,51 @@ define(['N/record', 'N/search', 'N/log'],
                 // Delete Customer Deposits
                 depositIds.forEach(id => {
                     try {
+                        // Step 1: Proactively check if it's linked to a Bank Deposit
+                        let bankDepositIds = [];
+                        search.create({
+                            type: search.Type.DEPOSIT,
+                            filters: [['appliedtotransaction', 'anyof', id]],
+                            columns: ['internalid']
+                        }).run().each(result => {
+                            bankDepositIds.push(result.id);
+                            return true;
+                        });
+
+                        // Step 2: If linked, unlink it first
+                        if (bankDepositIds.length > 0) {
+                            bankDepositIds.forEach(bdId => {
+                                var depositRec = record.load({ type: record.Type.DEPOSIT, id: bdId, isDynamic: true });
+                                var paymentCount = depositRec.getLineCount({ sublistId: 'payment' });
+                                var isModified = false;
+
+                                for (var i = 0; i < paymentCount; i++) {
+                                    depositRec.selectLine({ sublistId: 'payment', line: i });
+                                    var paymentId = depositRec.getCurrentSublistValue({ sublistId: 'payment', fieldId: 'id' });
+
+                                    if (String(paymentId) === String(id)) {
+                                        var isDeposited = depositRec.getCurrentSublistValue({ sublistId: 'payment', fieldId: 'deposit' });
+                                        if (isDeposited === true || isDeposited === 'T') {
+                                            depositRec.setCurrentSublistValue({ sublistId: 'payment', fieldId: 'deposit', value: false });
+                                            depositRec.commitLine({ sublistId: 'payment' });
+                                            isModified = true;
+                                            log.audit('Unlinked Customer Deposit ' + paymentId + ' from Bank Deposit', bdId);
+                                        }
+                                        // Since a Customer Deposit can only appear once in a Bank Deposit, we can break the loop
+                                        break;
+                                    }
+                                }
+
+                                if (isModified) {
+                                    depositRec.save();
+                                }
+                            });
+                        }
+
+                        // Step 3: Safely delete the Customer Deposit
                         record.delete({ type: record.Type.CUSTOMER_DEPOSIT, id: id });
                         log.audit('Deleted Customer Deposit', id);
+
                     } catch (e) {
                         hasError = true;
                         log.error('Error deleting Customer Deposit ' + id, e.message);
