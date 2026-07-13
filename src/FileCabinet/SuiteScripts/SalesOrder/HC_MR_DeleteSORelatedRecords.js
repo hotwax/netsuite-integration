@@ -3,8 +3,7 @@
  * @NScriptType MapReduceScript
  * @NModuleScope SameAccount
  *
- * This script deletes related records (Deposit Application, Invoice, Customer Deposit, Item Fulfillment)
- * for a specific list of Sales Orders.
+ * This script deletes related records (Deposit Application, Invoice, Item Fulfillment)
  */
 
 define(['N/record', 'N/search', 'N/log'],
@@ -22,8 +21,8 @@ define(['N/record', 'N/search', 'N/log'],
          */
         const getInputData = (inputContext) => {
             // Hardcoded array of Sales Order Internal IDs to process
-            const salesOrderIds = [75470522, 75470526, 75470531, 75470533, 75470541, 75470543, 75470708, 75470727, 75470729, 75471276, 75471277, 75471770, 75471787, 75471791, 75471792, 75471797, 75471803, 75471809, 75471810, 75471812, 75471822, 75471823, 75471821, 75471827, 75471829, 75471838, 75471842, 75471847, 75471845, 75471855, 75471861, 75471866, 75471868, 75471869, 75472077, 75473210, 75473220, 75473222, 75473221, 75473225, 75473228, 75473249, 75473259, 75473280, 75473296, 75473306, 75473320, 75473322, 75473344, 75473350, 75474090, 75474080, 75474326, 75474352, 75474370, 75474371, 75474395, 75474429, 75474433, 75474441, 75474509, 75474523, 75474525, 75474533, 75474536, 75474538, 75474553, 75475290, 75475359, 75475572, 75475594, 75475595, 75475596, 75475607, 75475618, 75475620, 75475625, 75475628, 75475650, 75475654, 75475663, 75475772, 75475775, 75475780, 75475784, 75476781, 75476866, 75476868, 75477275, 75477278, 75477282, 75477289, 75477295, 75477318, 75478396, 75478400, 75478555, 75478577, 75478595, 75478604, 75478609, 75478612, 75478690, 75478706, 75478709, 75478720, 75478729, 75479479, 75479638, 75479644, 75479674, 75479703, 75479712, 75479721, 75479729, 75479745, 75479784, 75480501, 75480504, 75480600, 75480613, 75480642, 75480668, 75480691, 75480713, 75480715, 75480728, 75480732, 75480751, 75480756, 75481433, 75481434, 75481600, 75481602, 75481625, 75481629, 75481650, 75481520, 75481531, 75481554, 75481558, 75481559, 75481562, 75481561, 75482740, 75482766, 75482768, 75482895, 75482899, 75483064, 75483271, 75483285, 75483288, 75483886, 75488512, 75488525, 75489752, 75489766, 75489767, 75791354, 75490489, 75490603, 75490606, 75490609, 75490632, 75491324, 75491337, 75491347, 75491348, 75491827, 75491840, 75491843, 75491844, 75491846, 75491849, 75491851, 75491857, 75491858, 75491866, 75491874, 75492923, 75492954, 75492956, 75492960, 75492961, 75492962, 75492965, 75492967, 75492968, 75492978, 75492980, 75492981, 75492986, 75492993, 75492995, 75493003, 75493776, 75493812, 75493815, 75493818];
-            log.audit('Input Data', 'Processing Sales Orders: ' + JSON.stringify(salesOrderIds));
+            const salesOrderIds = []
+             log.audit('Input Data', 'Processing Sales Orders: ' + JSON.stringify(salesOrderIds));
             return salesOrderIds;
         };
 
@@ -39,7 +38,6 @@ define(['N/record', 'N/search', 'N/log'],
 
             try {
                 let invoiceIds = [];
-                let depositIds = [];
                 let fulfillmentIds = [];
 
                 // 1. Find Invoices
@@ -56,20 +54,6 @@ define(['N/record', 'N/search', 'N/log'],
                     return true;
                 });
 
-                // 2. Find Customer Deposits
-                search.create({
-                    type: search.Type.CUSTOMER_DEPOSIT,
-                    filters: [
-                        ['salesorder', 'anyof', salesOrderId],
-                        'AND',
-                        ['mainline', 'is', 'T']
-                    ],
-                    columns: ['internalid']
-                }).run().each(result => {
-                    depositIds.push(result.id);
-                    return true;
-                });
-
                 // 3. Find Item Fulfillments
                 search.create({
                     type: search.Type.ITEM_FULFILLMENT,
@@ -83,10 +67,6 @@ define(['N/record', 'N/search', 'N/log'],
                     fulfillmentIds.push(result.id);
                     return true;
                 });
-
-                // --- Deletion Phase ---
-                // Order: Deposit Application -> Invoice -> Customer Deposit -> Item Fulfillment
-
                 // Delete Deposit Applications by checking Invoice links
                 invoiceIds.forEach(invoiceId => {
                     try {
@@ -143,60 +123,6 @@ define(['N/record', 'N/search', 'N/log'],
                     }
                 });
 
-                // Delete Customer Deposits
-                depositIds.forEach(id => {
-                    try {
-                        // Step 1: Proactively check if it's linked to a Bank Deposit
-                        let bankDepositIds = [];
-                        search.create({
-                            type: search.Type.DEPOSIT,
-                            filters: [['appliedtotransaction', 'anyof', id]],
-                            columns: ['internalid']
-                        }).run().each(result => {
-                            bankDepositIds.push(result.id);
-                            return true;
-                        });
-
-                        // Step 2: If linked, unlink it first
-                        if (bankDepositIds.length > 0) {
-                            bankDepositIds.forEach(bdId => {
-                                var depositRec = record.load({ type: record.Type.DEPOSIT, id: bdId, isDynamic: true });
-                                var paymentCount = depositRec.getLineCount({ sublistId: 'payment' });
-                                var isModified = false;
-
-                                for (var i = 0; i < paymentCount; i++) {
-                                    depositRec.selectLine({ sublistId: 'payment', line: i });
-                                    var paymentId = depositRec.getCurrentSublistValue({ sublistId: 'payment', fieldId: 'id' });
-
-                                    if (String(paymentId) === String(id)) {
-                                        var isDeposited = depositRec.getCurrentSublistValue({ sublistId: 'payment', fieldId: 'deposit' });
-                                        if (isDeposited === true || isDeposited === 'T') {
-                                            depositRec.setCurrentSublistValue({ sublistId: 'payment', fieldId: 'deposit', value: false });
-                                            depositRec.commitLine({ sublistId: 'payment' });
-                                            isModified = true;
-                                            log.audit('Unlinked Customer Deposit ' + paymentId + ' from Bank Deposit', bdId);
-                                        }
-                                        // Since a Customer Deposit can only appear once in a Bank Deposit, we can break the loop
-                                        break;
-                                    }
-                                }
-
-                                if (isModified) {
-                                    depositRec.save();
-                                }
-                            });
-                        }
-
-                        // Step 3: Safely delete the Customer Deposit
-                        record.delete({ type: record.Type.CUSTOMER_DEPOSIT, id: id });
-                        log.audit('Deleted Customer Deposit', id);
-
-                    } catch (e) {
-                        hasError = true;
-                        log.error('Error deleting Customer Deposit ' + id, e.message);
-                    }
-                });
-
                 // Delete Item Fulfillments
                 fulfillmentIds.forEach(id => {
                     try {
@@ -208,13 +134,99 @@ define(['N/record', 'N/search', 'N/log'],
                     }
                 });
 
-                // Delete Sales Order
+                // --- Update Sales Order Phase ---
                 try {
-                    record.delete({ type: record.Type.SALES_ORDER, id: salesOrderId });
-                    log.audit('Deleted Sales Order', salesOrderId);
+                    var soRec = record.load({
+                        type: record.Type.SALES_ORDER,
+                        id: salesOrderId,
+                        isDynamic: true
+                    });
+
+                    var itemCount = soRec.getLineCount({ sublistId: 'item' });
+                    var linesToRemove = [];
+                    var seenLineIds = {};
+                    var isModified = false;
+
+                    for (var i = 0; i < itemCount; i++) {
+                        var itemId = soRec.getSublistValue({ sublistId: 'item', fieldId: 'item', line: i });
+                        var hcLineId = soRec.getSublistValue({ sublistId: 'item', fieldId: 'custcol_hc_order_line_id', line: i });
+
+                        // 1. Remove if item ID is 34838
+                        if (String(itemId) === '34838') {
+                            linesToRemove.push(i);
+                            continue;
+                        }
+
+                        // 2. Remove duplicate line based on custom field
+                        if (hcLineId) {
+                            if (seenLineIds[hcLineId]) {
+                                linesToRemove.push(i);
+                            } else {
+                                seenLineIds[hcLineId] = true;
+                            }
+                        }
+                    }
+
+                    log.debug('Lines Data for SO ' + salesOrderId, JSON.stringify({
+                        linesToRemove: linesToRemove,
+                        seenLineIds: seenLineIds
+                    }));
+
+                    if (linesToRemove.length > 0) {
+                        // Remove lines from bottom to top so indices do not shift during removal
+                        for (var j = linesToRemove.length - 1; j >= 0; j--) {
+                            soRec.removeLine({
+                                sublistId: 'item',
+                                line: linesToRemove[j]
+                            });
+                        }
+                        isModified = true;
+                    }
+
+                    if (isModified) {
+                        soRec.save();
+                        log.audit('Updated Sales Order', 'Removed ' + linesToRemove.length + ' lines from SO ' + salesOrderId);
+
+                        // Reload the record to get updated totals for variance calculation
+                        soRec = record.load({
+                            type: record.Type.SALES_ORDER,
+                            id: salesOrderId,
+                            isDynamic: true
+                        });
+                    }
+
+                    // 3. Add variance item logic
+                    var totalNS = soRec.getValue({ fieldId: 'total' });
+                    var totalHCOrder = soRec.getValue({ fieldId: 'custbody_hc_order_total' });
+                    var offsetLineValue = 0;
+
+                    if (totalNS && parseFloat(totalNS) > 0 && totalHCOrder && parseFloat(totalHCOrder) > 0) {
+                        offsetLineValue = parseFloat(totalHCOrder) - parseFloat(totalNS);
+                    }
+
+                    if (offsetLineValue !== 0) {
+                        var offsetLineValueAmount = offsetLineValue.toFixed(2);
+                        var varianceItem = '34838';
+
+                        soRec.selectNewLine({ sublistId: 'item' });
+                        soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'item', value: varianceItem });
+                        soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'price', value: "-1" });
+                        soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'amount', value: offsetLineValueAmount });
+                        soRec.setCurrentSublistValue({ sublistId: 'item', fieldId: 'taxcode', value: "-7" });
+                        soRec.commitLine({ sublistId: 'item' });
+
+                        soRec.save();
+                        log.audit('Updated Sales Order Variance', 'Variance added: Yes, SO: ' + salesOrderId);
+                    } else {
+                        if (!isModified) {
+                            log.audit('No updates needed', 'SO ' + salesOrderId);
+                        } else {
+                            log.audit('Variance calculation', 'No variance added for SO: ' + salesOrderId);
+                        }
+                    }
                 } catch (e) {
                     hasError = true;
-                    log.error('Error deleting Sales Order ' + salesOrderId, e.message);
+                    log.error('Error updating Sales Order ' + salesOrderId, e.message);
                 }
 
                 if (hasError) {
