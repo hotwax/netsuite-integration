@@ -84,6 +84,19 @@ Products in NetSuite must sync with the OMS to map identifier keys (Good Identif
    GET /commerce/control/ImportData?configId=IMP_PROD_IDENT
    ```
 
+### Sample CSV Structure:
+The generated CSV file maps NetSuite internal IDs to OMS product identification values (using tab-separated columns):
+
+```csv
+id-value,good-identification-value,goodIdentificationType
+#9 Damage Stickers,35872,NETSUITE_PRODUCT_ID
+051-0221-G,521,NETSUITE_PRODUCT_ID
+051-0221-R,523,NETSUITE_PRODUCT_ID
+```
+
+* **`id-value`**: The product identifier/SKU.
+* **`good-identification-value`**: The corresponding NetSuite internal ID to map in the OMS.
+
 ---
 
 ## 5. Warehouse & Store Facility Setup
@@ -93,6 +106,20 @@ For inventory sync to function correctly, warehouse and store physical locations
 * All Store and Warehouse Facilities in HotWax Commerce OMS are created manually or imported via CSV.
 * > [!IMPORTANT]
   > **Facility ID** and **External ID** in HotWax Commerce OMS must match the corresponding **NetSuite Internal ID** of the respective Location.
+
+### Facility Setup CSV Structure:
+If importing facilities in bulk, use the following CSV headers and format:
+
+```csv
+facility-id,external-id,facility-name,owner-party-id,facility-type-id,inventory-item-type-id,days-to-ship,description,weight-uom-id,do-picking,maximum-order-limit,require-inspection,to-name,address-line-1,address-line-2,city,zip-code,state,country,latitude,longitude,phone-number,email,map-url,open-time,close-time
+SALT_LAKE_CITY,83211747439,Salt Lake City,COMPANY,RETAIL_STORE,,,,,N,5,N,Salt Lake City,1110 S 300 W,,Salt Lake City,84010,UT,US,,,18012363918,,,,
+SHOP_LOCATION,82557468783,Shop location,COMPANY,RETAIL_STORE,,,,,N,,N,,,,,,,,,,,,,,
+```
+
+* **`facility-id`**: Unique ID identifier for the facility.
+* **`external-id`**: The matching NetSuite Location Internal ID.
+* **`facility-name`**: Readable name of the facility.
+* **`facility-type-id`**: Type of the facility (e.g., `RETAIL_STORE`, `WAREHOUSE`).
 
 ---
 
@@ -105,5 +132,30 @@ Once facility mappings are complete, inventory levels can be synced from NetSuit
 2. The Scheduled Script **`HC_uploadCSV_InventoryItems.js`** uploads the inventory CSV file to the SFTP server path (e.g., `inventoryitem/csv/`).
 3. To reset and update inventory levels in the HotWax OMS, trigger the MDM endpoint:
    ```http
-   GET /commerce/control/ImportData?configId=RESET_INVENTORY
+   POST /commerce/control/ImportData?configId=RESET_INVENTORY
    ```
+   
+   **Request Parameters (JSON):**
+   ```json
+   {
+     "reason": "VAR_EXT_RESET",
+     "idType": "NETSUITE_PRODUCT_ID",
+     "comments": "NetSuite",
+     "groupBy": "facilityId",
+     "locationSeqId": "TLTLTLLL01"
+   }
+   ```
+
+### Sample CSV Structure (Inventory Reset):
+The generated CSV file maps the inventory levels across facilities (using tab-separated columns):
+
+```csv
+Item,externalFacilityId,availableQty,idValue
+051-0221-G,139,0,521
+051-0221-G,39,0,521
+```
+
+* **`Item`**: The Product identifier/SKU.
+* **`externalFacilityId`**: The NetSuite Internal ID of the location (matching `Facility ID` / `External ID` in the OMS).
+* **`availableQty`**: The quantity available for sale at that location.
+* **`idValue`**: The NetSuite Internal ID of the product.
