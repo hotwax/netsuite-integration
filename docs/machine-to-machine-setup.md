@@ -35,8 +35,9 @@ Create a new integration record in NetSuite to represent the client application.
    * **Token-Based Authentication**
    * **TBA: IssueToken Endpoint**
    * **TBA: Authorization Flow**
-   * **RESTlet**
+   * **RESTlet and Rest webService**
    * **Authorization Code Grant**
+   * **Client Credentials (Machine To Machine) Grant**
 5. Set the **Callback URL** and **Redirect URL** to:
    * `https://www.hotwax.co`
 6. Click **Save**.
