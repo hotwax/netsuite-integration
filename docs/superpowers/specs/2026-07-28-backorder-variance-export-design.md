@@ -25,21 +25,29 @@ One new Map/Reduce SuiteScript, cloned from the repo's established export patter
 | Script file | `src/FileCabinet/SuiteScripts/InventoryVariance/HC_MR_ExportBackorderVarianceCSV.js` |
 | Script object | `customscript_exp_backorder_variance` (+ deployment `customdeploy_exp_backorder_variance`) |
 | Schedule | Daily, 05:00 UTC (single run, no intraday repeat) |
-| Input search | `customsearch_hc_pos_digital_order_in_pen`, imported into the project as a versioned object, with a **Line** column added |
-| Run-state | New `custrecord_backorder_var_ex_date` (DATETIMETZ) field on `customrecord_hc_last_runtime_export` |
+| Input search | `customsearch_hc_pos_digital_order_in_pen`, loaded by script id at runtime; result columns overridden by the script (see below) |
+| Run-state | New `custrecord_backorder_var_ex_date` + `custrecord_backorder_var_pend_date` (DATETIMETZ) fields on `customrecord_hc_last_runtime_export` |
 | Output | CSV uploaded to SFTP `<base>/inventorytransfer` + `/import/` → `/home/gorjana-oms-sftp/netsuite/inventorytransfer/import` |
 | OMS side | No changes — `IMP_INV_TRANS` already polls that directory |
 
 ## Input: saved search + time window
 
 - The search returns **one row per backordered unit** (line-level rows on POS digital
-  orders; lines are always quantity 1). Result columns include Internal ID, Status,
-  Item, Location Id, plus a Line column added during import so duplicate item rows on
-  one order (e.g. three GC-50 lines on SO 77388419) stay distinct.
+  orders; lines are always quantity 1).
+- The script loads the search by script id (`suitecloud` CLI/auth is not configured
+  locally, so the search is not versioned in-project for now — optional follow-up) and
+  **overrides its result columns** with a known set: `internalid`, `line`, `item`,
+  `location`. This gives `map` deterministic JSON keys regardless of the search's
+  display columns, and the `line` number keeps duplicate item rows on one order (e.g.
+  three GC-50 lines on SO 77388419) distinct. Filters — the search's criteria — are
+  untouched, so row multiplicity is unchanged.
 - `getInputData`:
   1. Reads `custrecord_backorder_var_ex_date` (last successful run's window end).
+     If empty or the record is missing, logs an error and returns `[]` — the field
+     must be seeded during deployment (see Verification).
   2. Computes `windowEnd = now`, formatted to minute precision with `N/format`, same
-     idiom as the other export scripts.
+     idiom as the other export scripts, and writes it to
+     `custrecord_backorder_var_pend_date` (the "pending" bound).
   3. Loads the saved search and appends a filter
      `datecreated WITHIN [lastRun, windowEnd]` — using the correct array form
      `values: [lastRun, windowEnd]` (note: `HC_MR_ExportedPOSReturnCSV.js:130` has a
@@ -47,19 +55,21 @@ One new Map/Reduce SuiteScript, cloned from the repo's established export patter
 - Windowing on **`datecreated`** (immutable) makes the no-flag approach safe: each
   order enters the window exactly once. Orders fulfilled before the run drop out via
   the search's own pending-status criteria; no Sales Order fields are written.
-- `windowEnd` is carried through the map/reduce payloads so `summarize` persists the
-  **exact filter bound**. Recomputing "now" in summarize would permanently skip orders
-  created while the script runs.
+- Map/Reduce stages are separate script executions, so `summarize` cannot see
+  `getInputData` locals. The pending-field write is how the **exact filter bound**
+  reaches `summarize`: on successful upload it copies
+  `custrecord_backorder_var_pend_date` into `custrecord_backorder_var_ex_date`.
+  Recomputing "now" in summarize would permanently skip orders created while the
+  script runs; a failed run simply leaves the committed bound alone.
 
 ## Map / Reduce
 
 - `map`: for each search row, emit key `internalid + '-' + line`, value
-  `{ idValue: <item name/SKU text>, externalFacilityId: <Location Id>, windowEnd }`.
+  `{ idValue: <item text>, externalFacilityId: <location internal id> }`.
   `idValue` uses the item's **text** (e.g. `PKG273`), not the internal id.
-- `reduce`: for each value, write a JSON payload `{ line, windowEnd }` where `line` is
+- `reduce`: for each value, write the CSV line
   `<idValue>,<externalFacilityId>,SKU,1,,VAR_REPORT,POS clear backorder`
-  — `summarize` concatenates the `line`s and reads `windowEnd` from any payload
-  (when there are zero rows there is nothing to upload, so no bound is needed).
+  — `summarize` concatenates the lines under the fixed header.
 
 ## Output CSV
 
