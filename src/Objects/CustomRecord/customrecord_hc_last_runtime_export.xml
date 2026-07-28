@@ -86,5 +86,19 @@
       <label>Transfer Order Item Export Date</label>
       <storevalue>T</storevalue>
     </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_backorder_var_ex_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Backorder Variance Export Date</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
+    <customrecordcustomfield scriptid="custrecord_backorder_var_pend_date">
+      <accesslevel>2</accesslevel>
+      <displaytype>NORMAL</displaytype>
+      <fieldtype>DATETIMETZ</fieldtype>
+      <label>Backorder Variance Pending Window End</label>
+      <storevalue>T</storevalue>
+    </customrecordcustomfield>
   </customrecordcustomfields>
 </customrecordtype>
