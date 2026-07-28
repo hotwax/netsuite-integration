@@ -78,6 +78,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoStoreTOJson_v2.js</path> 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoreTOFulfillmentJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_UpdateTransferOrders.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ExportWHTOItemFulfillment_v2.js</path>
 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js</path>
 
@@ -87,6 +88,9 @@
 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_CreateTOReceiptAndAdjustment.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ClosedUnreconcileTOItems.js</path>
+
+        <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedCycleCountCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Location/HC_MR_ExportLocationCSV.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -125,6 +129,7 @@
         <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
+        <path>~/Objects/Location/custrecord_hc_export_location.xml</path>
 
         <!--Custom Form-->
         <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
@@ -202,6 +207,7 @@
 
         <path>~/Objects/POSReturn/customscript_exp_pos_return.xml</path>
         <path>~/Objects/SalesOrder/customscript_hc_mr_createcustomerdeposit.xml</path>
+        <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
 
         <path>~/Objects/Restlet/customscript_restlet_updatescript.xml</path>
         <path>~/Objects/Restlet/customscript_restlet_runscript.xml</path>
@@ -215,8 +221,8 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_store_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_str_str_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_st_to_fulfil_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_sc_expwhtoitemfulfill_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_sc_updatetransferorders.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
 
         <path>~/Objects/TransferOrderV2/customscript_hc_cs_to_cpy_rst_cstm_field.xml</path>
         <path>~/Objects/ALCAuditLog/customscript_hc_mr_expopeninvoicereport.xml</path>
@@ -224,6 +230,8 @@
 
         <path>~/Objects/TransferOrderV2/customscript_hc_toreceiptandadjustment.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_closedunreconciletoitems.xml</path>
+        <path>~/Objects/InventoryAdjustment/customscript_exp_cycle_count.xml</path>
+        <path>~/Objects/Location/customscript_hc_mr_exportlocationcsv.xml</path>
 
         <!--Saved Search-->
         <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
@@ -262,10 +270,16 @@
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_sc_wh_to_fulfillment_v2.xml</path>
 
         <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>
         <path>~/Objects/ALCAuditLog/customsearch_hc_open_credit_memo_report.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_closed_unreconcile_to.xml</path>
+        <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_cycle_count.xml</path>
+        <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
+        <path>~/Objects/InventoryTransfer/customsearch_hc_exp_wh_inv_transfer.xml</path>
+        <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_inventory_adjustment.xml</path>
+        <path>~/Objects/Location/customsearch_hc_export_location.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>

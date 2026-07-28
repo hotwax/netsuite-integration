@@ -27,32 +27,8 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
             var fulfillmentInternalId = contextValues.values.internalid.value;
             var lineId = contextValues.values.line;
 
-            var orderline = null;
             if (fulfillmentInternalId) {
-                //Load item fulfillment object
-                var fulfillmentRecord = record.load({
-                    type: record.Type.ITEM_FULFILLMENT, 
-                    id: fulfillmentInternalId,
-                    isDynamic: false
-                });
-                var lineCnt = fulfillmentRecord.getLineCount({sublistId: 'item'});
-                for (var i = 0; i < lineCnt; i++) {
-                    /* This is done to get the orderline which will serve as external ID for Shipment Item in OMS */
-                    var fulfillmentLineId = fulfillmentRecord.getSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'line',
-                        line: i
-                    });
-                    if (fulfillmentLineId === lineId) {
-                        orderline = fulfillmentRecord.getSublistValue({
-                            sublistId: 'item',
-                            fieldId: 'orderline',
-                            line: i
-                        });
-                    }
-                }
-                        
-                var checkId  = checkInternalId(fulfillmentInternalId);
+                var checkId = checkInternalId(fulfillmentInternalId);
                 if (checkId) {
                     var id = record.submitFields({
                         type: record.Type.ITEM_FULFILLMENT,
@@ -63,14 +39,12 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                     });
                 } 
             }
-            if (orderline) {
-                var transferFulfillmentData = {
-                    'externalId': fulfillmentInternalId,
-                    'shipmentId': contextValues.values.custbody_hc_shipment_id,
-                    'lineId': orderline,
-                    'shipmentItemSeqId': contextValues.values.custcol_hc_shipment_item_seq_id
-                };
-            }
+            var transferFulfillmentData = {
+                'externalId': fulfillmentInternalId,
+                'shipmentId': contextValues.values.custbody_hc_shipment_id,
+                'lineId': lineId,
+                'shipmentItemSeqId': contextValues.values.custcol_hc_shipment_item_seq_id
+            };
 
             mapContext.write({
                 key: fulfillmentInternalId,
@@ -119,10 +93,10 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 });
 
 
-                log.debug("====totalRecordsExported=="+totalRecordsExported);
+                log.debug("====totalRecordsExported==" + totalRecordsExported);
                 if (totalRecordsExported > 0) {
-                    
-                    var fileName = 'ExportStoreTOFulfillment-'  + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
+
+                    var fileName = 'ExportStoreTOFulfillment-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
 
                     var fileObj = file.create({
                         name: fileName,
@@ -204,7 +178,7 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/task', 'N/error'],
                 //Generate error csv
                 var errorFileLine = 'orderId,Recordtype\n';
                 
-                summaryContext.output.iterator().each(function (key, value) {
+                summaryContext.output.iterator().each(function(key, value) {
                     var internalId = key
                     var recordType = "ITEM_FULFILLMENT";
 
