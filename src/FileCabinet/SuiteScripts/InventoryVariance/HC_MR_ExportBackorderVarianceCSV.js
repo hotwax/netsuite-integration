@@ -81,6 +81,13 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             var itemSku = contextValues.values.item.text;
             var locationInternalId = contextValues.values.location.value;
 
+            if (!itemSku || !locationInternalId) {
+                throw error.create({
+                    name: 'MISSING_ROW_DATA',
+                    message: 'Missing item or location for SO ' + internalId + ' line ' + lineId
+                });
+            }
+
             mapContext.write({
                 key: internalId + '-' + lineId,
                 value: {
@@ -100,6 +107,36 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
 
         const summarize = (summaryContext) => {
             try {
+                // Check for stage errors before processing
+                if (summaryContext.inputSummary.error) {
+                    log.error('Input stage error', summaryContext.inputSummary.error);
+                    throw error.create({
+                        name: 'INPUT_STAGE_ERROR',
+                        message: 'Input stage failed: ' + summaryContext.inputSummary.error
+                    });
+                }
+
+                var mapErrorCount = 0;
+                summaryContext.mapSummary.errors.iterator().each((key, err) => {
+                    log.error('Map stage error for key ' + key, err);
+                    mapErrorCount = mapErrorCount + 1;
+                    return true;
+                });
+
+                var reduceErrorCount = 0;
+                summaryContext.reduceSummary.errors.iterator().each((key, err) => {
+                    log.error('Reduce stage error for key ' + key, err);
+                    reduceErrorCount = reduceErrorCount + 1;
+                    return true;
+                });
+
+                if (mapErrorCount > 0 || reduceErrorCount > 0) {
+                    throw error.create({
+                        name: 'STAGE_ERRORS',
+                        message: 'Map stage had ' + mapErrorCount + ' errors; Reduce stage had ' + reduceErrorCount + ' errors. Skipping upload and window commit.'
+                    });
+                }
+
                 var fileLines = CSV_HEADER;
                 var totalRecordsExported = 0;
 
