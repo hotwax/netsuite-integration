@@ -73,6 +73,16 @@ git commit -m "Add backorder variance window fields to last-runtime custom recor
 - Consumes: field ids `custrecord_backorder_var_ex_date`, `custrecord_backorder_var_pend_date` (Task 1); account objects `customsearch_hc_pos_digital_order_in_pen`, `customrecord_hc_last_runtime_export`, `customrecord_ns_sftp_configuration` (all pre-existing in the account).
 - Produces: script file referenced by Task 3's object XML as `[/SuiteScripts/InventoryVariance/HC_MR_ExportBackorderVarianceCSV.js]`.
 
+> **Amendment (post-task review):** the shipped file (commit `acdbee5`) additionally
+> contains map row-validation (`MISSING_ROW_DATA` thrown when item text or location id
+> is missing) and a summarize stage-error guard (`INPUT_STAGE_ERROR`/`STAGE_ERRORS` —
+> `inputSummary.error` checked and `mapSummary`/`reduceSummary` errors iterated before
+> the CSV is built, so any stage error aborts both the upload and the window commit),
+> added during task review. The listing below is left as originally written for
+> historical record; the shipped file at
+> `src/FileCabinet/SuiteScripts/InventoryVariance/HC_MR_ExportBackorderVarianceCSV.js`
+> is authoritative over this listing.
+
 - [ ] **Step 1: Create the script file with this exact content**
 
 ```js
@@ -425,3 +435,5 @@ Trigger the deployment again immediately. Expected: execution log shows `Backord
 - [ ] **Step 6: Confirm MDM ingestion**
 
 In OMS MDM (`/commerce/control/ImportData?configId=IMP_INV_TRANS` config's poller), confirm the uploaded file was picked up and processed, and the corresponding backorders become fulfillable.
+
+**Note:** a permanently bad row (genuinely empty item/location) makes every run fail loudly and blocks the window until the data or search is fixed — this is deliberate (no silent loss). The unblocking step is fixing the offending order line data (or search criteria), not clearing the timestamp.

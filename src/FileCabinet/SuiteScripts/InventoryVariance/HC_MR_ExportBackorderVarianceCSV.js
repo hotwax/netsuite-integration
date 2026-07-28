@@ -61,8 +61,9 @@ define(['N/file', 'N/record', 'N/search', 'N/sftp', 'N/format', 'N/error'],
             backorderSearch.filters = filters;
 
             // Override columns so map sees deterministic keys; the line number
-            // keeps duplicate item lines on one order distinct. Filters (the
-            // search criteria) are untouched, so row multiplicity is unchanged.
+            // keeps duplicate item lines on one order distinct. The search's
+            // criteria are untouched; row multiplicity is unchanged as long as
+            // the account search keeps plain line-level (non-summary) columns.
             backorderSearch.columns = [
                 search.createColumn({ name: 'internalid' }),
                 search.createColumn({ name: 'line' }),

@@ -103,6 +103,16 @@ SFTP connection built from the `customrecord_ns_sftp_configuration` custom recor
   run's window covers the same span plus the new day.
 - No `mark-false` recovery task and no failed-record CSV: the no-flag design writes
   nothing to Sales Orders, so there is nothing to roll back.
+- `summarize` checks `inputSummary.error` and iterates `mapSummary`/`reduceSummary`
+  errors **before** building/uploading the CSV; any stage error throws
+  (`INPUT_STAGE_ERROR`/`STAGE_ERRORS`) and aborts both the upload and the window
+  commit, so partial failures (e.g. one bad row) never advance the window.
+- Narrow case: upload succeeds but the post-upload `submitFields` commit fails. The
+  file was delivered to SFTP, but `custrecord_backorder_var_ex_date` was not advanced,
+  so the next run re-exports the same rows (duplicate CSV, not duplicate NetSuite
+  data). Manual recovery: copy the pending field's value
+  (`custrecord_backorder_var_pend_date`) into the committed field
+  (`custrecord_backorder_var_ex_date`) before the next run.
 
 ## Accepted edge cases
 
