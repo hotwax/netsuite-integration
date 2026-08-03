@@ -218,6 +218,7 @@
         <path>~/Objects/TransferOrderV2/customscript_imp_to_itemfulfillment_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_store_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_str_str_to_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customscript_hc_ue_exp_edit_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_st_to_fulfil_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_sc_expwhtoitemfulfill_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_sc_updatetransferorders.xml</path>
