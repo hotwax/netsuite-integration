@@ -49,6 +49,14 @@
           </columnreference>
         </fieldmapping>
         <fieldmapping>
+          <field>ISCLOSED</field>
+          <columnreference>
+            <column>closed</column>
+            <file>TRANSFERORDER</file>
+            <type>NAME</type>
+          </columnreference>
+        </fieldmapping>
+        <fieldmapping>
           <field>LINE</field>
           <columnreference>
             <column>lineId</column>
