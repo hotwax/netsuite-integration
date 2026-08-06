@@ -17,21 +17,45 @@ define(['N/file', 'N/record', 'N/search', 'N/encode', 'N/error'],
         // Add a type here before sending it, or the file will be written as text and corrupted.
         const BINARY_TYPES = ['MISCBINARY', 'ZIP', 'PDF'];
 
+        // folderName always identifies a TOP-LEVEL File Cabinet folder. Lookup and creation are scoped to
+        // the same place deliberately: an unscoped name search matches a folder with that name anywhere in
+        // the cabinet, so a feed could resolve to someone else's nested folder and, worse, resolve to a
+        // different one as folders are added. Root-level scoping makes the name unambiguous.
+        // Pass folder (the internal id) instead when the target is nested.
         const getOrCreateFolder = (folderName) => {
             var folderSearch = search.create({
                 type: search.Type.FOLDER,
-                filters: [['name', 'is', folderName]],
+                filters: [
+                    ['name', 'is', folderName],
+                    'AND',
+                    // An inactive folder still matches a name search but cannot receive files.
+                    ['isinactive', 'is', 'F'],
+                    'AND',
+                    // @NONE@ is the File Cabinet root; without this the match is cabinet-wide.
+                    ['parent', 'anyof', '@NONE@']
+                ],
                 columns: ['internalid']
             });
 
-            var folderId = folderSearch.run().getRange({ start: 0, end: 1 })
-                .map(function (result) {
-                    return result.getValue('internalid');
-                })[0];
+            var matches = folderSearch.run().getRange({ start: 0, end: 2 });
+            // Two active root folders cannot share a name in NetSuite, so this is defensive rather than
+            // expected - but picking arbitrarily is how files end up somewhere nobody looks.
+            if (matches.length > 1) {
+                throw error.create({
+                    name: 'AMBIGUOUS_FOLDER_NAME',
+                    message: 'More than one active top-level folder is named ' + folderName +
+                        '; pass the folder internal id instead'
+                });
+            }
+
+            var folderId = matches.length ? matches[0].getValue('internalid') : null;
 
             if (!folderId) {
                 var folder = record.create({ type: record.Type.FOLDER });
                 folder.setValue({ fieldId: 'name', value: folderName });
+                // Explicit empty parent = create at the root, matching where the search just looked.
+                // Left unset the folder still lands at the root, but only by default rather than by intent.
+                folder.setValue({ fieldId: 'parent', value: '' });
                 folderId = folder.save();
                 log.debug('Created folder: ' + folderName);
             }
