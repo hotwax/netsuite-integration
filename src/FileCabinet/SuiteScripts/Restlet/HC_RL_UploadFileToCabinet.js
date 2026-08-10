@@ -13,9 +13,19 @@
 define(['N/file', 'N/record', 'N/search', 'N/encode', 'N/error'],
     (file, record, search, encode, error) => {
 
-        // File types whose contents must stay base64. Everything else is decoded to UTF-8 text.
+        // file.Type KEYS whose contents must stay base64. Everything else is decoded to UTF-8 text.
         // Add a type here before sending it, or the file will be written as text and corrupted.
-        const BINARY_TYPES = ['MISCBINARY', 'ZIP', 'PDF'];
+        //
+        // These are INPUT keys, looked up as file.Type[...]. That is a different namespace from the
+        // fileType NAMES a File object reports back, and HC_RL_VerifyGzipFile deliberately keeps a
+        // different list for those. MISCBINARY belongs only to the output side: file.Type has no
+        // MISCBINARY member, so sending it throws UNSUPPORTED_FILE_TYPE - which is what blocked every
+        // .gz upload until this was corrected.
+        //
+        // Probed against 4054670_SB1: GZIP, ZIP, PDF and TAR exist and require base64 (sending them
+        // decoded fails BINARY_DATA_EXPECTED_FOR_SUCH_FILE); MISCBINARY, MISCELLANEOUS, BINARY, TEXT
+        // and FTL are not members of file.Type at all.
+        const BINARY_TYPES = ['GZIP', 'ZIP', 'PDF', 'TAR'];
 
         // folderName always identifies a TOP-LEVEL File Cabinet folder. Lookup and creation are scoped to
         // the same place deliberately: an unscoped name search matches a folder with that name anywhere in
