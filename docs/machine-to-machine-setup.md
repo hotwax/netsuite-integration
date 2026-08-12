@@ -73,7 +73,24 @@ This command will generate two files:
 
 ---
 
-## Step 5: Map Client Credentials in NetSuite
+## Step 5: Create the OAuth 2.0 Client Credentials Record in NetSuite
+Create and map the OAuth 2.0 Client Credentials record in NetSuite for SuiteCloud Development Integration.
+
+1. Navigate to **Setup > Integration > OAuth 2.0 Client Credentials (M2M) Setup** (or **Setup > Integration > Manage Authentication > OAuth 2.0 Client Credentials Setup**).
+2. Click **Create New**.
+3. Configure the mapping fields:
+   * **Entity**: Select the integration employee/user.
+   * **Role**: Select `Administrator`.
+   * **Application**: Select `SuiteCloud Development Integration`.
+4. Under the **Certificate** field/upload section, upload or paste the contents of your generated `rsapublic.pem` public key file.
+5. Click **Save**.
+
+> [!NOTE]
+> The public key file (`cert.crt`) will be shared with you to upload or paste during this step.
+
+---
+
+## Step 6: Map Client Credentials in NetSuite
 Map the Integration record, User Entity, and Role with your public key.
 1. Navigate to **Setup > Integration > Manage Authentication > OAuth 2.0 Client Credentials (M2M) Setup**.
 2. Click **Create New** (or **New**).
@@ -81,6 +98,6 @@ Map the Integration record, User Entity, and Role with your public key.
    * **Entity**: Select the integration employee/user.
    * **Role**: Select `Administrator` (or your custom integration role).
    * **Application**: Select the Integration application created in Step 3.
-4. Upload your generated public key file (`public.pem`).
+4. Upload your generated public key file (`ecpublic.pem`).
 5. Click **Save**.
 6. Note down the generated **Certificate ID** (Example: `Kny7lnPgsorJ-IHAULxauxKTNUugGYvMJIiqftm-8_U`).
