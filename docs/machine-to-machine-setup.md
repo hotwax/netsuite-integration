@@ -35,8 +35,9 @@ Create a new integration record in NetSuite to represent the client application.
    * **Token-Based Authentication**
    * **TBA: IssueToken Endpoint**
    * **TBA: Authorization Flow**
-   * **RESTlet**
+   * **RESTlet and REST Web Services**
    * **Authorization Code Grant**
+   * **Client Credentials (Machine To Machine) Grant**
 5. Set the **Callback URL** and **Redirect URL** to:
    * `https://www.hotwax.co`
 6. Click **Save**.
@@ -57,14 +58,14 @@ A valid certificate is required for the OAuth 2.0 Client Credentials flow.
 * **Key Length**:
   * RSA key length: `3072` or `4096` bits.
   * EC (Elliptic Curve) key length: `256`, `384`, or `521` bits.
-* **Validity**: Maximum validity of **1 year (365 days)**.
+* **Validity**: Maximum validity of **2 year (730 days)**.
 * **Uniqueness**: A unique certificate is required for each integration record, role, and entity mapping.
 
 ### Generate Certificate using OpenSSL:
 Run the following command in a terminal/local machine to generate the public key and private key:
 
 ```bash
-openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -nodes -days 365 -out public.pem -keyout private.pem
+openssl req -new -x509 -newkey ec -pkeyopt ec_paramgen_curve:prime256v1 -nodes -days 730 -out public.pem -keyout private.pem
 ```
 
 This command will generate two files:
