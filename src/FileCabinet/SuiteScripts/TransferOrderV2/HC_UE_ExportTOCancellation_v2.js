@@ -4,13 +4,11 @@
  */
 define(['N/error', 'N/file', 'N/search', 'N/sftp'],
     (error, file, search, sftp) => {
-        const SUPPORTED_EVENT_TYPES = ['edit'];
         const EXPORT_DIRECTORY = '/cancel';
 
         function afterSubmit(context) {
             try {
-                const eventType = String(context.type || '').toLowerCase();
-                if (SUPPORTED_EVENT_TYPES.indexOf(eventType) === -1) return;
+                if (context.type !== context.UserEventType.EDIT) return;
 
                 const newRecord = context.newRecord;
                 const oldRecord = context.oldRecord;
@@ -19,15 +17,17 @@ define(['N/error', 'N/file', 'N/search', 'N/sftp'],
                 const closedLines = getNewlyClosedLines(newRecord, oldRecord);
                 if (!closedLines.length) return;
 
-                const orderName = newRecord.getValue({ fieldId: 'tranid' });
-                if (!orderName) {
+                const orderExternalId = newRecord.id;
+                if (!orderExternalId) {
                     throw error.create({
-                        name: 'MISSING_TRANSFER_ORDER_NAME',
-                        message: 'Unable to export transfer order cancellation because tranid is blank.'
+                        name: 'MISSING_TRANSFER_ORDER_ID',
+                        message: 'Unable to export transfer order cancellation because internal id is blank.'
                     });
                 }
 
-                const csvContents = buildCancellationCsv(orderName, closedLines);
+                const orderName = newRecord.getValue({ fieldId: 'tranid' }) || String(orderExternalId);
+
+                const csvContents = buildCancellationCsv(orderExternalId, closedLines);
                 const exportFile = file.create({
                     name: getFileName(orderName),
                     fileType: file.Type.CSV,
@@ -44,7 +44,7 @@ define(['N/error', 'N/file', 'N/search', 'N/sftp'],
                 log.audit({
                     title: 'Exported transfer order cancellation',
                     details: {
-                        orderId: newRecord.id,
+                        orderId: orderExternalId,
                         orderName: orderName,
                         lineIds: closedLines
                     }
@@ -59,12 +59,12 @@ define(['N/error', 'N/file', 'N/search', 'N/sftp'],
         }
 
         function getNewlyClosedLines(newRecord, oldRecord) {
-            const oldLineStatusMap = {};
+            const previouslyClosedLineIds = {};
             const oldLineCount = oldRecord.getLineCount({ sublistId: 'item' }) || 0;
             for (let index = 0; index < oldLineCount; index++) {
                 const lineId = getLineId(oldRecord, index);
                 if (!lineId) continue;
-                oldLineStatusMap[String(lineId)] = isLineClosed(oldRecord, index);
+                if (isLineClosed(oldRecord, index)) previouslyClosedLineIds[String(lineId)] = true;
             }
 
             const newlyClosedLines = [];
@@ -74,8 +74,7 @@ define(['N/error', 'N/file', 'N/search', 'N/sftp'],
                 if (!lineId) continue;
 
                 const newClosed = isLineClosed(newRecord, index);
-                const oldClosed = oldLineStatusMap[String(lineId)] === true;
-                if (newClosed && !oldClosed) newlyClosedLines.push(String(lineId));
+                if (newClosed && !previouslyClosedLineIds[String(lineId)]) newlyClosedLines.push(String(lineId));
             }
 
             return newlyClosedLines;
@@ -97,20 +96,12 @@ define(['N/error', 'N/file', 'N/search', 'N/sftp'],
             }) === true;
         }
 
-        function buildCancellationCsv(orderName, lineIds) {
-            const rows = ['orderName,lineId,closed'];
+        function buildCancellationCsv(orderExternalId, lineIds) {
+            const rows = ['externalId,lineId,closed'];
             lineIds.forEach((lineId) => {
-                rows.push([escapeCsv(orderName), escapeCsv(lineId), 'true'].join(','));
+                rows.push([orderExternalId, lineId, 'true'].join(','));
             });
             return rows.join('\n');
-        }
-
-        function escapeCsv(value) {
-            const stringValue = String(value == null ? '' : value);
-            if (/[",\n]/.test(stringValue)) {
-                return '"' + stringValue.replace(/"/g, '""') + '"';
-            }
-            return stringValue;
         }
 
         function getFileName(orderName) {
