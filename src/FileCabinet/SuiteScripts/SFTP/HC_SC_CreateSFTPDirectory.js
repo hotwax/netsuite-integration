@@ -501,6 +501,10 @@ define(['N/sftp', 'N/error', 'N/search'], function (sftp, error, search) {
         connection.makeDirectory({
             path: 'transferorderv2/export/receipt/error'
         });
+
+        connection.makeDirectory({
+            path: 'transferorderv2/export/cancel'
+        });
         
         connection.makeDirectory({
             path: 'transferorderv2/import'
