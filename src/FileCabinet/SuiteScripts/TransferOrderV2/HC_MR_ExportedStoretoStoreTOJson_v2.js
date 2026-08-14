@@ -5,15 +5,75 @@
 define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
  
     (error, file, task, record, search, sftp) => {
-        const internalIdList = new Set([]);
-        
-        const checkInternalId = (internalid) => {
-            if (internalIdList.has(internalid)) {
-                return false;
-            } else {
-                internalIdList.add(internalid);
-                return true;
+        const updateExportedTransferOrder = (transferOrderData) => {
+            var transferOrderId = transferOrderData.externalId;
+            var transferOrderRecord = record.load({
+                type: record.Type.TRANSFER_ORDER,
+                id: transferOrderId,
+                isDynamic: false
+            });
+
+            var itemLineCount = transferOrderRecord.getLineCount({
+                sublistId: 'item'
+            });
+            var sublistIndexByLineId = {};
+
+            for (var lineIndex = 0; lineIndex < itemLineCount; lineIndex++) {
+                var recordLineId = String(transferOrderRecord.getSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'line',
+                    line: lineIndex
+                }));
+                sublistIndexByLineId[recordLineId] = lineIndex;
             }
+
+            var exportedItems = transferOrderData.shipGroups[0].items;
+            exportedItems.forEach(function (item) {
+                var lineId = String(item.externalId);
+                var matchedLine = Object.prototype.hasOwnProperty.call(sublistIndexByLineId, lineId)
+                    ? sublistIndexByLineId[lineId]
+                    : -1;
+
+                if (matchedLine === -1) {
+                    throw error.create({
+                        name: 'HC_TO_LINE_NOT_FOUND',
+                        message: 'Unable to find item line ' + lineId +
+                            ' on Transfer Order ' + transferOrderId
+                    });
+                }
+
+                transferOrderRecord.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_hc_exported_quantity',
+                    line: matchedLine,
+                    value: item.quantity
+                });
+
+                transferOrderRecord.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_hc_line_status',
+                    line: matchedLine,
+                    value: 'EXPORTED'
+                });
+            });
+
+            transferOrderRecord.setValue({
+                fieldId: 'custbody_hc_order_exported',
+                value: true
+            });
+
+            var savedTransferOrderId = transferOrderRecord.save({
+                enableSourcing: false,
+                ignoreMandatoryFields: true
+            });
+
+            log.audit({
+                title: 'Exported Transfer Order state updated successfully',
+                details: {
+                    transferOrderId: savedTransferOrderId,
+                    updatedLineCount: exportedItems.length
+                }
+            });
         }
 
         const getInputData = (inputContext) => { 
@@ -26,18 +86,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
             var contextValues = JSON.parse(mapContext.value);
             var internalid = contextValues.values.internalid.value;
-            if (internalid) {
-                var checkId  = checkInternalId(internalid);
-                if (checkId) {
-                    var id = record.submitFields({
-                        type: record.Type.TRANSFER_ORDER,
-                        id: internalid,
-                        values: {
-                            custbody_hc_order_exported: true
-                        }
-                    });
-                } 
-            } 
 
             var storetransferorderdata = {
                 'externalId': internalid,
@@ -130,6 +178,8 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 });
             });
         
+            updateExportedTransferOrder(transferOrderMap);
+
             reduceContext.write({
                 key: reduceContext.key,
                 value: JSON.stringify(transferOrderMap)
@@ -139,7 +189,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         const summarize = (summaryContext) => {
 
             try {
-        
+
                 let result = [];
                 var totalRecordsExported = 0;
 
@@ -230,6 +280,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         file: fileObj
                     });
                     log.debug("Store to Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
+
                 }
             } catch (e) {
                 //Generate error csv

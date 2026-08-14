@@ -16,6 +16,82 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
             }
         }
 
+        const getSearchValue = (value) => {
+            if (value && typeof value === 'object' && Object.prototype.hasOwnProperty.call(value, 'value')) {
+                return value.value;
+            }
+            return value;
+        };
+
+        const updateExportedLineFields = (transferOrderId, lineUpdates) => {
+            var transferOrderRecord = record.load({
+                type: record.Type.TRANSFER_ORDER,
+                id: transferOrderId,
+                isDynamic: false
+            });
+
+            var itemLineCount = transferOrderRecord.getLineCount({ sublistId: 'item' });
+            var availableLineIds = [];
+            var sublistIndexByLineId = {};
+
+            for (var line = 0; line < itemLineCount; line++) {
+                var recordLineId = String(
+                    transferOrderRecord.getSublistValue({
+                        sublistId: 'item',
+                        fieldId: 'line',
+                        line: line
+                    })
+                );
+
+                availableLineIds.push(recordLineId);
+                sublistIndexByLineId[recordLineId] = line;
+            }
+
+            lineUpdates.forEach((lineUpdate) => {
+                var lineId = String(lineUpdate.lineId);
+                var matchedLine = Object.prototype.hasOwnProperty.call(
+                    sublistIndexByLineId,
+                    lineId
+                ) ? sublistIndexByLineId[lineId] : -1;
+
+                if (matchedLine === -1) {
+                    throw error.create({ name: 'HC_TO_LINE_NOT_FOUND', message: 'Unable to find item line ' + lineId + ' on Transfer Order ' + transferOrderId + '. Available item line IDs: ' + JSON.stringify(availableLineIds) });
+                }
+
+                transferOrderRecord.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_hc_exported_quantity',
+                    line: matchedLine,
+                    value: lineUpdate.quantity
+                });
+
+                transferOrderRecord.setSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'custcol_hc_line_status',
+                    line: matchedLine,
+                    value: 'EXPORTED'
+                });
+            });
+
+            transferOrderRecord.setValue({
+                fieldId: 'custbody_hc_order_exported',
+                value: true
+            });
+
+            var savedTransferOrderId = transferOrderRecord.save({
+                enableSourcing: false,
+                ignoreMandatoryFields: true
+            });
+
+            log.audit({
+                title: 'Exported TO state updated successfully',
+                details: {
+                    transferOrderId: savedTransferOrderId,
+                    updatedLineCount: lineUpdates.length
+                }
+            });
+        };
+
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
             var StoreTransferOrderSearch = search.load({ id: 'customsearch_hc_exp_store_to_wh_to_v2' });
@@ -26,18 +102,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
             var contextValues = JSON.parse(mapContext.value);
             var internalid = contextValues.values.internalid.value;
-            if (internalid) {
-                var checkId  = checkInternalId(internalid);
-                if (checkId) {
-                    var id = record.submitFields({
-                        type: record.Type.TRANSFER_ORDER,
-                        id: internalid,
-                        values: {
-                            custbody_hc_order_exported: true
-                        }
-                    });
-                } 
-            } 
 
             var storetransferorderdata = {
                 'externalId': internalid,
@@ -52,6 +116,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'productIdValue' : contextValues.values.item.value,
                 'productIdType': 'NETSUITE_PRODUCT_ID',
                 'lineId': contextValues.values.transferorderitemline,
+                'lineUniqueKey': getSearchValue(contextValues.values.lineuniquekey),
                 'quantity': contextValues.values.quantity,
                 'unitListPrice': 0,
                 'unitPrice': 0,
@@ -75,6 +140,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
             let transferOrderMap = {
                 shipGroups: []
             };
+            let lineUpdates = [];
 
             reduceContext.values.forEach((val) => {
                 const item = JSON.parse(val);
@@ -128,8 +194,15 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         }
                     ]
                 });
+
+                lineUpdates.push({
+                    lineId: String(item.lineId),
+                    quantity: parseInt(item.quantity)
+                });
             });
         
+            updateExportedLineFields(reduceContext.key, lineUpdates);
+
             reduceContext.write({
                 key: reduceContext.key,
                 value: JSON.stringify(transferOrderMap)
@@ -139,7 +212,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
         const summarize = (summaryContext) => {
 
             try {
-        
                 let result = [];
                 var totalRecordsExported = 0;
 

@@ -77,6 +77,7 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoStoreTOJson_v2.js</path> 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoreTOFulfillmentJson_v2.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_UpdateTransferOrders.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportTransferOrderLineUpdates.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ExportWHTOItemFulfillment_v2.js</path>
 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js</path>
@@ -125,6 +126,8 @@
         <path>~/Objects/SalesOrder/custbody_hc_order_id.xml</path>
         <path>~/Objects/TransferOrderV2/custbody_hc_shipment_id.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_shipment_item_seq_id.xml</path>
+        <path>~/Objects/TransferOrderV2/custcol_hc_exported_quantity.xml</path>
+        <path>~/Objects/TransferOrderV2/custcol_hc_line_status.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
@@ -267,6 +270,9 @@
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_wh_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_store_to_store.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_store_to_wh.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_wh_to_store.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_sc_wh_to_fulfillment_v2.xml</path>
 
         <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>
