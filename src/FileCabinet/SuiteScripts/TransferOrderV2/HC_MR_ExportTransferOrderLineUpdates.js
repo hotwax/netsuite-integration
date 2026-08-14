@@ -14,13 +14,13 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/sftp', 'N/runtime'],
             },
             STORE_TO_WH: {
                 originFacilityFromSearch: true,
-                shipmentMethodTypeId: 'SECOND_DAY',
+                shipmentMethodTypeId: 'STANDARD',
                 statusFlowId: 'TO_Fulfill_Only',
                 defaultFilePrefix: 'UpdateStoretoWhTransferOrder-'
             },
             STORE_TO_STORE: {
                 originFacilityFromSearch: true,
-                shipmentMethodTypeId: 'SECOND_DAY',
+                shipmentMethodTypeId: 'STANDARD',
                 statusFlowId: 'TO_Fulfill_And_Receive',
                 defaultFilePrefix: 'UpdateStoretoStoreTransferOrder-'
             }
@@ -241,19 +241,17 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/sftp', 'N/runtime'],
                 });
             });
 
+            updateExportedLineFields(reduceContext.key, lineUpdates);
+
             reduceContext.write({
                 key: reduceContext.key,
-                value: JSON.stringify({
-                    payload: transferOrderMap,
-                    lineUpdates: lineUpdates
-                })
+                value: JSON.stringify(transferOrderMap)
             });
         };
 
         const summarize = (summaryContext) => {
             try {
                 let result = [];
-                let exportedLineUpdates = [];
                 let stageErrors = [];
                 var totalRecordsExported = 0;
 
@@ -267,20 +265,8 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/sftp', 'N/runtime'],
                     return true;
                 });
 
-                if (stageErrors.length > 0) {
-                    throw error.create({
-                        name: 'TRANSFER_ORDER_DELTA_STAGE_ERROR',
-                        message: stageErrors.join('\n')
-                    });
-                }
-
                 summaryContext.output.iterator().each(function (key, value) {
-                    var reduceOutput = JSON.parse(value);
-                    result.push(reduceOutput.payload);
-                    exportedLineUpdates.push({
-                        transferOrderId: key,
-                        lineUpdates: reduceOutput.lineUpdates
-                    });
+                    result.push(JSON.parse(value));
                     totalRecordsExported++;
                     return true;
                 });
@@ -354,18 +340,18 @@ define(['N/error', 'N/file', 'N/record', 'N/search', 'N/sftp', 'N/runtime'],
                         title: 'Updated/new Transfer Order line JSON uploaded successfully',
                         details: {
                             fileName: fileName,
-                            transferOrderCount: exportedLineUpdates.length
+                            transferOrderCount: result.length
                         }
                     });
 
-                    exportedLineUpdates.forEach((transferOrderUpdate) => {
-                        updateExportedLineFields(
-                            transferOrderUpdate.transferOrderId,
-                            transferOrderUpdate.lineUpdates
-                        );
-                    });
-
                     log.debug('Updated/new Transfer Order line JSON uploaded successfully', fileName);
+                }
+
+                if (stageErrors.length > 0) {
+                    throw error.create({
+                        name: 'TRANSFER_ORDER_DELTA_STAGE_ERROR',
+                        message: stageErrors.join('\n')
+                    });
                 }
             } catch (e) {
                 log.error({

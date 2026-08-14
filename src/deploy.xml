@@ -127,7 +127,7 @@
         <path>~/Objects/TransferOrderV2/custbody_hc_shipment_id.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_shipment_item_seq_id.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_exported_quantity.xml</path>
-        <path>~/Objects/TransferOrderV2/custcol_hc_line_status.xml‎</path>
+        <path>~/Objects/TransferOrderV2/custcol_hc_line_status.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
@@ -271,8 +271,8 @@
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_delta_store_to_store.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_store_to_wh.xml‎</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_wh_to_store.xml‎</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_store_to_wh.xml</path>
+        <path>~/Objects/TransferOrderV2/customsearch_hc_delta_wh_to_store.xml</path>
         <path>~/Objects/TransferOrderV2/customsearch_hc_sc_wh_to_fulfillment_v2.xml</path>
 
         <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>

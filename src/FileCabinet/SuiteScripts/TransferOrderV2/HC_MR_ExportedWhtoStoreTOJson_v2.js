@@ -197,12 +197,11 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 });
             });
         
+            updateExportedLineFields(reduceContext.key, lineUpdates);
+
             reduceContext.write({
                 key: reduceContext.key,
-                value: JSON.stringify({
-                    payload: transferOrderMap,
-                    lineUpdates: lineUpdates
-                })
+                value: JSON.stringify(transferOrderMap)
             });
         };
         
@@ -210,7 +209,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
             try {
                 let result = [];
-                let exportedStateUpdates = [];
                 var totalRecordsExported = 0;
 
 
@@ -238,12 +236,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 });
 
                 summaryContext.output.iterator().each(function(key, value) {
-                    var reduceOutput = JSON.parse(value);
-                    result.push(reduceOutput.payload);
-                    exportedStateUpdates.push({
-                        transferOrderId: key,
-                        lineUpdates: reduceOutput.lineUpdates
-                    });
+                    result.push(JSON.parse(value));
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
@@ -329,17 +322,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     });
                     log.debug("Warehouse to Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
 
-                    /*
-                     * Update all exported item lines and the header flag on the same
-                     * loaded Transfer Order, then save it once. This avoids a
-                     * header-only submitFields call and avoids one save per item line.
-                     */
-                    exportedStateUpdates.forEach(function (stateUpdate) {
-                        updateExportedLineFields(
-                            stateUpdate.transferOrderId,
-                            stateUpdate.lineUpdates
-                        );
-                    });
                 }
             } catch (e) {
                 //Generate error csv

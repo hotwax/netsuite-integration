@@ -122,7 +122,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'unitPrice': 0,
                 'itemTotalDiscount': 0,
                 'grandTotal': 0,
-                'shipmentMethodTypeId': "SECOND_DAY",  // When TO origin facility is store, shipment method is always SECOND_DAY
+                'shipmentMethodTypeId': "STANDARD",
                 'carrierPartyId': "_NA_",
                 'orderName': contextValues.values.tranid,
                 'statusFlowId': "TO_Fulfill_Only"
@@ -201,12 +201,11 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 });
             });
         
+            updateExportedLineFields(reduceContext.key, lineUpdates);
+
             reduceContext.write({
                 key: reduceContext.key,
-                value: JSON.stringify({
-                    payload: transferOrderMap,
-                    lineUpdates: lineUpdates
-                })
+                value: JSON.stringify(transferOrderMap)
             });
         };
         
@@ -214,17 +213,11 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
 
             try {
                 let result = [];
-                let exportedStateUpdates = [];
                 var totalRecordsExported = 0;
 
 
                 summaryContext.output.iterator().each(function(key, value) {
-                    var reduceOutput = JSON.parse(value);
-                    result.push(reduceOutput.payload);
-                    exportedStateUpdates.push({
-                        transferOrderId: key,
-                        lineUpdates: reduceOutput.lineUpdates
-                    });
+                    result.push(JSON.parse(value));
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
@@ -309,13 +302,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         file: fileObj
                     });
                     log.debug("Store to Warehouse Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
-
-                    exportedStateUpdates.forEach(function (stateUpdate) {
-                        updateExportedLineFields(
-                            stateUpdate.transferOrderId,
-                            stateUpdate.lineUpdates
-                        );
-                    });
                 }
             } catch (e) {
                 //Generate error csv

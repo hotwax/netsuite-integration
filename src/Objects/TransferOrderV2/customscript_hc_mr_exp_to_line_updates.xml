@@ -203,7 +203,7 @@
     <scriptdeployment scriptid="customdeploy_hc_mr_to_line_upd_sto_to_wh">
       <buffersize>1</buffersize>
       <concurrencylimit>1</concurrencylimit>
-      <custscript_hc_delta_file_prefix>UpdateStoretoWhTransferOrder</custscript_hc_delta_file_prefix>
+      <custscript_hc_delta_file_prefix>UpdateStoretoWhTransferOrder-</custscript_hc_delta_file_prefix>
       <custscript_hc_delta_flow_type>STORE_TO_WH</custscript_hc_delta_flow_type>
       <custscript_hc_delta_search_id>customsearch_hc_delta_store_to_wh</custscript_hc_delta_search_id>
       <isdeployed>T</isdeployed>

@@ -5,64 +5,48 @@
 define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
  
     (error, file, task, record, search, sftp) => {
-        const internalIdList = new Set([]);
-        
-        const checkInternalId = (internalid) => {
-            if (internalIdList.has(internalid)) {
-                return false;
-            } else {
-                internalIdList.add(internalid);
-                return true;
-            }
-        }
-
-        const getSearchValue = (value) => {
-            if (value && typeof value === 'object' && Object.prototype.hasOwnProperty.call(value, 'value')) {
-                return value.value;
-            }
-            return value;
-        };
-
-        const updateExportedLineFields = (transferOrderId, lineUpdates) => {
+        const updateExportedTransferOrder = (transferOrderData) => {
+            var transferOrderId = transferOrderData.externalId;
             var transferOrderRecord = record.load({
                 type: record.Type.TRANSFER_ORDER,
                 id: transferOrderId,
                 isDynamic: false
             });
 
-            var itemLineCount = transferOrderRecord.getLineCount({ sublistId: 'item' });
-            var availableLineIds = [];
+            var itemLineCount = transferOrderRecord.getLineCount({
+                sublistId: 'item'
+            });
             var sublistIndexByLineId = {};
 
-            for (var line = 0; line < itemLineCount; line++) {
-                var recordLineId = String(
-                    transferOrderRecord.getSublistValue({
-                        sublistId: 'item',
-                        fieldId: 'line',
-                        line: line
-                    })
-                );
-
-                availableLineIds.push(recordLineId);
-                sublistIndexByLineId[recordLineId] = line;
+            for (var lineIndex = 0; lineIndex < itemLineCount; lineIndex++) {
+                var recordLineId = String(transferOrderRecord.getSublistValue({
+                    sublistId: 'item',
+                    fieldId: 'line',
+                    line: lineIndex
+                }));
+                sublistIndexByLineId[recordLineId] = lineIndex;
             }
 
-            lineUpdates.forEach((lineUpdate) => {
-                var lineId = String(lineUpdate.lineId);
-                var matchedLine = Object.prototype.hasOwnProperty.call(
-                    sublistIndexByLineId,
-                    lineId
-                ) ? sublistIndexByLineId[lineId] : -1;
+            var exportedItems = transferOrderData.shipGroups[0].items;
+            exportedItems.forEach(function (item) {
+                var lineId = String(item.externalId);
+                var matchedLine = Object.prototype.hasOwnProperty.call(sublistIndexByLineId, lineId)
+                    ? sublistIndexByLineId[lineId]
+                    : -1;
 
                 if (matchedLine === -1) {
-                    throw error.create({ name: 'HC_TO_LINE_NOT_FOUND', message: 'Unable to find item line ' + lineId + ' on Transfer Order ' + transferOrderId + '. Available item line IDs: ' + JSON.stringify(availableLineIds) });
+                    throw error.create({
+                        name: 'HC_TO_LINE_NOT_FOUND',
+                        message: 'Unable to find item line ' + lineId +
+                            ' on Transfer Order ' + transferOrderId
+                    });
                 }
 
                 transferOrderRecord.setSublistValue({
                     sublistId: 'item',
                     fieldId: 'custcol_hc_exported_quantity',
                     line: matchedLine,
-                    value: lineUpdate.quantity
+                    value: item.quantity
                 });
 
                 transferOrderRecord.setSublistValue({
@@ -83,12 +67,14 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 ignoreMandatoryFields: true
             });
 
-            log.audit({ title: 'Exported TO state updated successfully', details: {
+            log.audit({
+                title: 'Exported Transfer Order state updated successfully',
+                details: {
                     transferOrderId: savedTransferOrderId,
-                    updatedLineCount: lineUpdates.length
+                    updatedLineCount: exportedItems.length
                 }
             });
-        };
+        }
 
         const getInputData = (inputContext) => { 
             // Get StoreTransferOrder search query
@@ -114,13 +100,12 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'productIdValue' : contextValues.values.item.value,
                 'productIdType': 'NETSUITE_PRODUCT_ID',
                 'lineId': contextValues.values.transferorderitemline,
-                'lineUniqueKey': getSearchValue(contextValues.values.lineuniquekey),
                 'quantity': contextValues.values.quantity,
                 'unitListPrice': 0,
                 'unitPrice': 0,
                 'itemTotalDiscount': 0,
                 'grandTotal': 0,
-                'shipmentMethodTypeId': "SECOND_DAY",  // When TO origin facility is store, shipment method is always SECOND_DAY
+                'shipmentMethodTypeId': "STANDARD",
                 'carrierPartyId': "_NA_",
                 'orderName': contextValues.values.tranid,
                 'statusFlowId': "TO_Fulfill_And_Receive"
@@ -138,7 +123,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
             let transferOrderMap = {
                 shipGroups: []
             };
-            let lineUpdates = [];
 
             reduceContext.values.forEach((val) => {
                 const item = JSON.parse(val);
@@ -192,37 +176,26 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                         }
                     ]
                 });
-
-                lineUpdates.push({
-                    lineId: String(item.lineId),
-                    quantity: parseInt(item.quantity)
-                });
             });
         
+            updateExportedTransferOrder(transferOrderMap);
+
             reduceContext.write({
                 key: reduceContext.key,
-                value: JSON.stringify({
-                    payload: transferOrderMap,
-                    lineUpdates: lineUpdates
-                })
+                value: JSON.stringify(transferOrderMap)
             });
         };
         
         const summarize = (summaryContext) => {
 
             try {
+
                 let result = [];
-                let exportedStateUpdates = [];
                 var totalRecordsExported = 0;
 
 
                 summaryContext.output.iterator().each(function(key, value) {
-                    var reduceOutput = JSON.parse(value);
-                    result.push(reduceOutput.payload);
-                    exportedStateUpdates.push({
-                        transferOrderId: key,
-                        lineUpdates: reduceOutput.lineUpdates
-                    });
+                    result.push(JSON.parse(value));
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
@@ -308,12 +281,6 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                     });
                     log.debug("Store to Store Transfer Order JSON File Uploaded Successfully to SFTP server with file" , fileName);
 
-                    exportedStateUpdates.forEach(function (stateUpdate) {
-                        updateExportedLineFields(
-                            stateUpdate.transferOrderId,
-                            stateUpdate.lineUpdates
-                        );
-                    });
                 }
             } catch (e) {
                 //Generate error csv
