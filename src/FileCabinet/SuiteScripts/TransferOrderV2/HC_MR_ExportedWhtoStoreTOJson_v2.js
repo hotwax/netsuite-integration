@@ -105,7 +105,7 @@ define(['N/error', 'N/file', 'N/task', 'N/record', 'N/search', 'N/sftp'],
                 'externalId': internalid,
                 'productStoreId': 'STORE',
                 'statusId': 'ORDER_CREATED',
-                'originFacilityExternalId': '_NA_', // When TO origin facility is warehouse, it is always _NA_
+                'originFacilityExternalId': contextValues.values.location.value,
                 'destinationLocationId': contextValues.values.transferlocation.value,
                 'orderTypeId':'TRANSFER_ORDER',
                 'orderItemTypeId': 'PRODUCT_ORDER_ITEM',
