@@ -1,0 +1,15 @@
+<usereventscript scriptid="customscript_hc_ue_exp_to_cancel_v2">
+  <isinactive>F</isinactive>
+  <name>HC_UE_ExportTOCancellation_v2</name>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/TransferOrderV2/HC_UE_ExportTOCancellation_v2.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_ue_exp_to_cancel_v2">
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <recordtype>TRANSFERORDER</recordtype>
+      <status>RELEASED</status>
+      <title>HC_UE_ExportTOCancellation_v2</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</usereventscript>
