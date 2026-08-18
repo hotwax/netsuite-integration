@@ -1,0 +1,145 @@
+/**
+ * @NApiVersion 2.1
+ * @NScriptType UserEventScript
+ */
+define(['N/error', 'N/file', 'N/search', 'N/sftp'],
+    (error, file, search, sftp) => {
+        const EXPORT_DIRECTORY = '/cancel';
+
+        function afterSubmit(context) {
+            try {
+                if (context.type !== context.UserEventType.EDIT) return;
+
+                const newRecord = context.newRecord;
+                const oldRecord = context.oldRecord;
+                if (!newRecord || !oldRecord) return;
+
+                const closedLines = getNewlyClosedLines(newRecord, oldRecord);
+                if (!closedLines.length) return;
+
+                const orderExternalId = newRecord.id;
+                if (!orderExternalId) {
+                    throw error.create({
+                        name: 'MISSING_TRANSFER_ORDER_ID',
+                        message: 'Unable to export transfer order cancellation because internal id is blank.'
+                    });
+                }
+
+                const orderName = newRecord.getValue({ fieldId: 'tranid' }) || String(orderExternalId);
+
+                const csvContents = buildCancellationCsv(orderExternalId, closedLines);
+                const exportFile = file.create({
+                    name: getFileName(orderName),
+                    fileType: file.Type.CSV,
+                    contents: csvContents,
+                    encoding: file.Encoding.UTF_8
+                });
+
+                const connection = getSftpConnection();
+                connection.upload({
+                    directory: EXPORT_DIRECTORY,
+                    file: exportFile
+                });
+
+                log.audit({
+                    title: 'Exported transfer order cancellation',
+                    details: {
+                        orderId: orderExternalId,
+                        orderName: orderName,
+                        lineIds: closedLines
+                    }
+                });
+            } catch (e) {
+                log.error({
+                    title: 'Error exporting transfer order cancellation',
+                    details: e
+                });
+                throw e;
+            }
+        }
+
+        function getNewlyClosedLines(newRecord, oldRecord) {
+            const previouslyClosedLineIds = {};
+            const oldLineCount = oldRecord.getLineCount({ sublistId: 'item' }) || 0;
+            for (let index = 0; index < oldLineCount; index++) {
+                const lineId = getLineId(oldRecord, index);
+                if (!lineId) continue;
+                if (isLineClosed(oldRecord, index)) previouslyClosedLineIds[String(lineId)] = true;
+            }
+
+            const newlyClosedLines = [];
+            const newLineCount = newRecord.getLineCount({ sublistId: 'item' }) || 0;
+            for (let index = 0; index < newLineCount; index++) {
+                const lineId = getLineId(newRecord, index);
+                if (!lineId) continue;
+
+                const newClosed = isLineClosed(newRecord, index);
+                if (newClosed && !previouslyClosedLineIds[String(lineId)]) newlyClosedLines.push(String(lineId));
+            }
+
+            return newlyClosedLines;
+        }
+
+        function getLineId(orderRecord, line) {
+            return orderRecord.getSublistValue({
+                sublistId: 'item',
+                fieldId: 'line',
+                line: line
+            });
+        }
+
+        function isLineClosed(orderRecord, line) {
+            return orderRecord.getSublistValue({
+                sublistId: 'item',
+                fieldId: 'isclosed',
+                line: line
+            }) === true;
+        }
+
+        function buildCancellationCsv(orderExternalId, lineIds) {
+            const rows = ['externalId,lineId,closed'];
+            lineIds.forEach((lineId) => {
+                rows.push([orderExternalId, lineId, 'true'].join(','));
+            });
+            return rows.join('\n');
+        }
+
+        function getFileName(orderName) {
+            const now = new Date();
+            const timestamp = now.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '');
+            return 'TransferOrderCancellation-' + orderName + '-' + timestamp + '.csv';
+        }
+
+        function getSftpConnection() {
+            const sftpConfig = search.create({
+                type: 'customrecord_ns_sftp_configuration',
+                columns: [
+                    'custrecord_ns_sftp_server',
+                    'custrecord_ns_sftp_userid',
+                    'custrecord_ns_sftp_port_no',
+                    'custrecord_ns_sftp_host_key',
+                    'custrecord_ns_sftp_guid',
+                    'custrecord_ns_sftp_default_file_dir'
+                ]
+            }).run().getRange({ start: 0, end: 1 })[0];
+
+            if (!sftpConfig) {
+                throw error.create({
+                    name: 'MISSING_SFTP_CONFIGURATION',
+                    message: 'No NetSuite SFTP configuration record found.'
+                });
+            }
+
+            const directory = String(sftpConfig.getValue({ name: 'custrecord_ns_sftp_default_file_dir' }) || '') + 'transferorderv2/export';
+            return sftp.createConnection({
+                username: sftpConfig.getValue({ name: 'custrecord_ns_sftp_userid' }),
+                secret: sftpConfig.getValue({ name: 'custrecord_ns_sftp_guid' }),
+                url: sftpConfig.getValue({ name: 'custrecord_ns_sftp_server' }),
+                port: parseInt(sftpConfig.getValue({ name: 'custrecord_ns_sftp_port_no' }), 10),
+                directory: directory,
+                hostKey: sftpConfig.getValue({ name: 'custrecord_ns_sftp_host_key' })
+            });
+        }
+
+        return { afterSubmit: afterSubmit };
+    });
