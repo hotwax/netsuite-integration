@@ -17,48 +17,55 @@ define(['N/file', 'N/search', 'N/sftp', 'N/error'],
             var kitName = contextValues.values.itemid;
             var quantity = contextValues.values.memberquantity; 
 
-            var kitProductData = {
-                'productId': kitName,
-                'productIdTo': memberItemId,
-                'quantity': quantity,
-                'productAssocTypeId': 'PRODUCT_COMPONENT'
-            };
             mapContext.write({
-                key: contextValues.id + '-' + memberItemId,
-                value: kitProductData
+                key: kitName,
+                value: {
+                    'idValue': memberItemId,
+                    'quantity': quantity
+                }
             });
-            
-        }
-        
-        const reduce = (reduceContext) => {
-            var contextValues = JSON.parse(reduceContext.values);
-            var keyId = reduceContext.key; 
 
-            var content = contextValues.productId + ',' + contextValues.productIdTo + ',' + contextValues.quantity + ',' + contextValues.productAssocTypeId + '\n';
-            reduceContext.write(keyId, content);
         }
-        
+
+        const reduce = (reduceContext) => {
+            var kitName = reduceContext.key;
+            var productAssocList = reduceContext.values.map((value) => JSON.parse(value));
+            var kitProductAssocData = {
+                'productId': kitName,
+                'idType': 'SKU',
+                'productAssocTypeId': 'PRODUCT_COMPONENT',
+                'productAssocList': productAssocList
+            };
+            reduceContext.write(kitName, JSON.stringify(kitProductAssocData));
+        }
+
         const summarize = (summaryContext) => {
             try {
-                var fileLines = 'productId,productIdTo,quantity,productAssocTypeId\n';
+                var records = [];
                 var totalRecordsExported = 0;
 
                 summaryContext.output.iterator().each(function(key, value) {
-                    fileLines += value;
+                    records.push(JSON.parse(value));
                     totalRecordsExported = totalRecordsExported + 1;
                     return true;
                 });
                 log.debug("====totalRecordsExported=="+totalRecordsExported);
                 if (totalRecordsExported > 0) {
-                    var fileName =  summaryContext.dateCreated + '-KITProductExport.csv';
+                    var pad = function(num, size) { return ('000' + num).slice(-size); };
+                    var dateCreated = new Date(summaryContext.dateCreated);
+                    var formattedDate = dateCreated.getFullYear() + '-' + pad(dateCreated.getMonth() + 1, 2) + '-' +
+                        pad(dateCreated.getDate(), 2) + '-' + pad(dateCreated.getHours(), 2) + '_' +
+                        pad(dateCreated.getMinutes(), 2) + '_' + pad(dateCreated.getSeconds(), 2) + '_' +
+                        pad(dateCreated.getMilliseconds(), 3);
+                    var fileName = 'KITProductExport_' + formattedDate + '.json';
 
                     var kitItemFileObj = file.create({
                         name: fileName,
-                        fileType: file.Type.CSV,
-                        contents: fileLines
+                        fileType: file.Type.JSON,
+                        contents: JSON.stringify(records)
                     });
 
-                    
+
                     //Get Custom Record Type SFTP details
                     var customRecordSFTPSearch = search.create({
                         type: 'customrecord_ns_sftp_configuration',
@@ -123,19 +130,18 @@ define(['N/file', 'N/search', 'N/sftp', 'N/error'],
                         });
                     }
                     connection.upload({
-                        directory: '/kit-nifi/',
+                        directory: '/kit/',
                         file: kitItemFileObj
                     });
-                    log.debug("KIT Item CSV File Uploaded Successfully to SFTP server with file" + fileName);
-                    
+                    log.debug("KIT Item JSON File Uploaded Successfully to SFTP server with file" + fileName);
                 }
             } catch (e) {
                 log.error({
-                title: 'Error in exporting and uploading kit item csv files',
+                title: 'Error in exporting and uploading kit item json files',
                 details: e,
                 });
                 throw error.create({
-                name:"Error in exporting and uploading kit item csv files",
+                name:"Error in exporting and uploading kit item json files",
                 message: e
                 });
             }            
