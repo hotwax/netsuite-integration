@@ -1,0 +1,28 @@
+<mapreducescript scriptid="customscript_exp_backorder_variance">
+  <description>Exports POS digital backorders as OMS inventory variance CSV (IMP_INV_TRANS) to the SFTP import directory.</description>
+  <isinactive>F</isinactive>
+  <name>HC_MR_ExportBackorderVarianceCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/InventoryVariance/HC_MR_ExportBackorderVarianceCSV.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_exp_backorder_variance">
+      <buffersize>1</buffersize>
+      <concurrencylimit>1</concurrencylimit>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <queueallstagesatonce>T</queueallstagesatonce>
+      <status>SCHEDULED</status>
+      <title>HC_MR_ExportBackorderVarianceCSV</title>
+      <yieldaftermins>60</yieldaftermins>
+      <recurrence>
+        <daily>
+          <everyxdays>1</everyxdays>
+          <startdate>2026-07-28</startdate>
+          <starttime>05:00:00Z</starttime>
+        </daily>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</mapreducescript>
