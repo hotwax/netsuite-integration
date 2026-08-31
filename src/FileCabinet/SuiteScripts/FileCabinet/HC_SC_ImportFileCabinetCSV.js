@@ -160,16 +160,24 @@ define(['N/file', 'N/record', 'N/search', 'N/task', 'N/runtime', 'N/error', 'N/c
                 // The string form rather than search.Type.FILE, matching the other File Cabinet
                 // searches in this repo.
                 type: 'file',
-                // anyof on folder is an exact-parent match, so archive/, failed/ and error/ are not
-                // re-read on the next run.
+                // This filter is RECURSIVE: a folder filter on a file search matches the folder's
+                // descendants, not just its direct children. Verified against 4054670_SB1 - a second
+                // run re-read everything already in archive/, failed/ and error/, re-submitted an
+                // imported feed, and fed one of its own error reports back in as a feed. Both saved
+                // imports are ADD, so that duplicates records on every cycle.
+                // The parent is therefore re-checked per result below; do not remove that check on
+                // the assumption this filter is exact.
                 filters: [['folder', 'anyof', feedFolderId]],
                 columns: [
                     'name',
+                    'folder',
                     // Oldest first, so a feed that uploaded twice is imported in the order it was
                     // produced. Mirrors sftp.Sort.DATE on the transport this replaces.
                     search.createColumn({ name: 'modified', sort: search.Sort.ASC })
                 ]
             }).run().each(function (result) {
+                // Direct children only. Anything deeper is a file this script already filed away.
+                if (String(result.getValue('folder')) !== String(feedFolderId)) return true;
                 pending.push({ id: result.id, name: result.getValue('name') });
                 return true;
             });
