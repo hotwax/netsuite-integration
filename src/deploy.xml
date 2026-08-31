@@ -24,6 +24,9 @@
         <path>~/FileCabinet/SuiteScripts/PurchaseOrder/HC_SC_ImportPurchaseOrderReceipts.js</path>
 
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_importSalesOrders.js</path>
+
+        <!-- File Cabinet transport: the read half, generic across feeds -->
+        <path>~/FileCabinet/SuiteScripts/FileCabinet/HC_SC_ImportFileCabinetCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderFulfillmentCSV.js</path>
@@ -165,6 +168,7 @@
         <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
                 
         <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
+        <path>~/Objects/FileCabinet/customscript_hc_import_fc_csv.xml</path>
         <path>~/Objects/SalesOrder/customscript_update_salesorder.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_salesorders.xml</path>
         <path>~/Objects/SalesOrder/customscript_export_salesorderitems.xml</path>

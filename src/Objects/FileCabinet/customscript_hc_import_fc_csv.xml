@@ -1,0 +1,110 @@
+<scheduledscript scriptid="customscript_hc_import_fc_csv">
+  <description>Reads feed CSVs from a NetSuite File Cabinet folder and runs them through a saved CSV import. Feed-agnostic: the folder and the saved import id come from the deployment, so a new feed is a new deployment rather than a new script.</description>
+  <isinactive>F</isinactive>
+  <name>HC_SC_ImportFileCabinetCSV</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <scriptfile>[/SuiteScripts/FileCabinet/HC_SC_ImportFileCabinetCSV.js]</scriptfile>
+  <scriptcustomfields>
+    <scriptcustomfield scriptid="custscript_hc_fc_import_folder">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultselection></defaultselection>
+      <defaultvalue></defaultvalue>
+      <description>Name of the top-level File Cabinet folder Moqui uploads this feed into. Must match the folderName sent by upload#FileToNetSuiteFileCabinet. The script fails if it does not exist; it never creates it. Not mandatory at deploy time because the folder differs per account and a committed value would be wrong everywhere else; the script rejects a blank value at runtime instead.</description>
+      <displayheight></displayheight>
+      <displaytype>NORMAL</displaytype>
+      <displaywidth></displaywidth>
+      <dynamicdefault></dynamicdefault>
+      <fieldtype>TEXT</fieldtype>
+      <help></help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>File Cabinet Folder</label>
+      <linktext></linktext>
+      <maxlength></maxlength>
+      <maxvalue></maxvalue>
+      <minvalue></minvalue>
+      <onparentdelete></onparentdelete>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype></selectrecordtype>
+      <setting></setting>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+    <scriptcustomfield scriptid="custscript_hc_fc_import_label">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultselection></defaultselection>
+      <defaultvalue></defaultvalue>
+      <description>Prefix for the CSV import task name, so the job is recognisable in the import status list. Defaults to "File Cabinet CSV Import" when blank.</description>
+      <displayheight></displayheight>
+      <displaytype>NORMAL</displaytype>
+      <displaywidth></displaywidth>
+      <dynamicdefault></dynamicdefault>
+      <fieldtype>TEXT</fieldtype>
+      <help></help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>Import Task Label</label>
+      <linktext></linktext>
+      <maxlength></maxlength>
+      <maxvalue></maxvalue>
+      <minvalue></minvalue>
+      <onparentdelete></onparentdelete>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype></selectrecordtype>
+      <setting></setting>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+    <scriptcustomfield scriptid="custscript_hc_fc_import_mapping">
+      <accesslevel>2</accesslevel>
+      <applyformatting>F</applyformatting>
+      <checkspelling>F</checkspelling>
+      <defaultchecked>F</defaultchecked>
+      <defaultselection></defaultselection>
+      <defaultvalue></defaultvalue>
+      <description>Script id of the saved CSV import to run, for example custimport_add_salesorders_hc. Reusing the feed's existing saved import is what keeps File Cabinet imports identical to SFTP ones.</description>
+      <displayheight></displayheight>
+      <displaytype>NORMAL</displaytype>
+      <displaywidth></displaywidth>
+      <dynamicdefault></dynamicdefault>
+      <fieldtype>TEXT</fieldtype>
+      <help></help>
+      <isformula>F</isformula>
+      <ismandatory>F</ismandatory>
+      <label>Saved CSV Import Id</label>
+      <linktext></linktext>
+      <maxlength></maxlength>
+      <maxvalue></maxvalue>
+      <minvalue></minvalue>
+      <onparentdelete></onparentdelete>
+      <searchlevel>2</searchlevel>
+      <selectrecordtype></selectrecordtype>
+      <setting></setting>
+      <storevalue>T</storevalue>
+    </scriptcustomfield>
+  </scriptcustomfields>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_imp_fc_csv_so">
+      <custscript_hc_fc_import_folder></custscript_hc_fc_import_folder>
+      <custscript_hc_fc_import_label>Add Sales Order</custscript_hc_fc_import_label>
+      <custscript_hc_fc_import_mapping>custimport_add_salesorders_hc</custscript_hc_fc_import_mapping>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>NOTSCHEDULED</status>
+      <title>HC_SC_ImportFileCabinetCSV - Sales Order</title>
+      <recurrence>
+        <single>
+          <repeat></repeat>
+          <startdate>2026-08-31</startdate>
+          <starttime>00:00:00Z</starttime>
+        </single>
+      </recurrence>
+    </scriptdeployment>
+  </scriptdeployments>
+</scheduledscript>
