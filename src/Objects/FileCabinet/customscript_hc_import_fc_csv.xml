@@ -14,7 +14,7 @@
       <defaultchecked>F</defaultchecked>
       <defaultselection></defaultselection>
       <defaultvalue></defaultvalue>
-      <description>Name of the top-level File Cabinet folder Moqui uploads this feed into. Must match the folderName sent by upload#FileToNetSuiteFileCabinet. The script fails if it does not exist; it never creates it.</description>
+      <description>Name of the top-level File Cabinet folder Moqui uploads this feed into. Must match the folderName sent by upload#FileToNetSuiteFileCabinet. The script fails if it does not exist; it never creates it. Not mandatory at deploy time because the folder differs per account and a committed value would be wrong everywhere else; the script rejects a blank value at runtime instead.</description>
       <displayheight></displayheight>
       <displaytype>NORMAL</displaytype>
       <displaywidth></displaywidth>
@@ -22,7 +22,7 @@
       <fieldtype>TEXT</fieldtype>
       <help></help>
       <isformula>F</isformula>
-      <ismandatory>T</ismandatory>
+      <ismandatory>F</ismandatory>
       <label>File Cabinet Folder</label>
       <linktext></linktext>
       <maxlength></maxlength>
@@ -76,7 +76,7 @@
       <fieldtype>TEXT</fieldtype>
       <help></help>
       <isformula>F</isformula>
-      <ismandatory>T</ismandatory>
+      <ismandatory>F</ismandatory>
       <label>Saved CSV Import Id</label>
       <linktext></linktext>
       <maxlength></maxlength>
