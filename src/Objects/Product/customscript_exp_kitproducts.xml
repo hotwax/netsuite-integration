@@ -1,11 +1,11 @@
 <mapreducescript scriptid="customscript_exp_kitproducts">
   <description></description>
   <isinactive>F</isinactive>
-  <name>HC_MR_ExportedKITProductCSV</name>
+  <name>HC_MR_ExportedKITProductJSON</name>
   <notifyadmins>F</notifyadmins>
   <notifyemails></notifyemails>
   <notifyowner>T</notifyowner>
-  <scriptfile>[/SuiteScripts/Product/HC_MR_ExportedKITProductCSV.js]</scriptfile>
+  <scriptfile>[/SuiteScripts/Product/HC_MR_ExportedKITProductJSON.js]</scriptfile>
   <scriptdeployments>
     <scriptdeployment scriptid="customdeploy_exp_kitproducts">
       <buffersize>1</buffersize>
@@ -14,7 +14,7 @@
       <loglevel>DEBUG</loglevel>
       <queueallstagesatonce>T</queueallstagesatonce>
       <status>SCHEDULED</status>
-      <title>HC_MR_ExportedKITProductCSV</title>
+      <title>HC_MR_ExportedKITProductJSON</title>
       <yieldaftermins>60</yieldaftermins>
       <recurrence>
         <daily>
