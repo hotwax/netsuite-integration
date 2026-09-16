@@ -51,13 +51,7 @@ define(['N/file', 'N/search', 'N/sftp', 'N/error'],
                 });
                 log.debug("====totalRecordsExported=="+totalRecordsExported);
                 if (totalRecordsExported > 0) {
-                    var pad = function(num, size) { return ('000' + num).slice(-size); };
-                    var dateCreated = new Date(summaryContext.dateCreated);
-                    var formattedDate = dateCreated.getFullYear() + '-' + pad(dateCreated.getMonth() + 1, 2) + '-' +
-                        pad(dateCreated.getDate(), 2) + '-' + pad(dateCreated.getHours(), 2) + '_' +
-                        pad(dateCreated.getMinutes(), 2) + '_' + pad(dateCreated.getSeconds(), 2) + '_' +
-                        pad(dateCreated.getMilliseconds(), 3);
-                    var fileName = 'KITProductExport_' + formattedDate + '.json';
+                    var fileName = 'KITProductExport-' + summaryContext.dateCreated.toISOString().replace(/[:T]/g, '-').replace(/\..+/, '') + '.json';
 
                     var kitItemFileObj = file.create({
                         name: fileName,
