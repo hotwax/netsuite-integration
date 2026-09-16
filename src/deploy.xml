@@ -54,7 +54,7 @@
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerRefund.js</path>
         <path>~/FileCabinet/SuiteScripts/SFTP/HC_MR_MarkFalesToFailedRecords.js</path>
 
-        <path>~/FileCabinet/SuiteScripts/Product/HC_MR_ExportedKITProductCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Product/HC_MR_ExportedKITProductJSON.js</path>
         <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedGiftCardFulfillmentCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/POSReturn/HC_SC_CreatePOSReturn.js</path>
         <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedInventoryAdjustmentCSV.js</path>
