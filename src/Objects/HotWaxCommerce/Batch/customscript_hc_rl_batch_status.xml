@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_hc_rl_batch_status">
+  <description>A batch run by OMS message id: its row, the task's live stage while it runs, and once complete the id of its result file. GET ?messageId=.</description>
+  <isinactive>F</isinactive>
+  <name>HC_RL_BatchTaskStatus</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HotWaxCommerce/Batch/HC_RL_BatchTaskStatus.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_rl_batch_status">
+      <allemployees>T</allemployees>
+      <allpartners>T</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>HC_RL_BatchTaskStatus</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>
