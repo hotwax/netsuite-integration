@@ -103,8 +103,8 @@
     <objects>
         <!--Custom Record-->
         <!-- <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
-        <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path>
-        <path>~/Objects/HotWaxCommerce/Batch/customrecord_hc_batch_run.xml</path> -->
+        <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path> -->
+        <path>~/Objects/HotWaxCommerce/Batch/customrecord_hc_batch_run.xml</path>
 
         <!--Custom Tabs-->
         <!-- <path>~/Objects/Customer/custtab_hc_entity_tab.xml</path>
