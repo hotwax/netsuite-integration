@@ -9,6 +9,11 @@
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_DownloadFileFromCabinet.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_StartBatchTask.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_UploadFileToCabinet.js</path>
+
+        <!-- HotWax Commerce Product Integration -->
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Product/HC_SC_GenerateProductCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Product/HC_SC_UploadProductCSV.js</path>
+
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.js</path>
     </files>
     <objects>
@@ -33,6 +38,12 @@
         <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_rl_batch_status.xml</path>
         <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_rl_downloadfile.xml</path>
         <path>~/Objects/HotWaxCommerce/Batch/customscript_restlet_uploadfile.xml</path>
+
+        <!-- HotWax Commerce Product Integration -->
+        <path>~/Objects/HotWaxCommerce/Product/customscript_generate_product.xml</path>
+        <path>~/Objects/HotWaxCommerce/Product/customscript_upload_product.xml</path>
+        <path>~/Objects/HotWaxCommerce/Product/customsearch_hc_export_products.xml</path>
+
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder_v2.xml</path>
 
     </objects>
