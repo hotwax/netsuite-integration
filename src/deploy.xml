@@ -3,96 +3,7 @@
         <path>~/AccountConfiguration/*</path>
     </configuration>
     <files>
-        <!--SuiteScript Files-->
-        <!-- <path>~/FileCabinet/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/CashSale/HC_SC_ImportCashSale.js</path>
-        
-        <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
-        <path>~/FileCabinet/SuiteScripts/Customer/HC_MR_ExportedCustomerCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/DiscountItem/HC_MR_ExportedDiscountItemCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/DiscountItem/HC_MR_ExportedInActiveDiscountCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_SC_ImportInventoryAdjustment.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/InventoryTransfer/HC_SC_ImportInventoryTransfer.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/Product/HC_SC_GenerateProductCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/Product/HC_SC_UploadProductCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/PurchaseOrder/HC_MR_ExportedPurchaseOrderCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/PurchaseOrder/HC_SC_ImportPurchaseOrderReceipts.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_importSalesOrders.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderItemCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderFulfillmentCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateItemFulfillment.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateSalesOrderInvoice.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedRejectedSalesOrderItemCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_UpdateSalesOrders.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedSalesOrderFulfillmentJson.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/SFTP/HC_SC_CreateSFTPDirectory.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_generateCSV_InventoryItems.js</path>
-        <path>~/FileCabinet/SuiteScripts/SyncInventory/HC_uploadCSV_InventoryItems.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/ItemReceipt/HC_MR_ExportedItemReceiptCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_GenerateHistoricalCustomerCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_UploadHistoricalCustomerCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_GenerateSOAuditReports.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_UploadSOAuditReports.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/InventoryTransfer/HC_MR_ExportedInventoryTransferCSV.js</path>
-        
-        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderIdCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_MR_ExportedTransferOrderItemCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrder/HC_SC_ImportTransferOrderCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerRefund.js</path>
-        <path>~/FileCabinet/SuiteScripts/SFTP/HC_MR_MarkFalesToFailedRecords.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/Product/HC_MR_ExportedKITProductCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedGiftCardFulfillmentCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/POSReturn/HC_SC_CreatePOSReturn.js</path>
-        <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedInventoryAdjustmentCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_SC_CreateCustomerDepositAndRefund.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedOMSFulfilledBackOrdCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/POSReturn/HC_MR_ExportedPOSReturnCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_CreateCustomerDeposit.js</path>
-        <path>~/FileCabinet/SuiteScripts/SalesOrder/HC_MR_ExportedCustomerDepositCSV.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_UpdateSuiteScriptStatus.js</path>
-        <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_RunSuiteScript.js</path>
-        <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_GetSuiteScriptCronExpression.js</path>
-        <path>~/FileCabinet/SuiteScripts/Restlet/HC_RL_StoreSFTPConfiguration.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOFulfillmentReceipts_v2.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedWhtoStoreTOJson_v2.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ImportTOItemFulfillment_v2.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoWhTOJson_v2.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoretoStoreTOJson_v2.js</path> 
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_ExportedStoreTOFulfillmentJson_v2.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_UpdateTransferOrders.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ExportWHTOItemFulfillment_v2.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js</path> -->
-
-        <!-- ALC Audit Log Report -->
-        <!-- <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenCreditMemoALCReport.js</path>
-        <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenInvoiceALCReport.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_CreateTOReceiptAndAdjustment.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ClosedUnreconcileTOItems.js</path>
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_UE_ExportTOCancellation_v2.js</path>
-
-        <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedCycleCountCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/Location/HC_MR_ExportLocationCSV.js</path> -->
-
-        <!-- HotWax Commerce Batch Integration -->
+       <!-- HotWax Commerce Batch Integration -->
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_MR_RunBatchFile.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_BatchTaskStatus.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_DownloadFileFromCabinet.js</path>
@@ -102,145 +13,19 @@
     </files>
     <objects>
         <!--Custom Record-->
-        <!-- <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
-        <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path> -->
         <path>~/Objects/HotWaxCommerce/Batch/customrecord_hc_batch_run.xml</path>
 
         <!--Custom Tabs-->
-        <!-- <path>~/Objects/Customer/custtab_hc_entity_tab.xml</path>
-        <path>~/Objects/SalesOrder/custtab_hc_tab.xml</path> -->
+        <path>~/Objects/HotWaxCommerce/SalesOrder/custtab_hc_tab.xml</path>
 
         <!-- Custom Fields-->
-        <!-- <path>~/Objects/InventoryAdjustment/custbody_hc_inventory_adj_number.xml</path>
-        <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
-        <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
-        <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
-        <path>~/Objects/SalesOrder/custcol_hc_orderline_type_id.xml</path> 
-        <path>~/Objects/SalesOrder/custbody_hc_shopify_order_id.xml</path>
-        <path>~/Objects/SalesOrder/custcol_hc_order_item_rejected.xml</path>
-        <path>~/Objects/Customer/custentity_hc_shop_cust_id.xml</path>
-        <path>~/Objects/TransferOrder/custbody_hc_order_exported.xml</path>
-        <path>~/Objects/ItemReceipt/custbody_hc_receipt_exported.xml</path>
-        <path>~/Objects/TransferOrder/custbody_hc_fulfillment_exported.xml</path>
-        <path>~/Objects/InventoryTransfer/custbody_hc_inventory_transfer_exp.xml</path>
-        <path>~/Objects/SyncInventory/custrecord_hc_inv_sync.xml</path>
-        <path>~/Objects/SalesOrder/custbody_hc_gc_fulfillment_exported.xml</path>
-        <path>~/Objects/SalesOrder/custcol_hc_giftcard_number.xml</path>
-        <path>~/Objects/SalesOrder/custcolisbopis.xml</path>
-        <path>~/Objects/POSReturn/custcol_hc_retrun_reason.xml</path>
-        <path>~/Objects/InventoryTransfer/custbody_hc_inv_transfer_no.xml</path>
-        <path>~/Objects/InventoryAdjustment/custbody_hc_inven_adjustment_exported.xml</path>
-        <path>~/Objects/POSReturn/custbody_hc_pos_return_id.xml</path>
-        <path>~/Objects/Customer/custentity_hc_customer_id.xml</path>
-        <path>~/Objects/SalesOrder/custbody_hc_order_id.xml</path>
-        <path>~/Objects/TransferOrderV2/custbody_hc_shipment_id.xml</path>
-        <path>~/Objects/TransferOrderV2/custcol_hc_shipment_item_seq_id.xml</path>
-        <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
-        <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
-        <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
-        <path>~/Objects/Location/custrecord_hc_export_location.xml</path> -->
-
-        <!--Custom Form-->
-        <!-- <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path> -->
-
-        <!--Custom Import-->
-        <!-- <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
-        <path>~/Objects/Customer/custimport_customer_hc.xml</path>
-        <path>~/Objects/InventoryAdjustment/custimport_inventoryadjustment_hc.xml</path>
-        <path>~/Objects/SalesOrder/custimport_add_salesorders_hc.xml</path>
-        <path>~/Objects/SalesOrder/custimport_update_salesorders_hc.xml</path>
-        <path>~/Objects/InventoryTransfer/custimport_inventory_transfer_hc.xml</path>
-        <path>~/Objects/TransferOrder/custimport_add_transferorders_hc.xml</path>
-        <path>~/Objects/TransferOrderV2/custimport_hc_transfer_order_update_csv.xml</path> -->
+        <path>~/Objects/HotWaxCommerce/SalesOrder/custbody_hc_order_id.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/custbody_hc_sales_channel.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/custcol_hc_order_line_id.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/custcol_hc_orderline_type_id.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/custbody_hc_shopify_order_id.xml</path>
 
         <!--Custom Scripts-->
-        <!-- <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
-        <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
-        
-        <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
-        <path>~/Objects/Customer/customscript_export_customer.xml</path>
-
-        <path>~/Objects/DiscountItem/customscript_export_discountitem.xml</path>
-        <path>~/Objects/DiscountItem/customscript_export_inactive_discount.xml</path>
-        
-        <path>~/Objects/InventoryAdjustment/customscript_imp_inventoryadjustment.xml</path>
-
-        <path>~/Objects/InventoryTransfer/customscript_imp_inventorytransfer.xml</path>
-
-        <path>~/Objects/Product/customscript_generate_product.xml</path>
-        <path>~/Objects/Product/customscript_upload_product.xml</path>
-
-        <path>~/Objects/PurchaseOrder/customscript_export_purchaseorder.xml</path>
-        <path>~/Objects/PurchaseOrder/customscript_imp_purchaseorder_receipt.xml</path>
-                
-        <path>~/Objects/SalesOrder/customscript_import_salesorder.xml</path>
-        <path>~/Objects/SalesOrder/customscript_update_salesorder.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_salesorders.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_salesorderitems.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_so_fulfillment.xml</path>
-        <path>~/Objects/SalesOrder/customscript_create_invoice.xml</path>
-        <path>~/Objects/SalesOrder/customscript_create_itemfulfillment.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_rejected_so_items.xml</path>
-
-        <path>~/Objects/SFTP/customscript_create_sftpdirectory.xml</path>
-
-        <path>~/Objects/SyncInventory/customscript_exp_inventoryitem.xml</path>
-        <path>~/Objects/SyncInventory/customscript_imp_inventoryitem.xml</path>
-
-        <path>~/Objects/ItemReceipt/customscript_export_itemreceipt.xml</path>
-
-        <path>~/Objects/Customer/customscript_generate_hist_shop_customer.xml</path>
-        <path>~/Objects/Customer/customscript_upload_hist_shop_customer.xml</path>
-
-        <path>~/Objects/SalesOrder/customscript_generate_so_report.xml</path>
-        <path>~/Objects/SalesOrder/customscript_upload_so_report.xml</path>
-
-        <path>~/Objects/InventoryTransfer/customscript_exp_inv_transfer.xml</path>
-        
-        <path>~/Objects/TransferOrder/customscript_exp_transfer_ord_id.xml</path>
-        <path>~/Objects/TransferOrder/customscript_exp_transfer_ord_item.xml</path>
-        <path>~/Objects/TransferOrder/customscript_imp_transfer_order_csv.xml</path>
-
-        <path>~/Objects/SalesOrder/customscript_so_customer_refund.xml</path>
-
-        <path>~/Objects/SFTP/customscript_hc_mr_mark_false.xml</path>
-
-        <path>~/Objects/Product/customscript_exp_kitproducts.xml</path>
-        <path>~/Objects/SalesOrder/customscript_exp_giftcard_fulfillment.xml</path>
-        <path>~/Objects/POSReturn/customscript_create_pos_return.xml</path>
-        <path>~/Objects/InventoryAdjustment/customscript_exp_inventory_adj.xml</path>
-
-        <path>~/Objects/SalesOrder/customscript_create_cd_and_cr.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_cust_deposit.xml</path>
-        <path>~/Objects/SalesOrder/customscript_exp_oms_fulfilled_so.xml</path>
-
-        <path>~/Objects/POSReturn/customscript_exp_pos_return.xml</path>
-        <path>~/Objects/SalesOrder/customscript_hc_mr_createcustomerdeposit.xml</path>
-        <path>~/Objects/SalesOrder/customscript_export_so_fulfillment_json.xml</path>
-
-        <path>~/Objects/Restlet/customscript_restlet_updatescript.xml</path>
-        <path>~/Objects/Restlet/customscript_restlet_runscript.xml</path>
-        <path>~/Objects/Restlet/customscript_restlet_getscript_cronexp.xml</path>
-        <path>~/Objects/Restlet/customscript_restlet_store_sftpconf.xml</path>
-
-        <path>~/Objects/TransferOrderV2/customscript_hc_imp_to_fulfil_rcpt_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_wh_store_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_imp_to_itemfulfillment_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_store_wh_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_str_str_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_mr_exp_st_to_fulfil_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_sc_expwhtoitemfulfill_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_sc_updatetransferorders.xml</path>
-
-        <path>~/Objects/TransferOrderV2/customscript_hc_cs_to_cpy_rst_cstm_field.xml</path>
-        <path>~/Objects/ALCAuditLog/customscript_hc_mr_expopeninvoicereport.xml</path>
-        <path>~/Objects/ALCAuditLog/customscript_hc_mr_exportopencreditmemo.xml</path>
-
-        <path>~/Objects/TransferOrderV2/customscript_hc_toreceiptandadjustment.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_closedunreconciletoitems.xml</path>
-        <path>~/Objects/TransferOrderV2/customscript_hc_ue_exp_to_cancel_v2.xml</path>
-        <path>~/Objects/InventoryAdjustment/customscript_exp_cycle_count.xml</path>
-        <path>~/Objects/Location/customscript_hc_mr_exportlocationcsv.xml</path> -->
 
         <!-- HotWax Commerce Batch Integration -->
         <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_mr_runbatchfile.xml</path>
@@ -250,52 +35,6 @@
         <path>~/Objects/HotWaxCommerce/Batch/customscript_restlet_uploadfile.xml</path>
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder_v2.xml</path>
 
-        <!--Saved Search-->
-        <!-- <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
-        
-        <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
-        
-        <path>~/Objects/DiscountItem/customsearch_hc_export_discount_items.xml</path>
-        <path>~/Objects/DiscountItem/customsearch_hc_export_inactive_discount.xml</path>
-        
-        <path>~/Objects/PurchaseOrder/customsearch_open_purchaserorder.xml</path>
-        
-        <path>~/Objects/SalesOrder/customsearch_export_so_for_invoice.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_export_salesorders.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_export_salesorder_item.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_export_so_fulfillment.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_rejected_items.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_so_audit.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_customer_deposit.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_exp_oms_shipped_orders.xml</path>
-        <path>~/Objects/SalesOrder/customsearch_hc_create_hotwax_fulfilled.xml</path>
-
-        <path>~/Objects/SyncInventory/customsearch_export_inventory_item.xml</path>
-        
-        <path>~/Objects/Product/customsearch_hc_export_products.xml</path>
-        <path>~/Objects/Product/customsearch_hc_exp_kit_component.xml</path>
-
-
-        <path>~/Objects/TransferOrder/customsearch_hc_export_transfer_order_id.xml</path>
-        <path>~/Objects/TransferOrder/customsearch_hc_export_transfeorder_item.xml</path>
-
-        <path>~/Objects/POSReturn/customsearch_hc_exp_pos_return.xml</path>
-
-        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_wh_to_store_to_v2.xml</path>
-
-        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_wh_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_store_to_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_exp_store_to_fulfill_v2.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_sc_wh_to_fulfillment_v2.xml</path>
-
-        <path>~/Objects/ALCAuditLog/customsearch_hc_alc_open_invoice.xml</path>
-        <path>~/Objects/ALCAuditLog/customsearch_hc_open_credit_memo_report.xml</path>
-        <path>~/Objects/TransferOrderV2/customsearch_hc_closed_unreconcile_to.xml</path>
-        <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_cycle_count.xml</path>
-        <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
-        <path>~/Objects/InventoryTransfer/customsearch_hc_exp_wh_inv_transfer.xml</path>
-        <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_inventory_adjustment.xml</path>
-        <path>~/Objects/Location/customsearch_hc_export_location.xml</path> -->
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
