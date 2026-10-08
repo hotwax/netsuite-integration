@@ -4,7 +4,7 @@
     </configuration>
     <files>
         <!--SuiteScript Files-->
-        <path>~/FileCabinet/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js</path>
+        <!-- <path>~/FileCabinet/SuiteScripts/CashSale/HC_MR_ExportedCashSaleCSV.js</path>
         <path>~/FileCabinet/SuiteScripts/CashSale/HC_SC_ImportCashSale.js</path>
         
         <path>~/FileCabinet/SuiteScripts/Customer/HC_SC_ImportCustomer.js</path>
@@ -79,10 +79,10 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_UpdateTransferOrders.js</path>
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_SC_ExportWHTOItemFulfillment_v2.js</path>
 
-        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js</path>
+        <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_CS_TO_Copy_Reset_Custom_Fields_v2.js</path> -->
 
         <!-- ALC Audit Log Report -->
-        <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenCreditMemoALCReport.js</path>
+        <!-- <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenCreditMemoALCReport.js</path>
         <path>~/FileCabinet/SuiteScripts/ALCAuditLog/HC_MR_ExportOpenInvoiceALCReport.js</path>
 
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_MR_CreateTOReceiptAndAdjustment.js</path>
@@ -90,19 +90,28 @@
         <path>~/FileCabinet/SuiteScripts/TransferOrderV2/HC_UE_ExportTOCancellation_v2.js</path>
 
         <path>~/FileCabinet/SuiteScripts/InventoryAdjustment/HC_MR_ExportedCycleCountCSV.js</path>
-        <path>~/FileCabinet/SuiteScripts/Location/HC_MR_ExportLocationCSV.js</path>
+        <path>~/FileCabinet/SuiteScripts/Location/HC_MR_ExportLocationCSV.js</path> -->
+
+        <!-- HotWax Commerce Batch Integration -->
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_MR_RunBatchFile.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_BatchTaskStatus.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_DownloadFileFromCabinet.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_StartBatchTask.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_UploadFileToCabinet.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.js</path>
     </files>
     <objects>
         <!--Custom Record-->
-        <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
+        <!-- <path>~/Objects/CustomRecord/customrecord_hc_last_runtime_export.xml</path>
         <path>~/Objects/CustomRecord/customrecord_ns_sftp_configuration.xml</path>
+        <path>~/Objects/HotWaxCommerce/Batch/customrecord_hc_batch_run.xml</path> -->
 
         <!--Custom Tabs-->
-        <path>~/Objects/Customer/custtab_hc_entity_tab.xml</path>
-        <path>~/Objects/SalesOrder/custtab_hc_tab.xml</path>
+        <!-- <path>~/Objects/Customer/custtab_hc_entity_tab.xml</path>
+        <path>~/Objects/SalesOrder/custtab_hc_tab.xml</path> -->
 
         <!-- Custom Fields-->
-        <path>~/Objects/InventoryAdjustment/custbody_hc_inventory_adj_number.xml</path>
+        <!-- <path>~/Objects/InventoryAdjustment/custbody_hc_inventory_adj_number.xml</path>
         <path>~/Objects/SalesOrder/custbody_hc_sales_channel.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_item_tag.xml</path>
         <path>~/Objects/SalesOrder/custcol_hc_order_line_id.xml</path>
@@ -129,23 +138,23 @@
         <path>~/Objects/SalesOrder/custbody_hc_pos_exc_payment.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_closed.xml</path>
         <path>~/Objects/TransferOrderV2/custcol_hc_discrepancy_qty.xml</path>
-        <path>~/Objects/Location/custrecord_hc_export_location.xml</path>
+        <path>~/Objects/Location/custrecord_hc_export_location.xml</path> -->
 
         <!--Custom Form-->
-        <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path>
+        <!-- <path>~/Objects/SalesOrder/custform_hc_sales_order_form.xml</path> -->
 
         <!--Custom Import-->
-        <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
+        <!-- <path>~/Objects/CashSale/custimport_add_cashsale_hc.xml</path>
         <path>~/Objects/Customer/custimport_customer_hc.xml</path>
         <path>~/Objects/InventoryAdjustment/custimport_inventoryadjustment_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_add_salesorders_hc.xml</path>
         <path>~/Objects/SalesOrder/custimport_update_salesorders_hc.xml</path>
         <path>~/Objects/InventoryTransfer/custimport_inventory_transfer_hc.xml</path>
         <path>~/Objects/TransferOrder/custimport_add_transferorders_hc.xml</path>
-        <path>~/Objects/TransferOrderV2/custimport_hc_transfer_order_update_csv.xml</path>
+        <path>~/Objects/TransferOrderV2/custimport_hc_transfer_order_update_csv.xml</path> -->
 
         <!--Custom Scripts-->
-        <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
+        <!-- <path>~/Objects/CashSale/customscript_export_cashsale.xml</path>
         <path>~/Objects/CashSale/customscript_import_cashsale.xml</path>
         
         <path>~/Objects/Customer/customscript_imp_customer.xml</path> 
@@ -231,10 +240,18 @@
         <path>~/Objects/TransferOrderV2/customscript_hc_closedunreconciletoitems.xml</path>
         <path>~/Objects/TransferOrderV2/customscript_hc_ue_exp_to_cancel_v2.xml</path>
         <path>~/Objects/InventoryAdjustment/customscript_exp_cycle_count.xml</path>
-        <path>~/Objects/Location/customscript_hc_mr_exportlocationcsv.xml</path>
+        <path>~/Objects/Location/customscript_hc_mr_exportlocationcsv.xml</path> -->
+
+        <!-- HotWax Commerce Batch Integration -->
+        <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_mr_runbatchfile.xml</path>
+        <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_rl_batch_start.xml</path>
+        <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_rl_batch_status.xml</path>
+        <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_rl_downloadfile.xml</path>
+        <path>~/Objects/HotWaxCommerce/Batch/customscript_restlet_uploadfile.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder_v2.xml</path>
 
         <!--Saved Search-->
-        <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
+        <!-- <path>~/Objects/CashSale/customsearch_hc_export_cashsales.xml</path>
         
         <path>~/Objects/Customer/customsearch_hc_export_customer.xml</path>
         
@@ -278,7 +295,7 @@
         <path>~/Objects/ItemReceipt/customsearch_hc_export_wh_item_receipt.xml</path>
         <path>~/Objects/InventoryTransfer/customsearch_hc_exp_wh_inv_transfer.xml</path>
         <path>~/Objects/InventoryAdjustment/customsearch_hc_exp_inventory_adjustment.xml</path>
-        <path>~/Objects/Location/customsearch_hc_export_location.xml</path>
+        <path>~/Objects/Location/customsearch_hc_export_location.xml</path> -->
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
