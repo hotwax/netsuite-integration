@@ -1,0 +1,104 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HC_RL_CreateItemReceiptFromRma",
+    "version": "1.0.0",
+    "description": "Makes an item receipt from an RMA. The body is the body of the REST call POST /services/rest/record/v1/returnAuthorization/{rmaId}/!transform/itemReceipt, with rmaId moved from the address into the body, and each line naming its RMA line by custcol_hc_order_line_id in place of orderLine. This file describes only what differs from that REST call. Every other body field is NetSuite's itemReceipt field, with the same name and shape as in REST: read them in NetSuite's metadata catalog (externalDocs)."
+  },
+  "externalDocs": {
+    "description": "The body fields, custom fields included, as this account defines them: GET /services/rest/record/v1/metadata-catalog/itemReceipt with the header Accept: application/swagger+json",
+    "url": "https://{accountId}.suitetalk.api.netsuite.com/services/rest/record/v1/metadata-catalog/itemReceipt"
+  },
+  "servers": [
+    {
+      "url": "https://{accountId}.restlets.api.netsuite.com/app/site/hosting",
+      "variables": {
+        "accountId": {
+          "default": "4054670",
+          "enum": ["4054670", "4054670-sb1"],
+          "description": "The NetSuite account: 4054670 is production, 4054670-sb1 is the sandbox."
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/restlet.nl": {
+      "parameters": [
+        { "name": "script", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customscript_hc_rl_createirfromrma"] } },
+        { "name": "deploy", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customdeploy_hc_rl_createirfromrma"] } }
+      ],
+      "get": {
+        "summary": "This file",
+        "description": "Answers this OpenAPI file, the version deployed in this account.",
+        "responses": {
+          "200": { "description": "This OpenAPI file.", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      },
+      "post": {
+        "summary": "Make an item receipt from an RMA",
+        "description": "Steps: check that rmaId, externalId and at least one line are there; find an item receipt with the same externalId and, when there is one, answer it; otherwise load the RMA and find the RMA line that carries each custcol_hc_order_line_id, transform the RMA into an item receipt, set each header field, set each receipt line whose RMA line the body names from that body line, its inventory detail included, mark every other line not received, and save. A body line with no open line on the receipt fails the call with LINE_NOT_OPEN, and nothing is made; so does a body for an RMA with nothing open, where NetSuite refuses the transform. Each call writes one AUDIT entry to the script execution log, titled ItemReceipt [External ID: ...]. Its details are JSON: rmaId; id, the receipt's id; existing; missingLines, each custcol_hc_order_line_id with no open line on the receipt; missingFields, rmaId, externalId or item.items when missing; error, the error's name when the call fails. missingLines, missingFields and error appear only when they have a value. Differences from the REST call: (1) a line names its RMA line by custcol_hc_order_line_id, where REST uses orderLine; a kit's member line is named by the kit line's custcol_hc_order_line_id and the component's item, and every member of a kit received must be named, or it is not received; (2) a line the body does not name is not received, where REST receives it at its open quantity; (3) a body line with no open line fails with LINE_NOT_OPEN naming the lines, where REST gives NetSuite's error; (4) the same externalId twice answers the receipt that exists, where REST refuses the second call; (5) success answers { id, existing } in the body, where REST answers 204 with the id in the Location header; (6) externalId is required, where REST takes a body without one; (7) the receipt's source field is empty, where REST records restWebServices; (8) NetSuite's warnings are not returned.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Request" } } }
+        },
+        "responses": {
+          "200": { "description": "The item receipt.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Answer" } } } },
+          "400": { "description": "The error, thrown with its name and message. Nothing is made: a receipt is made with one save.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Request": {
+        "type": "object",
+        "required": ["rmaId", "externalId", "item"],
+        "additionalProperties": true,
+        "description": "The REST body plus rmaId. Every field not named here is NetSuite's itemReceipt field: see externalDocs.",
+        "properties": {
+          "rmaId": { "type": "string", "description": "The RMA's internal id. In REST it is {rmaId} in the path." },
+          "externalId": { "type": "string", "description": "The receipt's key, named by the caller. Required here. A second call with the same key makes no second receipt: it answers the receipt that exists, with existing true." },
+          "item": {
+            "type": "object",
+            "required": ["items"],
+            "properties": {
+              "items": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "required": ["custcol_hc_order_line_id"],
+                  "additionalProperties": true,
+                  "properties": {
+                    "custcol_hc_order_line_id": { "type": "string", "description": "Names the RMA line: the value the RMA line carries in custcol_hc_order_line_id. In REST the line is named by orderLine. A line the body does not name is not received. When the RMA has no open line with this value, the call fails with LINE_NOT_OPEN." },
+                    "item": { "type": "object", "properties": { "id": { "type": "string" } }, "description": "Only on a kit's member line: the component's item. The line is the member under the kit line named by custcol_hc_order_line_id with this item. Used to find the line; not set." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "required": ["id", "existing"],
+        "properties": {
+          "id": { "type": "string", "description": "The item receipt's internal id. REST gives the same id in its Location header." },
+          "existing": { "type": "boolean", "description": "true when an item receipt with this externalId was already there; false when this call made it." }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "description": "The error's name: MISSING_FIELD when rmaId, externalId or item.items is missing; LINE_NOT_OPEN when a body line has no open line on the receipt; or NetSuite's own, such as INVALID_FLD_VALUE." },
+              "message": { "type": "string", "description": "NetSuite's SuiteScriptError as JSON text. Parse it for its name and message." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

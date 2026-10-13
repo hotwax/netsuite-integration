@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_hc_rl_createrefundfromcm">
+  <description>Transform a Credit Memo into a Customer Refund by one payment method for one amount, in one save. Returns the customer refund and the credit memo's balance.</description>
+  <isinactive>F</isinactive>
+  <name>HC_RL_CreateCustomerRefundFromCreditMemo</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HotWaxCommerce/Return/HC_RL_CreateCustomerRefundFromCreditMemo.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_rl_createrefundfromcm">
+      <allemployees>T</allemployees>
+      <allpartners>T</allpartners>
+      <allroles>T</allroles>
+      <audslctrole></audslctrole>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>HC_RL_CreateCustomerRefundFromCreditMemo</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>

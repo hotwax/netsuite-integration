@@ -1,0 +1,101 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HC_RL_CreateRmaFromSalesOrder",
+    "version": "1.0.0",
+    "description": "Makes an RMA from a sales order. The body is the body of the REST call POST /services/rest/record/v1/salesOrder/{salesOrderId}/!transform/returnAuthorization?replace=item, with salesOrderId and replace moved from the address into the body. This file describes only what differs from that REST call. Every other body field is NetSuite's returnAuthorization field, with the same name and shape as in REST: read them in NetSuite's metadata catalog (externalDocs)."
+  },
+  "externalDocs": {
+    "description": "The body fields, custom fields included, as this account defines them: GET /services/rest/record/v1/metadata-catalog/returnAuthorization with the header Accept: application/swagger+json",
+    "url": "https://{accountId}.suitetalk.api.netsuite.com/services/rest/record/v1/metadata-catalog/returnAuthorization"
+  },
+  "servers": [
+    {
+      "url": "https://{accountId}.restlets.api.netsuite.com/app/site/hosting",
+      "variables": {
+        "accountId": {
+          "default": "4054670",
+          "enum": ["4054670", "4054670-sb1"],
+          "description": "The NetSuite account: 4054670 is production, 4054670-sb1 is the sandbox."
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/restlet.nl": {
+      "parameters": [
+        { "name": "script", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customscript_hc_rl_creatermafromso"] } },
+        { "name": "deploy", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customdeploy_hc_rl_creatermafromso"] } }
+      ],
+      "get": {
+        "summary": "This file",
+        "description": "Answers this OpenAPI file, the version deployed in this account.",
+        "responses": {
+          "200": { "description": "This OpenAPI file.", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      },
+      "post": {
+        "summary": "Make an RMA from a sales order",
+        "description": "Steps: check that salesOrderId and externalId are there; find an RMA with the same externalId; when there is none, transform the sales order into an RMA, remove every copied line when replace is item, set each header field, add each line of item.items in order, set the addresses, and save. Then close each line marked isClosed true that is still open, saving again only when a line changes, and answer the RMA. A line marked isClosed true that is not on the RMA is named in the audit entry, and the call goes on. Each call writes one AUDIT entry to the script execution log, titled RMA [External ID: ...]. Its details are JSON: id, the RMA's id; existing; closedLines, the number of lines this call closed; missingLines, each line marked isClosed true that is not on the RMA, by item and custcol_hc_order_line_id; missingFields, salesOrderId or externalId when missing; error, the error's name when the call fails. missingLines, missingFields and error appear only when they have a value. Differences from the REST call: (1) the same externalId twice answers the RMA that exists and closes its lines marked isClosed true that are still open, where REST refuses the second call; nothing else on that RMA changes; (2) isClosed true on a line is applied right after the first save, where REST ignores it when the RMA is made; (3) success answers { id, existing } in the body, where REST answers 204 with the id in the Location header; (4) externalId is required, where REST takes a body without one; (5) the RMA's source field is empty, where REST records restWebServices; (6) NetSuite's warnings are not returned.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Request" } } }
+        },
+        "responses": {
+          "200": { "description": "The RMA.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Answer" } } } },
+          "400": { "description": "The error, thrown with its name and message. When salesOrderId or externalId is missing, or the first save failed, nothing is made. When a later step failed, the RMA exists: the same call again answers it and tries the close again.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Request": {
+        "type": "object",
+        "required": ["salesOrderId", "externalId"],
+        "additionalProperties": true,
+        "description": "The REST body plus salesOrderId and replace. Every field not named here is NetSuite's returnAuthorization field: see externalDocs.",
+        "properties": {
+          "salesOrderId": { "type": "string", "description": "The sales order's internal id. In REST it is {salesOrderId} in the path. NetSuite makes an RMA only from a sales order that is billed or closed." },
+          "replace": { "type": "string", "enum": ["item"], "description": "In REST it is ?replace=item in the query. When item, every line the transform copied from the order is removed and the body's lines take their place." },
+          "externalId": { "type": "string", "description": "The RMA's key, named by the caller. Required here. A second call with the same key makes no second RMA: it answers the RMA that exists, with existing true." },
+          "item": {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "isClosed": { "type": "boolean", "description": "true closes the line right after the RMA is saved, and a later call with the same externalId closes it when it is still open. REST ignores it when the RMA is made. The line is found on the RMA by its item and custcol_hc_order_line_id. When the RMA has no such line, the audit entry names it under missingLines, and the call goes on." }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "required": ["id", "existing"],
+        "properties": {
+          "id": { "type": "string", "description": "The RMA's internal id. REST gives the same id in its Location header." },
+          "existing": { "type": "boolean", "description": "true when an RMA with this externalId was already there; false when this call made it." }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "description": "The error's name: MISSING_FIELD when salesOrderId or externalId is missing, or NetSuite's own, such as INVALID_FLD_VALUE." },
+              "message": { "type": "string", "description": "NetSuite's SuiteScriptError as JSON text. Parse it for its name and message: {\"type\":\"error.SuiteScriptError\",\"name\":\"INVALID_FLD_VALUE\",\"message\":\"You have entered an Invalid Field Value 999 for the following field: item\",\"stack\":[...]}." }
+            }
+          }
+        }
+      }
+    }
+  }
+}
