@@ -1,0 +1,138 @@
+/**
+ * @NApiVersion 2.1
+ * @NScriptType Restlet
+ */
+define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search, query, error, log) => {
+  // One store fulfillment: the order lines the OMS completed at one store, on one sales order.
+  // One line of a store fulfillment batch (HC_MR_RunBatchFile), or one call.
+  // Body: { externalId, salesOrderId, locationId, lines: [{ omsOrderLineId, quantity }] }
+  //   externalId     the fulfillment's external id, shared by every line of the order at that store
+  //   salesOrderId   NetSuite internal id of the sales order
+  //   locationId     NetSuite internal id of the store
+  //   omsOrderLineId matches custcol_hc_order_line_id on the sales order line
+  // Answers { id, existing }. existing is true when a fulfillment with this external id is already there,
+  // or when every line asked for is already fulfilled on the order (the old scheduled script's work, or a
+  // person's); id is then the fulfillment that shipped the first line. Lines already fulfilled beside open
+  // ones count as done and the open ones are fulfilled. A line with less committed stock than asked is
+  // refused before anything is made, with the numbers, so the OMS can show why: NO_STOCK. The sales order's
+  // own lines answer fulfilled and committed; SuiteQL answers which fulfillment shipped a line. Anything
+  // else NetSuite refuses is its own message.
+  const LINE_ID = 'custcol_hc_order_line_id';
+
+  function post(body) {
+    if (!body.externalId || !body.salesOrderId || !body.locationId || !body.lines || !body.lines.length) {
+      throw error.create({ name: 'MISSING_FIELD', message: 'externalId, salesOrderId, locationId and lines are required' });
+    }
+    const existingId = fulfillmentByExternalId(body.externalId);
+    if (existingId) return { id: existingId, existing: true };
+
+    const wanted = {};
+    body.lines.forEach((line) => { wanted[String(line.omsOrderLineId)] = Number(line.quantity); });
+
+    // The sales order's own lines say what is fulfilled and what is committed, by OMS line id.
+    const orderLines = salesOrderLines(body.salesOrderId);
+    const unknown = Object.keys(wanted).filter((id) => !orderLines[id]);
+    if (unknown.length) {
+      throw error.create({ name: 'LINE_NOT_OPEN', message: 'Order lines not on sales order ' + body.salesOrderId + ': ' + unknown.join(', ') });
+    }
+    const shippedIds = Object.keys(wanted).filter((id) => orderLines[id].fulfilled >= wanted[id]);
+    const open = Object.keys(wanted).filter((id) => shippedIds.indexOf(id) < 0);
+    if (!open.length) {
+      const shipped = fulfillmentsThatShipped(body.salesOrderId, shippedIds);
+      const shippedId = shipped[shippedIds[0]];
+      if (!shippedId) {
+        throw error.create({ name: 'FULFILLMENT_NOT_FOUND', message: 'Sales order ' + body.salesOrderId + ' shows lines ' + shippedIds.join(', ') + ' fulfilled but no item fulfillment carries them' });
+      }
+      return { id: shippedId, existing: true };
+    }
+    const short = open.filter((id) => orderLines[id].committed < wanted[id])
+      .map((id) => 'line ' + id + ': ' + orderLines[id].committed + ' committed of ' + wanted[id]);
+    if (short.length) {
+      throw error.create({ name: 'NO_STOCK', message: 'No stock at location ' + body.locationId + ' for sales order ' + body.salesOrderId + ': ' + short.join('; ') });
+    }
+
+    let fulfillment;
+    try {
+      fulfillment = record.transform({
+        fromType: record.Type.SALES_ORDER, fromId: body.salesOrderId, toType: record.Type.ITEM_FULFILLMENT, isDynamic: false
+      });
+    } catch (e) {
+      if (e.name === 'INVALID_INITIALIZE_REF') {
+        throw error.create({ name: 'ORDER_CLOSED', message: 'Sales order ' + body.salesOrderId + ' is closed or has nothing left to fulfill; lines not shipped: ' + open.join(', ') });
+      }
+      throw e;
+    }
+    fulfillment.setValue({ fieldId: 'externalid', value: body.externalId });
+    fulfillment.setValue({ fieldId: 'shipstatus', value: 'C' });
+    fulfillment.setValue({ fieldId: 'memo', value: 'Store fulfillment by HotWax OMS' });
+
+    const matched = {};
+    const lineCount = fulfillment.getLineCount({ sublistId: 'item' });
+    for (let i = 0; i < lineCount; i++) {
+      const omsLineId = String(fulfillment.getSublistValue({ sublistId: 'item', fieldId: LINE_ID, line: i }) || '');
+      if (!omsLineId) continue;
+      if (open.indexOf(omsLineId) < 0) {
+        fulfillment.setSublistValue({ sublistId: 'item', fieldId: 'itemreceive', line: i, value: false });
+        continue;
+      }
+      matched[omsLineId] = true;
+      fulfillment.setSublistValue({ sublistId: 'item', fieldId: 'itemreceive', line: i, value: true });
+      fulfillment.setSublistValue({ sublistId: 'item', fieldId: 'quantity', line: i, value: wanted[omsLineId] });
+      fulfillment.setSublistValue({ sublistId: 'item', fieldId: 'location', line: i, value: body.locationId });
+    }
+    const missing = open.filter((id) => !matched[id]);
+    if (missing.length) {
+      throw error.create({ name: 'LINE_NOT_OPEN', message: 'Order lines not open on the fulfillment of sales order ' + body.salesOrderId + ': ' + missing.join(', ') });
+    }
+
+    try {
+      return { id: String(fulfillment.save({ enableSourcing: true })), existing: false };
+    } catch (e) {
+      log.error({ title: 'ItemFulfillment [External ID: ' + body.externalId + ', Sales Order: ' + body.salesOrderId + '] - Not saved', details: e.message });
+      throw e;
+    }
+  }
+
+  function fulfillmentByExternalId(externalId) {
+    const found = search.create({
+      type: search.Type.ITEM_FULFILLMENT,
+      filters: [['externalid', 'is', externalId], 'AND', ['mainline', 'is', 'T']],
+      columns: ['internalid']
+    }).run().getRange({ start: 0, end: 1 });
+    return found.length ? String(found[0].getValue('internalid')) : null;
+  }
+
+  // The sales order's lines by OMS line id: quantity, committed, fulfilled.
+  function salesOrderLines(salesOrderId) {
+    const salesOrder = record.load({ type: record.Type.SALES_ORDER, id: salesOrderId, isDynamic: false });
+    const lines = {};
+    const count = salesOrder.getLineCount({ sublistId: 'item' });
+    for (let i = 0; i < count; i++) {
+      const omsLineId = String(salesOrder.getSublistValue({ sublistId: 'item', fieldId: LINE_ID, line: i }) || '');
+      if (!omsLineId) continue;
+      lines[omsLineId] = {
+        quantity: Number(salesOrder.getSublistValue({ sublistId: 'item', fieldId: 'quantity', line: i }) || 0),
+        committed: Number(salesOrder.getSublistValue({ sublistId: 'item', fieldId: 'quantitycommitted', line: i }) || 0),
+        fulfilled: Number(salesOrder.getSublistValue({ sublistId: 'item', fieldId: 'quantityfulfilled', line: i }) || 0)
+      };
+    }
+    return lines;
+  }
+
+  // OMS line id to the fulfillment made from this sales order that carries it. On a fulfillment the first
+  // item line's column values sit on the main line (line 0), so no mainline filter here.
+  function fulfillmentsThatShipped(salesOrderId, omsLineIds) {
+    const marks = omsLineIds.map(() => '?').join(', ');
+    const rows = query.runSuiteQL({
+      query: 'select tl.custcol_hc_order_line_id as omsline, tl.transaction as fulfillment from transactionline tl'
+        + ' join transaction t on t.id = tl.transaction where t.type = \'ItemShip\''
+        + ' and tl.createdfrom = ? and tl.custcol_hc_order_line_id in (' + marks + ')',
+      params: [Number(salesOrderId)].concat(omsLineIds)
+    }).asMappedResults();
+    const shipped = {};
+    rows.forEach((row) => { shipped[String(row.omsline)] = String(row.fulfillment); });
+    return shipped;
+  }
+
+  return { post: post };
+});
