@@ -10,6 +10,7 @@
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_StartBatchTask.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/Batch/HC_RL_UploadFileToCabinet.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateItemFulfillment.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -34,6 +35,7 @@
         <path>~/Objects/HotWaxCommerce/Batch/customscript_hc_rl_downloadfile.xml</path>
         <path>~/Objects/HotWaxCommerce/Batch/customscript_restlet_uploadfile.xml</path>
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder_v2.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_create_item_fulfil.xml</path>
 
     </objects>
     <translationimports>
