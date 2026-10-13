@@ -1,0 +1,22 @@
+<restlet scriptid="customscript_hc_rl_createsalesorder_v2">
+  <description/>
+  <isinactive>F</isinactive>
+  <name>HC_RL_CreateSalesOrderV2</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails/>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_rl_createsalesorder_v2">
+      <allemployees>F</allemployees>
+      <allpartners>F</allpartners>
+      <allroles>T</allroles>
+      <audslctrole/>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>HC_RL_CreateSalesOrderV2</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>
