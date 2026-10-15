@@ -110,6 +110,8 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     for (let i = 0; i < count; i++) {
       const omsLineId = String(salesOrder.getSublistValue({ sublistId: 'item', fieldId: LINE_ID, line: i }) || '');
       if (!omsLineId) continue;
+      // An item discount line carries its item's OMS line id but no quantity; it must not replace the item line.
+      if (!Number(salesOrder.getSublistValue({ sublistId: 'item', fieldId: 'quantity', line: i }) || 0)) continue;
       lines[omsLineId] = {
         quantity: Number(salesOrder.getSublistValue({ sublistId: 'item', fieldId: 'quantity', line: i }) || 0),
         committed: Number(salesOrder.getSublistValue({ sublistId: 'item', fieldId: 'quantitycommitted', line: i }) || 0),
