@@ -5,13 +5,14 @@
 define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search, query, error, log) => {
   // One warehouse fulfillment: the order lines of one shipment the 3PL shipped, on one sales order, with the
   // tracking number. One line of a warehouse fulfillment batch (HC_MR_RunBatchFile), or one call.
-  // Body: { externalId, salesOrderId, locationId, lines: [{ omsOrderLineId, quantity }], packages: [{ trackingNumber, carrier }] }
+  // Body: { externalId, salesOrderId, locationId, lines: [{ omsOrderLineId, quantity }], packages: [{ trackingNumber, carrier, weight }] }
   //   externalId     the fulfillment's external id, shared by every line of the shipment
   //   salesOrderId   NetSuite internal id of the sales order
   //   locationId     NetSuite internal id of the warehouse
   //   omsOrderLineId matches custcol_hc_order_line_id on the sales order line
-  //   packages       optional; each is a package with its tracking number and the carrier's name, which goes in the
-  //                  package contents description. The ship method and address come from the sales order.
+  //   packages       optional; each is a package with its tracking number, the carrier's name (the package contents
+  //                  description) and its weight, which NetSuite requires on a package. The ship method and address
+  //                  come from the sales order.
   // Answers { id, existing }, as HC_RL_CreateItemFulfillment does: existing is true when a fulfillment with this
   // external id is already there, or when every line asked for is already fulfilled on the order (the 3PL
   // integration's work, or a person's). A line with less committed stock than asked is refused before anything is
@@ -87,6 +88,7 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     (body.packages || []).forEach((pack, i) => {
       fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packagetrackingnumber', line: i, value: pack.trackingNumber });
       if (pack.carrier) fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packagedescr', line: i, value: pack.carrier });
+      if (pack.weight) fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packageweight', line: i, value: Number(pack.weight) });
     });
 
     try {
