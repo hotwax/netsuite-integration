@@ -102,8 +102,9 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     }
   }
 
-  // NetSuite adds its own package on save, weighed from the items (0.01 when they have no weight). Ours carry a
-  // tracking number, so a package without one is NetSuite's and goes.
+  // TODO: revisit. Found by watching Dolls Kill UAT, not from NetSuite's documentation: NetSuite adds its own package
+  // on save, weighed from the items (0.01 when they have none), and a re-save with it removed keeps ours alone. Ours
+  // carry a tracking number, so a package without one goes. A second save per fulfillment is not the best design.
   function removeDefaultPackages(id, externalId) {
     const saved = record.load({ type: record.Type.ITEM_FULFILLMENT, id: id, isDynamic: false });
     const before = saved.getLineCount({ sublistId: 'package' });
