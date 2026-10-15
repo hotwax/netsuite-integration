@@ -85,12 +85,7 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
       throw error.create({ name: 'LINE_NOT_OPEN', message: 'Order lines not open on the fulfillment of sales order ' + body.salesOrderId + ': ' + missing.join(', ') });
     }
 
-    // NetSuite makes its own 0.01 lb package from the item weights; ours replace it.
-    if ((body.packages || []).length) {
-      for (let i = fulfillment.getLineCount({ sublistId: 'package' }) - 1; i >= 0; i--) {
-        fulfillment.removeLine({ sublistId: 'package', line: i });
-      }
-    }
+    log.debug({ title: 'ItemFulfillment [External ID: ' + body.externalId + '] - Packages before ours', details: fulfillment.getLineCount({ sublistId: 'package' }) });
     (body.packages || []).forEach((pack, i) => {
       fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packagetrackingnumber', line: i, value: pack.trackingNumber });
       if (pack.carrier) fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packagedescr', line: i, value: pack.carrier });
@@ -98,11 +93,29 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     });
 
     try {
-      return { id: String(fulfillment.save({ enableSourcing: true })), existing: false };
+      const id = String(fulfillment.save({ enableSourcing: true }));
+      if ((body.packages || []).length) removeDefaultPackages(id, body.externalId);
+      return { id: id, existing: false };
     } catch (e) {
       log.error({ title: 'ItemFulfillment [External ID: ' + body.externalId + ', Sales Order: ' + body.salesOrderId + '] - Not saved', details: e.message });
       throw e;
     }
+  }
+
+  // NetSuite adds its own package on save, weighed from the items (0.01 when they have no weight). Ours carry a
+  // tracking number, so a package without one is NetSuite's and goes.
+  function removeDefaultPackages(id, externalId) {
+    const saved = record.load({ type: record.Type.ITEM_FULFILLMENT, id: id, isDynamic: false });
+    const before = saved.getLineCount({ sublistId: 'package' });
+    let removed = 0;
+    for (let i = before - 1; i >= 0; i--) {
+      if (!saved.getSublistValue({ sublistId: 'package', fieldId: 'packagetrackingnumber', line: i })) {
+        saved.removeLine({ sublistId: 'package', line: i });
+        removed++;
+      }
+    }
+    log.debug({ title: 'ItemFulfillment [External ID: ' + externalId + ', ID: ' + id + '] - Packages after save', details: before + ' found, ' + removed + ' removed' });
+    if (removed) saved.save({ enableSourcing: true });
   }
 
   function fulfillmentByExternalId(externalId) {
