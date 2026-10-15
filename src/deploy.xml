@@ -19,6 +19,7 @@
 
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateItemFulfillment.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateWarehouseItemFulfillment.js</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -50,6 +51,7 @@
 
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder_v2.xml</path>
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_create_item_fulfil.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_create_wh_item_fulfil.xml</path>
 
     </objects>
     <translationimports>

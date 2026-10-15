@@ -1,0 +1,21 @@
+<restlet scriptid="customscript_hc_rl_create_wh_item_fulfil">
+  <description>Creates a NetSuite Item Fulfillment, with its package tracking numbers, from an OMS warehouse fulfillment.</description>
+  <isinactive>F</isinactive>
+  <name>HC_RL_CreateWarehouseItemFulfillment</name>
+  <notifyadmins>F</notifyadmins>
+  <notifyemails></notifyemails>
+  <notifyowner>T</notifyowner>
+  <notifyuser>F</notifyuser>
+  <scriptfile>[/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateWarehouseItemFulfillment.js]</scriptfile>
+  <scriptdeployments>
+    <scriptdeployment scriptid="customdeploy_hc_rl_create_whitemfulfil">
+      <allemployees>T</allemployees>
+      <allpartners>T</allpartners>
+      <allroles>T</allroles>
+      <isdeployed>T</isdeployed>
+      <loglevel>DEBUG</loglevel>
+      <status>RELEASED</status>
+      <title>HC_RL_CreateWarehouseItemFulfillment</title>
+    </scriptdeployment>
+  </scriptdeployments>
+</restlet>
