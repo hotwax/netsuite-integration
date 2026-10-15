@@ -85,6 +85,12 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
       throw error.create({ name: 'LINE_NOT_OPEN', message: 'Order lines not open on the fulfillment of sales order ' + body.salesOrderId + ': ' + missing.join(', ') });
     }
 
+    // NetSuite makes its own 0.01 lb package from the item weights; ours replace it.
+    if ((body.packages || []).length) {
+      for (let i = fulfillment.getLineCount({ sublistId: 'package' }) - 1; i >= 0; i--) {
+        fulfillment.removeLine({ sublistId: 'package', line: i });
+      }
+    }
     (body.packages || []).forEach((pack, i) => {
       fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packagetrackingnumber', line: i, value: pack.trackingNumber });
       if (pack.carrier) fulfillment.setSublistValue({ sublistId: 'package', fieldId: 'packagedescr', line: i, value: pack.carrier });
