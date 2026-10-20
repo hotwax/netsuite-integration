@@ -5,10 +5,12 @@
 define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search, query, error, log) => {
   // One warehouse fulfillment: the order lines of one shipment the 3PL shipped, on one sales order, with the
   // tracking number. One line of a warehouse fulfillment batch (HC_MR_RunBatchFile), or one call.
-  // Body: { externalId, salesOrderId, locationId, lines: [{ omsOrderLineId, quantity }], packages: [{ trackingNumber, carrier, weight }] }
+  // Body: { externalId, salesOrderId, locationId, lines: [{ omsOrderLineId, quantity }], packages: [{ trackingNumber, carrier, weight }], tranDate }
   //   externalId     the fulfillment's external id, shared by every line of the shipment
   //   salesOrderId   NetSuite internal id of the sales order
   //   locationId     NetSuite internal id of the warehouse
+  //   tranDate       optional, YYYY-MM-DD: the day the 3PL shipped, in the account's time zone. The fulfillment is dated
+  //                  with it; without it NetSuite dates it with today.
   //   omsOrderLineId matches custcol_hc_order_line_id on the sales order line
   //   packages       optional; each is a package with its tracking number, the carrier's name (the package contents
   //                  description) and its weight, which NetSuite requires on a package. The ship method and address
@@ -22,6 +24,9 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
   function post(body) {
     if (!body.externalId || !body.salesOrderId || !body.locationId || !body.lines || !body.lines.length) {
       throw error.create({ name: 'MISSING_FIELD', message: 'externalId, salesOrderId, locationId and lines are required' });
+    }
+    if (body.tranDate && !/^\d{4}-\d{2}-\d{2}$/.test(body.tranDate)) {
+      throw error.create({ name: 'INVALID_FIELD', message: 'tranDate must be YYYY-MM-DD, got ' + body.tranDate });
     }
     const existingId = fulfillmentByExternalId(body.externalId);
     if (existingId) return { id: existingId, existing: true };
@@ -65,6 +70,10 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     fulfillment.setValue({ fieldId: 'externalid', value: body.externalId });
     fulfillment.setValue({ fieldId: 'shipstatus', value: 'C' });
     fulfillment.setValue({ fieldId: 'memo', value: 'Warehouse fulfillment by HotWax OMS' });
+    if (body.tranDate) {
+      const [y, m, d] = body.tranDate.split('-').map(Number);
+      fulfillment.setValue({ fieldId: 'trandate', value: new Date(y, m - 1, d, 12) });
+    }
 
     const matched = {};
     const lineCount = fulfillment.getLineCount({ sublistId: 'item' });
