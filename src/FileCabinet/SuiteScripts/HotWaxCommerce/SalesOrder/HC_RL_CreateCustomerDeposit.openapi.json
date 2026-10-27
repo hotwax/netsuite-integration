@@ -1,0 +1,124 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HC_RL_CreateCustomerDeposit",
+    "version": "1.0.0",
+    "description": "Makes one customer deposit on one sales order, for the amount of one payment. The body is the body of the REST call POST /services/rest/record/v1/customerDeposit, plus paymentMethod, which that REST record has no field for. This file describes only what differs from that REST call. The fields named here have the same name and shape as in REST: read them in NetSuite's metadata catalog (externalDocs)."
+  },
+  "externalDocs": {
+    "description": "The body fields, custom fields included, as this account defines them: GET /services/rest/record/v1/metadata-catalog/customerDeposit with the header Accept: application/swagger+json",
+    "url": "https://{accountId}.suitetalk.api.netsuite.com/services/rest/record/v1/metadata-catalog/customerDeposit"
+  },
+  "servers": [
+    {
+      "url": "https://{accountId}.restlets.api.netsuite.com/app/site/hosting",
+      "variables": {
+        "accountId": {
+          "default": "9745435",
+          "enum": ["9745435", "9745435-sb1"],
+          "description": "The NetSuite account: 9745435 is production, 9745435-sb1 is the sandbox."
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/restlet.nl": {
+      "parameters": [
+        { "name": "script", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customscript_hc_rl_createcustomerdeposit"] } },
+        { "name": "deploy", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customdeploy_hc_rl_createcustomerdeposit"] } }
+      ],
+      "get": {
+        "summary": "This file",
+        "description": "Answers this OpenAPI file, the version deployed in this account.",
+        "responses": {
+          "200": { "description": "This OpenAPI file.", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      },
+      "post": {
+        "summary": "Make a customer deposit on a sales order",
+        "description": "Steps: check the required fields; find a customer deposit with the same externalId; when there is none, make the deposit from the sales order, set the fields named in Request and each top-level custom field, and save; then read the deposit back and answer it. Differences from the REST call: (1) paymentMethod is taken, where the REST record has no field for it; (2) the same externalId twice answers the deposit that exists, where REST refuses the second call; nothing is saved; (3) success answers the deposit read back, where REST answers 204 with the id in the Location header; (4) externalId, salesOrder, payment, paymentMethod and tranDate are required; (5) only the fields named in Request and the top-level custom fields are set, and every other REST field is ignored; (6) customer, when not given, is the sales order's; (7) NetSuite's warnings are not returned.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Request" } } }
+        },
+        "responses": {
+          "200": { "description": "The customer deposit.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Answer" } } } },
+          "400": { "description": "The error, thrown with its name and message. Nothing is made.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Reference": {
+        "type": "object",
+        "required": ["id"],
+        "properties": { "id": { "type": "string", "description": "The record's internal id." } }
+      },
+      "Request": {
+        "type": "object",
+        "required": ["externalId", "salesOrder", "payment", "paymentMethod", "tranDate"],
+        "additionalProperties": true,
+        "description": "The REST body plus paymentMethod. A top-level field whose name starts with custbody, custcol, custentity, custitem, custrecord, custevent or cseg is set as given; a reference's id is taken, and a date in text is read as tranDate is.",
+        "properties": {
+          "externalId": { "type": "string", "description": "The deposit's key, named by the caller. A second call with the same key makes no second deposit: it answers the deposit that exists, with existing true." },
+          "salesOrder": { "$ref": "#/components/schemas/Reference" },
+          "payment": { "type": "number", "description": "The amount, rounded to two places." },
+          "paymentMethod": { "allOf": [{ "$ref": "#/components/schemas/Reference" }], "description": "The payment method. The REST record has no field for it." },
+          "tranDate": { "type": "string", "format": "date", "description": "The day, YYYY-MM-DD." },
+          "customer": { "$ref": "#/components/schemas/Reference" },
+          "customForm": { "$ref": "#/components/schemas/Reference" },
+          "department": { "$ref": "#/components/schemas/Reference" },
+          "location": { "$ref": "#/components/schemas/Reference" },
+          "memo": { "type": "string" }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "required": ["id", "existing"],
+        "description": "The deposit read back after the save, or as it was when it existed.",
+        "properties": {
+          "id": { "type": "string", "description": "The deposit's internal id." },
+          "existing": { "type": "boolean", "description": "true when a deposit with this externalId was already there; false when this call made it." },
+          "tranId": { "type": "string" },
+          "externalId": { "type": "string" },
+          "memo": { "type": "string" },
+          "payment": { "type": "number" },
+          "total": { "type": "number" },
+          "tranDate": { "type": "string", "format": "date" },
+          "postingPeriod": { "$ref": "#/components/schemas/AnswerReference" },
+          "customer": { "$ref": "#/components/schemas/AnswerReference" },
+          "salesOrder": { "$ref": "#/components/schemas/AnswerReference" },
+          "paymentMethod": { "$ref": "#/components/schemas/AnswerReference" },
+          "account": { "$ref": "#/components/schemas/AnswerReference" },
+          "location": { "$ref": "#/components/schemas/AnswerReference" },
+          "department": { "$ref": "#/components/schemas/AnswerReference" },
+          "currency": { "$ref": "#/components/schemas/AnswerReference" },
+          "status": { "$ref": "#/components/schemas/AnswerReference" },
+          "customFields": { "type": "object", "additionalProperties": true, "description": "The value of each custom field the call sent, by its name." }
+        }
+      },
+      "AnswerReference": {
+        "type": "object",
+        "nullable": true,
+        "description": "null when the field is empty.",
+        "properties": {
+          "id": { "type": "string" },
+          "refName": { "type": "string" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "description": "The error's name: MISSING_FIELD when a required field is missing, or NetSuite's own, such as INVALID_FLD_VALUE." },
+              "message": { "type": "string", "description": "NetSuite's SuiteScriptError as JSON text. Parse it for its name and message." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

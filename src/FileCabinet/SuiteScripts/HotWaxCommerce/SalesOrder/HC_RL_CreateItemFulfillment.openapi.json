@@ -1,0 +1,185 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HC_RL_CreateItemFulfillment",
+    "version": "1.0.0",
+    "description": "Makes one item fulfillment for the order lines the OMS completed at one store, on one sales order. It is one line of a store fulfillment batch (HC_MR_RunBatchFile), or one call. Each line is found by custcol_hc_order_line_id on the sales order."
+  },
+  "servers": [
+    {
+      "url": "https://{accountId}.restlets.api.netsuite.com/app/site/hosting",
+      "variables": {
+        "accountId": {
+          "default": "9745435",
+          "enum": [
+            "9745435",
+            "9745435-sb1"
+          ],
+          "description": "The NetSuite account: 9745435 is production, 9745435-sb1 is the sandbox."
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/restlet.nl": {
+      "parameters": [
+        {
+          "name": "script",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "customscript_hc_rl_create_itemfulfil"
+            ]
+          }
+        },
+        {
+          "name": "deploy",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "customdeploy_hc_rl_create_itemfulfil"
+            ]
+          }
+        }
+      ],
+      "get": {
+        "summary": "This file",
+        "description": "Answers this OpenAPI file, the version deployed in this account.",
+        "responses": {
+          "200": {
+            "description": "This OpenAPI file.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Fulfil store lines of a sales order",
+        "description": "Steps: check the required fields; answer the fulfillment with the same externalId when there is one; read the sales order's lines by OMS line id; when every line asked for is already fulfilled, answer the fulfillment that shipped the first one, with existing true; refuse lines whose committed quantity is below what is asked; otherwise transform the sales order into a shipped fulfillment at locationId, receive only the open lines asked for, and save. Lines already fulfilled beside open ones count as done.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The fulfillment made, or the one that already shipped these lines.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Answer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The error, thrown with its name and message. Nothing is made.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Request": {
+        "type": "object",
+        "required": [
+          "externalId",
+          "salesOrderId",
+          "locationId",
+          "lines"
+        ],
+        "properties": {
+          "externalId": {
+            "type": "string",
+            "description": "The fulfillment's key, shared by every line of the order at that store."
+          },
+          "salesOrderId": {
+            "type": "string",
+            "description": "The sales order's internal id."
+          },
+          "locationId": {
+            "type": "string",
+            "description": "The store's NetSuite location internal id."
+          },
+          "lines": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "omsOrderLineId",
+                "quantity"
+              ],
+              "properties": {
+                "omsOrderLineId": {
+                  "type": "string",
+                  "description": "The OMS order item sequence id, as custcol_hc_order_line_id on the sales order line."
+                },
+                "quantity": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "required": [
+          "id",
+          "existing"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The record's internal id."
+          },
+          "existing": {
+            "type": "boolean",
+            "description": "true when nothing was made because the record was already there; false when this call made it."
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The error's name: MISSING_FIELD, LINE_NOT_OPEN when a line is not on the sales order or not open, NO_STOCK when a line has less committed than asked, FULFILLMENT_NOT_FOUND, ORDER_CLOSED, or NetSuite's own."
+              },
+              "message": {
+                "type": "string",
+                "description": "NetSuite's SuiteScriptError as JSON text. Parse it for its name and message."
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
