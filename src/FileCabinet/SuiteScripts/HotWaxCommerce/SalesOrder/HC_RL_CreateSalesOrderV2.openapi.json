@@ -1,0 +1,96 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "HC_RL_CreateSalesOrderV2",
+    "version": "1.0.0",
+    "description": "Makes a sales order. The body is the body of the REST call POST /services/rest/record/v1/salesOrder. This file describes only what differs from that REST call. Every other body field is NetSuite's salesOrder field, with the same name and shape as in REST: read them in NetSuite's metadata catalog (externalDocs)."
+  },
+  "externalDocs": {
+    "description": "The body fields, custom fields included, as this account defines them: GET /services/rest/record/v1/metadata-catalog/salesOrder with the header Accept: application/swagger+json",
+    "url": "https://{accountId}.suitetalk.api.netsuite.com/services/rest/record/v1/metadata-catalog/salesOrder"
+  },
+  "servers": [
+    {
+      "url": "https://{accountId}.restlets.api.netsuite.com/app/site/hosting",
+      "variables": {
+        "accountId": {
+          "default": "9745435",
+          "enum": ["9745435", "9745435-sb1"],
+          "description": "The NetSuite account: 9745435 is production, 9745435-sb1 is the sandbox."
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/restlet.nl": {
+      "parameters": [
+        { "name": "script", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customscript_hc_rl_createsalesorder_v2"] } },
+        { "name": "deploy", "in": "query", "required": true, "schema": { "type": "string", "enum": ["customdeploy_hc_rl_createsalesorder_v2"] } }
+      ],
+      "get": {
+        "summary": "This file",
+        "description": "Answers this OpenAPI file, the version deployed in this account.",
+        "responses": {
+          "200": { "description": "This OpenAPI file.", "content": { "application/json": { "schema": { "type": "object" } } } }
+        }
+      },
+      "post": {
+        "summary": "Make a sales order",
+        "description": "Steps: check that externalId is there; find a sales order with the same externalId; when there is none, make the sales order in dynamic mode, set the header fields, the addresses and each line of item.items in order, and save. Differences from the REST call: (1) the same externalId twice answers the sales order that exists, where REST refuses the second call; nothing on that sales order changes; (2) success answers { id, existing } in the body, where REST answers 204 with the id in the Location header; (3) externalId is required, where REST takes a body without one; (4) the sales order is saved in dynamic mode, so the legacy tax engine works out the tax from each line's taxCode and taxRate1, where REST on this account ignores them; (5) customForm, entity, subsidiary, location and department are set first, in that order, since each one bounds what the next may take; (6) a field is set by its name in lower case, the field's internal id; (7) a reference with no id and a refName is set by its text; (8) a date-time with a zone is that instant, and a date or a date-time with no zone is the account's local time; (9) NetSuite's warnings are not returned.",
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Request" } } }
+        },
+        "responses": {
+          "200": { "description": "The sales order.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Answer" } } } },
+          "400": { "description": "The error, thrown with its name and message. Nothing is made.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Request": {
+        "type": "object",
+        "required": ["externalId"],
+        "additionalProperties": true,
+        "description": "The REST body. Every field not named here is NetSuite's salesOrder field: see externalDocs.",
+        "properties": {
+          "externalId": { "type": "string", "description": "The sales order's key, named by the caller. Required here. A second call with the same key makes no second sales order: it answers the sales order that exists, with existing true." },
+          "shippingAddress": { "type": "object", "additionalProperties": true, "description": "The shipping address. country is set first, since it decides the address form. An empty text field is not set." },
+          "billingAddress": { "type": "object", "additionalProperties": true, "description": "The billing address, set as shippingAddress is." },
+          "item": {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "description": "The lines, added in order. On each line item is set first, then price, then the other fields, then taxCode and taxRate1, since each one sources the fields after it.",
+                "items": { "type": "object", "additionalProperties": true }
+              }
+            }
+          }
+        }
+      },
+      "Answer": {
+        "type": "object",
+        "required": ["id", "existing"],
+        "properties": {
+          "id": { "type": "string", "description": "The sales order's internal id. REST gives the same id in its Location header." },
+          "existing": { "type": "boolean", "description": "true when a sales order with this externalId was already there; false when this call made it." }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string", "description": "The error's name: MISSING_FIELD when externalId is missing, or NetSuite's own, such as INVALID_FLD_VALUE." },
+              "message": { "type": "string", "description": "NetSuite's SuiteScriptError as JSON text. Parse it for its name and message." }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -19,6 +19,13 @@
 
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.js</path>
         <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateItemFulfillment.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateCustomerDeposit.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateCustomerRefund.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrder.js</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateCustomerDeposit.openapi.json</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateCustomerRefund.openapi.json</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateItemFulfillment.openapi.json</path>
+        <path>~/FileCabinet/SuiteScripts/HotWaxCommerce/SalesOrder/HC_RL_CreateSalesOrderV2.openapi.json</path>
     </files>
     <objects>
         <!--Custom Record-->
@@ -51,6 +58,9 @@
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder_v2.xml</path>
         <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_create_item_fulfil.xml</path>
 
+        <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createcustomerdeposit.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createcustomerrefund.xml</path>
+        <path>~/Objects/HotWaxCommerce/SalesOrder/customscript_hc_rl_createsalesorder.xml</path>
     </objects>
     <translationimports>
         <path>~/Translations/*</path>
