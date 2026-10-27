@@ -5,10 +5,11 @@
 define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search, query, error, log) => {
   // One store fulfillment: the order lines the OMS completed at one store, on one sales order.
   // One line of a store fulfillment batch (HC_MR_RunBatchFile), or one call.
-  // Body: { externalId, salesOrderId, locationId, lines: [{ omsOrderLineId, quantity }] }
+  // Body: { externalId, salesOrderId, locationId, tranDate?, lines: [{ omsOrderLineId, quantity }] }
   //   externalId     the fulfillment's external id, shared by every line of the order at that store
   //   salesOrderId   NetSuite internal id of the sales order
   //   locationId     NetSuite internal id of the store
+  //   tranDate       optional OMS completion date, YYYY-MM-DD; omitted by older batch messages
   //   omsOrderLineId matches custcol_hc_order_line_id on the sales order line
   // Answers { id, existing }. existing is true when a fulfillment with this external id is already there,
   // or when every line asked for is already fulfilled on the order (the old scheduled script's work, or a
@@ -25,6 +26,7 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     }
     const existingId = fulfillmentByExternalId(body.externalId);
     if (existingId) return { id: existingId, existing: true };
+    const tranDate = body.tranDate === undefined ? null : parseTranDate(body.tranDate);
 
     const wanted = {};
     body.lines.forEach((line) => { wanted[String(line.omsOrderLineId)] = Number(line.quantity); });
@@ -65,6 +67,7 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
     fulfillment.setValue({ fieldId: 'externalid', value: body.externalId });
     fulfillment.setValue({ fieldId: 'shipstatus', value: 'C' });
     fulfillment.setValue({ fieldId: 'memo', value: 'Store fulfillment by HotWax OMS' });
+    if (tranDate) fulfillment.setValue({ fieldId: 'trandate', value: tranDate });
 
     const matched = {};
     const lineCount = fulfillment.getLineCount({ sublistId: 'item' });
@@ -91,6 +94,21 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
       log.error({ title: 'ItemFulfillment [External ID: ' + body.externalId + ', Sales Order: ' + body.salesOrderId + '] - Not saved', details: e.message });
       throw e;
     }
+  }
+
+  function parseTranDate(value) {
+    if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+      throw error.create({ name: 'INVALID_DATE', message: 'tranDate must be a valid date in YYYY-MM-DD format' });
+    }
+    const [year, month, day] = value.split('-').map(Number);
+    // Construct a calendar date, avoiding the UTC conversion of new Date('YYYY-MM-DD').
+    const date = new Date(0);
+    date.setFullYear(year, month - 1, day);
+    date.setHours(0, 0, 0, 0);
+    if (year < 1 || date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+      throw error.create({ name: 'INVALID_DATE', message: 'tranDate must be a valid date in YYYY-MM-DD format' });
+    }
+    return date;
   }
 
   function fulfillmentByExternalId(externalId) {
