@@ -5,9 +5,18 @@
 define(['N/record', 'N/search', 'N/file', 'N/error'], (record, search, file, error) => {
 
   const DATE_TYPES = ['date', 'datetime', 'datetimetz'];
+  const OPTIONAL_FIELDS = {
+    account: 'account',
+    department: 'department',
+    location: 'location'
+  };
 
   function get() {
     return file.load({ id: './HC_RL_CreateCustomerRefund.openapi.json' }).getContents();
+  }
+
+  function fieldValue(value) {
+    return value && typeof value === 'object' && value.id != null ? value.id : value;
   }
 
   function post(request) {
@@ -47,6 +56,12 @@ define(['N/record', 'N/search', 'N/file', 'N/error'], (record, search, file, err
     if (request.memo) {
       customerRefund.setValue({ fieldId: 'memo', value: request.memo });
     }
+    Object.entries(OPTIONAL_FIELDS).forEach(([payloadField, recordFieldId]) => {
+      if (request[payloadField] != null && request[payloadField] !== '') {
+        const val = fieldValue(request[payloadField]);
+        customerRefund.setValue({ fieldId: recordFieldId, value: isNaN(val) ? val : parseInt(val, 10) });
+      }
+    });
     Object.keys(request).filter((fieldId) => /^cust/.test(fieldId)).forEach((fieldId) => {
       let value = request[fieldId];
       if (value && typeof value === 'object' && value.id != null) value = value.id;
