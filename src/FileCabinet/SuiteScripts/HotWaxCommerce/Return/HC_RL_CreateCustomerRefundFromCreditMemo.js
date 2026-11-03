@@ -55,7 +55,11 @@ define(['N/record', 'N/search', 'N/error'], (record, search, error) => {
       customerRefund.setValue({ fieldId, value });
     });
 
-    customerRefund.selectLine({ sublistId: 'apply', line: 0 });
+    const creditMemoLine = customerRefund.findSublistLineWithValue({ sublistId: 'apply', fieldId: 'doc', value: String(creditMemoId) });
+    if (creditMemoLine < 0) {
+      throw error.create({ name: 'CREDIT_MEMO_NOT_OPEN', message: `Credit memo ${creditMemoId} is not open for a refund. Nothing was saved.` });
+    }
+    customerRefund.selectLine({ sublistId: 'apply', line: creditMemoLine });
     const due = money(customerRefund.getCurrentSublistValue({ sublistId: 'apply', fieldId: 'due' }));
     if (amount > due) {
       throw error.create({ name: 'AMOUNT_EXCEEDS_DUE', message: `${amount} was asked but credit memo ${creditMemoId} has ${due} open. Nothing was saved.` });
