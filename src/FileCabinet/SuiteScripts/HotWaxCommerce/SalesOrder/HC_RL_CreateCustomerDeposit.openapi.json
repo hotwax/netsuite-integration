@@ -70,6 +70,7 @@
           "customForm": { "$ref": "#/components/schemas/Reference" },
           "department": { "$ref": "#/components/schemas/Reference" },
           "location": { "$ref": "#/components/schemas/Reference" },
+          "class": { "$ref": "#/components/schemas/Reference" },
           "memo": { "type": "string" }
         }
       },
@@ -93,6 +94,7 @@
           "account": { "$ref": "#/components/schemas/AnswerReference" },
           "location": { "$ref": "#/components/schemas/AnswerReference" },
           "department": { "$ref": "#/components/schemas/AnswerReference" },
+          "class": { "$ref": "#/components/schemas/AnswerReference" },
           "currency": { "$ref": "#/components/schemas/AnswerReference" },
           "status": { "$ref": "#/components/schemas/AnswerReference" },
           "customFields": { "type": "object", "additionalProperties": true, "description": "The value of each custom field the call sent, by its name." }
