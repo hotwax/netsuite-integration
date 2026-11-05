@@ -8,9 +8,9 @@ define(['N/record', 'N/search', 'N/file', 'N/error'], (record, search, file, err
   const HEADER_MONEY = { payment: 'payment', total: 'total' };
   const HEADER_REFERENCES = {
     postingPeriod: 'postingperiod', customer: 'customer', salesOrder: 'salesorder', paymentMethod: 'paymentmethod', account: 'account',
-    location: 'location', department: 'department', currency: 'currency', status: 'status'
+    location: 'location', department: 'department', class: 'class', currency: 'currency', status: 'status'
   };
-  const BODY_REFERENCES = { department: 'department', location: 'location', account: 'account' };
+  const BODY_REFERENCES = { department: 'department', location: 'location', class: 'class', account: 'account' };
   const CUSTOM_FIELD = /^(cust(body|col|entity|item|record|event)|cseg)/;
   const DATE_TYPES = ['date', 'datetime', 'datetimetz'];
 
