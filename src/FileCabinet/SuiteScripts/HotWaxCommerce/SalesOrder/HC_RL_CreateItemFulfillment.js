@@ -13,8 +13,9 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
   //   omsOrderLineId matches custcol_hc_order_line_id on the sales order line
   // Answers { id, existing }. existing is true when a fulfillment with this external id is already there,
   // or when every line asked for is already fulfilled on the order (the old scheduled script's work, or a
-  // person's); id is then the fulfillment that shipped the first line. Lines already fulfilled beside open
-  // ones count as done and the open ones are fulfilled. A line with less committed stock than asked is
+  // person's); that one fulfillment must carry every requested line at the requested quantity and location.
+  // A mix of already fulfilled and open lines is refused for separate reconciliation.
+  // A line with less committed stock than asked is
   // refused before anything is made, with the numbers, so the OMS can show why: NO_STOCK. The sales order's
   // own lines answer fulfilled and committed; SuiteQL answers which fulfillment shipped a line. Anything
   // else NetSuite refuses is its own message.
@@ -25,7 +26,10 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
       throw error.create({ name: 'MISSING_FIELD', message: 'externalId, salesOrderId, locationId and lines are required' });
     }
     const existingId = fulfillmentByExternalId(body.externalId);
-    if (existingId) return { id: existingId, existing: true };
+    if (existingId) {
+      verifyFulfillment(existingId, body);
+      return { id: existingId, existing: true };
+    }
     const tranDate = body.tranDate === undefined ? null : parseTranDate(body.tranDate);
 
     const wanted = {};
@@ -45,7 +49,14 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
       if (!shippedId) {
         throw error.create({ name: 'FULFILLMENT_NOT_FOUND', message: 'Sales order ' + body.salesOrderId + ' shows lines ' + shippedIds.join(', ') + ' fulfilled but no item fulfillment carries them' });
       }
+      if (shippedIds.some((id) => shipped[id] !== shippedId)) {
+        throw error.create({ name: 'FULFILLMENT_MISMATCH', message: 'Requested lines were shipped by different fulfillments; reconcile each line separately' });
+      }
+      verifyFulfillment(shippedId, body);
       return { id: shippedId, existing: true };
+    }
+    if (shippedIds.length) {
+      throw error.create({ name: 'FULFILLMENT_MISMATCH', message: 'Requested lines include both shipped and open lines; reconcile the shipped lines separately before creating a fulfillment' });
     }
     const short = open.filter((id) => orderLines[id].committed < wanted[id])
       .map((id) => 'line ' + id + ': ' + orderLines[id].committed + ' committed of ' + wanted[id]);
@@ -118,6 +129,35 @@ define(['N/record', 'N/search', 'N/query', 'N/error', 'N/log'], (record, search,
       columns: ['internalid']
     }).run().getRange({ start: 0, end: 1 });
     return found.length ? String(found[0].getValue('internalid')) : null;
+  }
+
+  // A single returned id acknowledges every requested line. A matching key alone
+  // is insufficient: it may belong to an earlier partial request or another order.
+  function verifyFulfillment(id, body) {
+    const fulfillment = record.load({ type: record.Type.ITEM_FULFILLMENT, id: id, isDynamic: false });
+    if (String(fulfillment.getValue({ fieldId: 'createdfrom' })) !== String(body.salesOrderId)
+        || fulfillment.getValue({ fieldId: 'shipstatus' }) !== 'C') {
+      throw error.create({ name: 'FULFILLMENT_MISMATCH', message: 'Fulfillment ' + id + ' is not a shipped fulfillment of sales order ' + body.salesOrderId });
+    }
+    const lines = {};
+    const count = fulfillment.getLineCount({ sublistId: 'item' });
+    for (let i = 0; i < count; i++) {
+      const omsLineId = String(fulfillment.getSublistValue({ sublistId: 'item', fieldId: LINE_ID, line: i }) || '');
+      if (!omsLineId || fulfillment.getSublistValue({ sublistId: 'item', fieldId: 'itemreceive', line: i }) === false) continue;
+      const quantity = Number(fulfillment.getSublistValue({ sublistId: 'item', fieldId: 'quantity', line: i }) || 0);
+      const location = String(fulfillment.getSublistValue({ sublistId: 'item', fieldId: 'location', line: i }) || '');
+      if (!lines[omsLineId]) lines[omsLineId] = { quantity: 0, locations: [] };
+      lines[omsLineId].quantity += quantity;
+      lines[omsLineId].locations.push(location);
+    }
+    const missing = body.lines.filter((line) => {
+      const actual = lines[String(line.omsOrderLineId)];
+      return !actual || actual.quantity !== Number(line.quantity)
+        || actual.locations.some((location) => location !== String(body.locationId));
+    });
+    if (missing.length) {
+      throw error.create({ name: 'FULFILLMENT_MISMATCH', message: 'Fulfillment ' + id + ' does not carry the requested quantities at location ' + body.locationId + ' for lines ' + missing.map((line) => line.omsOrderLineId).join(', ') });
+    }
   }
 
   // The sales order's lines by OMS line id: quantity, committed, fulfilled.
