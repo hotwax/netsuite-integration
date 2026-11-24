@@ -64,7 +64,7 @@
       },
       "post": {
         "summary": "Fulfil store lines of a sales order",
-        "description": "Steps: check the required fields; answer the fulfillment with the same externalId when there is one; read the sales order's lines by OMS line id; when every line asked for is already fulfilled, answer the fulfillment that shipped the first one, with existing true; refuse lines whose committed quantity is below what is asked; otherwise transform the sales order into a shipped fulfillment at locationId, receive only the open lines asked for, and save. Lines already fulfilled beside open ones count as done.",
+        "description": "Steps: check the required fields; when the externalId exists, verify that the shipped fulfillment belongs to salesOrderId and carries every requested line at the exact requested quantity and location before returning existing true. Otherwise read the sales order by OMS line id. Already-fulfilled lines must all belong to one compatible fulfillment. Refuse mixed shipped/open requests for separate reconciliation, incompatible existing results, or insufficient committed stock. Otherwise transform the sales order, receive only the requested open lines at locationId, and save. A refusal never creates a replacement fulfillment or changes an existing one.",
         "requestBody": {
           "required": true,
           "content": {
@@ -170,7 +170,7 @@
             "properties": {
               "code": {
                 "type": "string",
-                "description": "The error's name: MISSING_FIELD, LINE_NOT_OPEN when a line is not on the sales order or not open, NO_STOCK when a line has less committed than asked, FULFILLMENT_NOT_FOUND, ORDER_CLOSED, or NetSuite's own."
+                "description": "The error's name: MISSING_FIELD, LINE_NOT_OPEN when a line is not on the sales order or not open, NO_STOCK when a line has less committed than asked, FULFILLMENT_NOT_FOUND, FULFILLMENT_MISMATCH when a single compatible shipped record cannot acknowledge the request, ORDER_CLOSED, or NetSuite's own."
               },
               "message": {
                 "type": "string",
